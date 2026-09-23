@@ -8,6 +8,7 @@ import { AllianceRequestExecution } from "./alliance/AllianceRequestExecution";
 import { BreakAllianceExecution } from "./alliance/BreakAllianceExecution";
 import { AttackExecution } from "./AttackExecution";
 import { BoatRetreatExecution } from "./BoatRetreatExecution";
+import { ChatExecution } from "./ChatExecution";
 import { ConstructionExecution } from "./ConstructionExecution";
 import { DeleteUnitExecution } from "./DeleteUnitExecution";
 import { DonateGoldExecution } from "./DonateGoldExecution";
@@ -131,6 +132,8 @@ export class Executor {
           intent.quickChatKey,
           intent.target,
         );
+      case "chat":
+        return new ChatExecution(player, intent.text);
       case "mark_disconnected":
         return new MarkDisconnectedExecution(player, intent.isDisconnected);
       case "toggle_pause":

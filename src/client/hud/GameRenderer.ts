@@ -23,13 +23,13 @@ import { ActionableEvents } from "./layers/ActionableEvents";
 import { AlertFrame } from "./layers/AlertFrame";
 import { AttacksDisplay } from "./layers/AttacksDisplay";
 import { BuildMenu } from "./layers/BuildMenu";
+import { ChatBar } from "./layers/ChatBar";
 import { ChatDisplay } from "./layers/ChatDisplay";
 import { ChatModal } from "./layers/ChatModal";
 import { ControlPanel } from "./layers/ControlPanel";
 import { EmojiTable } from "./layers/EmojiTable";
 import { EventsDisplay } from "./layers/EventsDisplay";
 import { FactionStatus } from "./layers/FactionStatus";
-import { ResourceBar } from "./layers/ResourceBar";
 import { GameLeftSidebar } from "./layers/GameLeftSidebar";
 import { GameRightSidebar } from "./layers/GameRightSidebar";
 import { HeadsUpMessage } from "./layers/HeadsUpMessage";
@@ -42,6 +42,7 @@ import { PerformanceOverlay } from "./layers/PerformanceOverlay";
 import { PlayerInfoOverlay } from "./layers/PlayerInfoOverlay";
 import { PlayerPanel } from "./layers/PlayerPanel";
 import { ReplayPanel } from "./layers/ReplayPanel";
+import { ResourceBar } from "./layers/ResourceBar";
 import { SettingsModal } from "./layers/SettingsModal";
 import { SpawnTimer } from "./layers/SpawnTimer";
 import { TutorialPanel } from "./layers/TutorialPanel";
@@ -321,6 +322,15 @@ export function createRenderer(
     console.error("resource bar not found");
   }
 
+  // La barre de chat : meme prudence que les deux bandeaux ci-dessus.
+  const chatBar = document.querySelector("chat-bar") as ChatBar | null;
+  if (chatBar instanceof ChatBar) {
+    chatBar.game = game;
+    chatBar.eventBus = eventBus;
+  } else {
+    console.error("chat bar not found");
+  }
+
   const inGamePromo = document.querySelector("in-game-promo") as InGamePromo;
   if (!(inGamePromo instanceof InGamePromo)) {
     console.error("in-game promo not found");
@@ -374,6 +384,7 @@ export function createRenderer(
     immunityTimer,
     ...(factionStatus instanceof FactionStatus ? [factionStatus] : []),
     ...(resourceBar instanceof ResourceBar ? [resourceBar] : []),
+    ...(chatBar instanceof ChatBar ? [chatBar] : []),
     gameLeftSidebar,
     unitDisplay,
     gameRightSidebar,

@@ -4,7 +4,6 @@ import { PathFinder } from "../pathfinding/types";
 import { AllPlayersStats, ClientID } from "../Schemas";
 import { formatPlayerDisplayName } from "../Util";
 import { DEFAULT_FACTION, Faction } from "./Factions";
-import { type Resource, type ResourceStock } from "./Resources";
 import { GameMap, TileRef } from "./GameMap";
 import {
   GameUpdate,
@@ -14,6 +13,7 @@ import {
 } from "./GameUpdates";
 import { MotionPlanRecord } from "./MotionPlans";
 import { RailNetwork } from "./RailNetwork";
+import { type Resource, type ResourceStock } from "./Resources";
 import { Stats } from "./Stats";
 import { ReadonlyTileSet } from "./TileSet";
 import { UnitPredicate } from "./UnitGrid";
@@ -752,6 +752,10 @@ export interface Player {
   recordEmbargoAll(): void;
 
   // Embargo
+  // Chat libre : anti-spam verifie dans la simulation, pas dans le bouton.
+  canSendChat(): boolean;
+  recordChat(): void;
+
   hasEmbargoAgainst(other: Player): boolean;
 
   // Ressources de faction (voir Resources.ts) : le stock, une cle a la fois,

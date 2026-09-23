@@ -143,6 +143,11 @@ export class SendQuickChatEvent implements GameEvent {
   ) {}
 }
 
+/** Un message libre, lu par toute la partie (voir core/execution/ChatExecution.ts). */
+export class SendChatEvent implements GameEvent {
+  constructor(public readonly text: string) {}
+}
+
 export class SendEmbargoIntentEvent implements GameEvent {
   constructor(
     public readonly target: PlayerView,
@@ -306,6 +311,7 @@ export class Transport {
       this.onSendDonateTroopIntent(e),
     );
     this.eventBus.on(SendQuickChatEvent, (e) => this.onSendQuickChatIntent(e));
+    this.eventBus.on(SendChatEvent, (e) => this.onSendChatIntent(e));
     this.eventBus.on(SendEmbargoIntentEvent, (e) =>
       this.onSendEmbargoIntent(e),
     );
@@ -788,6 +794,14 @@ export class Transport {
       quickChatKey: event.quickChatKey,
       target: event.target,
     });
+  }
+
+  private onSendChatIntent(event: SendChatEvent) {
+    // Coupe ici ET dans la simulation : le schema du fil binaire refuse
+    // au-dela de 200 caracteres, et un refus casserait la partie en cours.
+    const text = event.text.trim().slice(0, 200);
+    if (text.length === 0) return;
+    this.sendIntent({ type: "chat", text });
   }
 
   private onSendEmbargoIntent(event: SendEmbargoIntentEvent) {

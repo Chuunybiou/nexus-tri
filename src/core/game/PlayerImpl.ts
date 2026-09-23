@@ -11,12 +11,6 @@ import {
 import { AttackImpl } from "./AttackImpl";
 import { Faction } from "./Factions";
 import {
-  emptyStock,
-  RESOURCE_RULES,
-  Resource,
-  type ResourceStock,
-} from "./Resources";
-import {
   Alliance,
   AllianceInfo,
   AllianceRequest,
@@ -63,6 +57,12 @@ import {
   GameUpdateType,
   PlayerUpdate,
 } from "./GameUpdates";
+import {
+  emptyStock,
+  Resource,
+  RESOURCE_RULES,
+  type ResourceStock,
+} from "./Resources";
 import { ReadonlyTileSet, TileSet } from "./TileSet";
 import {
   bumpTraversalGeneration,
@@ -76,6 +76,9 @@ import { UnitImpl } from "./UnitImpl";
 
 // Rot re-stamps every second, so a little slack keeps the cue from strobing.
 const DECAY_CUE_GRACE_TICKS = 30;
+
+/** Deux secondes entre deux messages libres (10 ticks = 1 seconde). */
+const CHAT_COOLDOWN_TICKS = 20;
 
 interface Target {
   tick: Tick;
@@ -183,6 +186,8 @@ export class PlayerImpl implements Player {
   private relations = new Map<Player, number>();
 
   private lastDeleteUnitTick: Tick = -1;
+  /** Dernier message libre envoye (anti-spam du chat). */
+  private lastChatTick: Tick = -1;
   private lastEmbargoAllTick: Tick = -1;
 
   public _incomingAttacks: Attack[] = [];
@@ -1082,6 +1087,26 @@ export class PlayerImpl implements Player {
 
   recordQuickChat(recipient: Player): void {
     this.outgoingQuickChats_.set(recipient.smallID(), this.mg.ticks());
+  }
+
+  /**
+   * Anti-spam du chat libre : un message toutes les deux secondes.
+   *
+   * Cote serveur et non cote bouton : un client modifie ne doit pas pouvoir
+   * inonder la partie. La verification vit dans la simulation, donc elle est
+   * la meme pour tout le monde.
+   */
+  canSendChat(): boolean {
+    // Volontairement sans condition de survie : on discute aussi avant
+    // d'avoir pose son premier territoire, et apres avoir ete elimine.
+    return (
+      this.lastChatTick < 0 ||
+      this.mg.ticks() - this.lastChatTick >= CHAT_COOLDOWN_TICKS
+    );
+  }
+
+  recordChat(): void {
+    this.lastChatTick = this.mg.ticks();
   }
 
   canDonateGold(recipient: Player): boolean {

@@ -55,7 +55,8 @@ export type Intent =
   | KickPlayerIntent
   | TogglePauseIntent
   | UpdateGameConfigIntent
-  | ToggleGameStartTimer;
+  | ToggleGameStartTimer
+  | ChatIntent;
 
 export type AttackIntent = z.infer<typeof AttackIntentSchema>;
 export type CancelAttackIntent = z.infer<typeof CancelAttackIntentSchema>;
@@ -77,6 +78,7 @@ export type UpgradeStructureIntent = z.infer<
 >;
 export type MoveWarshipIntent = z.infer<typeof MoveWarshipIntentSchema>;
 export type QuickChatIntent = z.infer<typeof QuickChatIntentSchema>;
+export type ChatIntent = z.infer<typeof ChatIntentSchema>;
 export type MarkDisconnectedIntent = z.infer<
   typeof MarkDisconnectedIntentSchema
 >;
@@ -565,6 +567,22 @@ export const SafeString = z
   )
   .max(1000);
 
+/**
+ * Texte d'un message de joueur (chat libre de Nexus Tri).
+ *
+ * SafeString, utilise ailleurs, refuse les accents : « ça va ? » serait
+ * rejete, et tout le vietnamien avec. On accepte donc n'importe quel texte
+ * imprimable, et on refuse seulement les caracteres de controle (qui ne
+ * servent qu'a casser un affichage). L'echappement est fait a l'affichage,
+ * par DOMPurify (core/Util.ts, onlyImages) — deja en place pour les autres
+ * evenements.
+ */
+export const ChatTextSchema = z
+  .string()
+  .min(1)
+  .max(200)
+  .regex(/^[^\p{Cc}]+$/u);
+
 export const PersistentIdSchema = z.uuid();
 const JwtTokenSchema = z.jwt();
 const TokenSchema = z
@@ -730,6 +748,12 @@ export const QuickChatIntentSchema = z.object({
   target: MappedID.optional(),
 });
 
+/** Un message libre, lu par toute la partie. */
+export const ChatIntentSchema = z.object({
+  type: z.literal("chat"),
+  text: ChatTextSchema,
+});
+
 // Server-internal (rejected from clients). The player being marked is the
 // intent's own sender, so the target rides the stamped `clientID` that
 // StampedIntentSchema adds to every intent — declaring it here too would
@@ -790,6 +814,9 @@ export const IntentSchema = z.discriminatedUnion("type", [
   TogglePauseIntentSchema,
   UpdateGameConfigIntentSchema,
   ToggleGameStartTimerIntentSchema,
+  // Ajout Nexus Tri, toujours en dernier : le fil binaire encode le type par
+  // son rang dans cette liste, une insertion au milieu decalerait tout.
+  ChatIntentSchema,
 ]);
 
 // StampedIntent = Intent with server-stamped clientID (used in turns and execution)
