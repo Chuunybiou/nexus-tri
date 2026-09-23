@@ -1532,6 +1532,9 @@
     "vanguard_text": "Nés des cendres des anciennes flottes coloniales de l'orion externe, les Vanguard représentent la résilience de l'acier et de la technologie conventionnelle lourde. Dotés d'une économie minière stable et d'artilleries planétaires redoutables, ils compensent leur manque de flexibilité biologique par une puissance de feu brute et une discipline de fer."
   },
   "deployment": {
+    "theater": "CARTE DU THÉÂTRE ACTIF",
+    "deploy": "DÉPLOYER",
+    "public": "PUBLIQUE",
     "next_drop": "PROCHAIN DÉPART",
     "no_tag": "AUCUN",
     "ops_header": "OPÉRATIONS DE COMMANDEMENT",
@@ -1548,6 +1551,7 @@
   },
   "lobby_deck": {
     "class_subtitle": "CLASSE : STRATÉGIE FRONTALE EN TEMPS RÉEL",
+    "identity": "IDENTITÉ DU COMMANDANT & TAG D'ESCOUADE",
     "protocol_title": "PROTOCOLE DE DÉPLOIEMENT TACTIQUE"
   },
   "resources": {

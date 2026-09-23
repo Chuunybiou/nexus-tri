@@ -113,6 +113,19 @@ export class PlayPage extends LitElement {
             <!-- Actualites : servies par le service ferme (voir NexusTri.ts) -->
             ${SERVICES_DE_COMPTE ? html`<news-box></news-box>` : ""}
 
+            <!-- Intitule du bloc, comme sur la maquette : on comprend ce
+                 qu'on est en train de remplir. -->
+            <div
+              class="flex items-center gap-2 px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/40"
+            >
+              <span
+                class="h-2 w-2 shrink-0"
+                style="background: var(--color-vanguard)"
+                aria-hidden="true"
+              ></span>
+              ${translateText("lobby_deck.identity")}
+            </div>
+
             <!-- Identity row: username over the currently selected cosmetic background. -->
             <div
               class="relative bg-surface border-y border-white/10 overflow-visible flex items-center sm:min-h-[60px] sm:flex-1 sm:z-20 sm:border-y-0 sm:rounded-xl"

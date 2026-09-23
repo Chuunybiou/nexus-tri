@@ -1593,6 +1593,9 @@
     "vanguard_text": "Born from the ashes of outer-rim colonial fleets, the Vanguard represent the resilience of steel and heavy conventional military technology. Backed by stable mining economies and formidable planetary artillery, they compensate for biological inflexibility with sheer firepower and iron discipline."
   },
   "deployment": {
+    "theater": "ACTIVE THEATER MAP",
+    "deploy": "DEPLOY",
+    "public": "PUBLIC",
     "next_drop": "NEXT DROP",
     "no_tag": "NONE",
     "ops_header": "COMMAND OPERATIONS",
@@ -1609,6 +1612,7 @@
   },
   "lobby_deck": {
     "class_subtitle": "CLASS: REAL-TIME FRONT STRATEGY",
+    "identity": "COMMANDER IDENTITY & SQUAD TAG",
     "protocol_title": "TACTICAL DEPLOYMENT PROTOCOL"
   },
   "resources": {

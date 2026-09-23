@@ -2,6 +2,7 @@ import { html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
 import { UserMeResponse } from "../core/ApiSchemas";
+import { assetUrl } from "../core/AssetUrls";
 import { FACTIONS } from "../core/game/Factions";
 import {
   Duos,
@@ -51,7 +52,9 @@ import { UsernameInput } from "./UsernameInput";
 import {
   calculateServerTimeOffset,
   getGamesPlayed,
+  getMapName,
   getSecondsUntilServerTimestamp,
+  normaliseMapKey,
   reloadForUpdate,
   renderDuration,
   showToast,
@@ -291,6 +294,8 @@ export function shouldBlockJoin(
 @customElement("game-mode-selector")
 export class GameModeSelector extends LitElement {
   @state() private lobbies: PublicGames | null = null;
+  /** Onglet de la file de deploiement : seul, ou salon public. */
+  @state() private queueMode: "solo" | "public" = "public";
   @state() private inputValid: boolean = true;
   @state() private desktopUpdateState: DesktopUpdateState | null = null;
   @state() private viewerTrusted: boolean = false;
@@ -538,90 +543,98 @@ export class GameModeSelector extends LitElement {
     // reading-flow keeps focus order following the rows (Chromium only).
     return html`
       <div
-        class="flex flex-col gap-4 w-full px-4 pb-4 mx-auto sm:px-0 sm:pb-0 sm:grid sm:grid-cols-[2fr_1fr] sm:grid-rows-[auto_min(24rem,40vh)_auto_auto] sm:[reading-flow:grid-rows]"
+        class="flex w-full flex-col gap-4 px-4 pb-4 mx-auto sm:px-0 sm:pb-0 lg:grid lg:grid-cols-12 lg:items-start lg:gap-4"
       >
-        <ios-add-to-home-screen-banner
-          class="no-crazygames [&:empty]:hidden sm:col-span-2 sm:row-start-1"
-        ></ios-add-to-home-screen-banner>
+        <!-- Colonne gauche : le jeu lui-meme (salons, solo, creation). Sa
+             grille interne est inchangee — c'est elle qui tient la mise en
+             page sur telephone. -->
+        <div
+          class="flex min-w-0 flex-col gap-4 sm:grid sm:grid-cols-[2fr_1fr] sm:grid-rows-[auto_min(24rem,40vh)_auto_auto] sm:[reading-flow:grid-rows] lg:col-span-8"
+        >
+          <ios-add-to-home-screen-banner
+            class="no-crazygames [&:empty]:hidden sm:col-span-2 sm:row-start-1"
+          ></ios-add-to-home-screen-banner>
 
-        <div class="sm:col-span-2 sm:row-start-1">
-          ${this.renderDeploymentPanel(ffa, [teams, special])}
-        </div>
-
-        <div class="flex gap-4 h-14 sm:col-span-2 sm:row-start-3">
-          <div class="flex-[2]">
+          <div class="flex gap-4 h-14 sm:col-span-2 sm:row-start-3">
+            <div class="flex-[2]">
+              ${this.renderSmallActionCard(
+                translateText("main.solo"),
+                this.openSinglePlayerModal,
+                PRIMARY_ACTION,
+              )}
+            </div>
+            ${getGamesPlayed() < TUTORIAL_CARD_MAX_GAMES
+              ? html`<div class="flex-1">
+                  ${this.renderSmallActionCard(
+                    translateText("main.tutorial"),
+                    this.startTutorial,
+                    TUTORIAL_ACTION,
+                  )}
+                </div>`
+              : nothing}
+          </div>
+          <div class="grid grid-cols-3 gap-4 h-14 sm:col-span-2 sm:row-start-4">
             ${this.renderSmallActionCard(
-              translateText("main.solo"),
-              this.openSinglePlayerModal,
-              PRIMARY_ACTION,
+              translateText("main.create"),
+              this.openHostLobby,
+              SECONDARY_ACTION,
+              undefined,
+              true,
+            )}
+            ${this.renderSmallActionCard(
+              translateText("mode_selector.ranked_title"),
+              this.openRankedMenu,
+              SECONDARY_ACTION,
+              undefined,
+              true,
+            )}
+            ${this.renderSmallActionCard(
+              translateText("main.join"),
+              this.openJoinLobby,
+              SECONDARY_ACTION,
+              this.hostedLobbyCount(),
+              true,
             )}
           </div>
-          ${getGamesPlayed() < TUTORIAL_CARD_MAX_GAMES
-            ? html`<div class="flex-1">
-                ${this.renderSmallActionCard(
-                  translateText("main.tutorial"),
-                  this.startTutorial,
-                  TUTORIAL_ACTION,
-                )}
+
+          ${heroSlot
+            ? html`<div class="min-w-0 sm:col-start-1 sm:row-start-2">
+                ${ffa
+                  ? this.renderLobbyCard(ffa, this.getLobbyTitle(ffa))
+                  : html`<div
+                      class="flex items-center justify-center h-44 sm:h-full"
+                    >
+                      <span
+                        class="size-24 rounded-full border-[6px] border-blue-500/30 border-t-blue-500 animate-spin"
+                      ></span>
+                    </div>`}
               </div>`
             : nothing}
-        </div>
-        <div class="grid grid-cols-3 gap-4 h-14 sm:col-span-2 sm:row-start-4">
-          ${this.renderSmallActionCard(
-            translateText("main.create"),
-            this.openHostLobby,
-            SECONDARY_ACTION,
-            undefined,
-            true,
-          )}
-          ${this.renderSmallActionCard(
-            translateText("mode_selector.ranked_title"),
-            this.openRankedMenu,
-            SECONDARY_ACTION,
-            undefined,
-            true,
-          )}
-          ${this.renderSmallActionCard(
-            translateText("main.join"),
-            this.openJoinLobby,
-            SECONDARY_ACTION,
-            this.hostedLobbyCount(),
-            true,
-          )}
+
+          <!-- Always rendered: the heading is the only way into the lobby browser. -->
+          <section
+            class="flex flex-col gap-4 min-w-0 sm:grid sm:grid-rows-[auto_1fr_1fr] sm:row-start-2 sm:min-h-0 sm:[reading-flow:grid-rows] ${heroSlot
+              ? "sm:col-start-2"
+              : "sm:col-start-1 sm:col-span-2"}"
+          >
+            ${teams
+              ? html`<div class="min-w-0 sm:min-h-0 ${cardRows.teams}">
+                  ${this.renderLobbyCard(teams, this.getLobbyTitle(teams))}
+                </div>`
+              : nothing}
+            ${special
+              ? html`<div class="min-w-0 sm:min-h-0 ${cardRows.special}">
+                  ${this.renderLobbyCard(special, this.getLobbyTitle(special))}
+                </div>`
+              : nothing}
+            ${this.renderUpcomingHeading()}
+          </section>
         </div>
 
-        ${heroSlot
-          ? html`<div class="min-w-0 sm:col-start-1 sm:row-start-2">
-              ${ffa
-                ? this.renderLobbyCard(ffa, this.getLobbyTitle(ffa))
-                : html`<div
-                    class="flex items-center justify-center h-44 sm:h-full"
-                  >
-                    <span
-                      class="size-24 rounded-full border-[6px] border-blue-500/30 border-t-blue-500 animate-spin"
-                    ></span>
-                  </div>`}
-            </div>`
-          : nothing}
-
-        <!-- Always rendered: the heading is the only way into the lobby browser. -->
-        <section
-          class="flex flex-col gap-4 min-w-0 sm:grid sm:grid-rows-[auto_1fr_1fr] sm:row-start-2 sm:min-h-0 sm:[reading-flow:grid-rows] ${heroSlot
-            ? "sm:col-start-2"
-            : "sm:col-start-1 sm:col-span-2"}"
-        >
-          ${teams
-            ? html`<div class="min-w-0 sm:min-h-0 ${cardRows.teams}">
-                ${this.renderLobbyCard(teams, this.getLobbyTitle(teams))}
-              </div>`
-            : nothing}
-          ${special
-            ? html`<div class="min-w-0 sm:min-h-0 ${cardRows.special}">
-                ${this.renderLobbyCard(special, this.getLobbyTitle(special))}
-              </div>`
-            : nothing}
-          ${this.renderUpcomingHeading()}
-        </section>
+        <!-- Colonne droite : la file de deploiement. -->
+        <div class="min-w-0 lg:col-span-4">
+          ${this.renderDeploymentPanel(ffa, [teams, special])}
+        </div>
 
         ${this.showTrustRequired
           ? trustRequiredDialog(
@@ -941,8 +954,122 @@ export class GameModeSelector extends LitElement {
           )}
         </div>
 
-        ${this.renderUpcoming(aVenir)}
+        ${this.renderQueueTabs()} ${this.renderDeployButton(prochain, accent)}
+        ${this.renderTheatre(prochain)} ${this.renderUpcoming(aVenir)}
       </div>
+    `;
+  }
+
+  /**
+   * La carte du prochain depart, en vignette.
+   *
+   * C'est la vraie image de la carte, celle du catalogue : montrer un dessin
+   * generique aurait ete plus joli et moins utile — on veut reconnaitre le
+   * terrain avant de s'engager. Le balayage lumineux est du decor, et il
+   * s'arrete pour qui demande moins d'animations (voir styles.css).
+   */
+  private renderTheatre(lobby: PublicGameInfo | undefined) {
+    // On sort AVANT de se servir du salon : sans ce test, le titre plus bas
+    // recevrait un salon absent.
+    if (lobby === undefined) return nothing;
+    const carte = lobby.gameConfig?.gameMap;
+    if (carte === undefined) return nothing;
+    const nom = getMapName(carte) ?? carte;
+
+    return html`
+      <div class="mt-3 border-t border-white/10 pt-2">
+        <div
+          class="mb-1.5 flex items-baseline justify-between gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35"
+        >
+          <span>${translateText("deployment.theater")}</span>
+          <span class="truncate text-white/50"
+            >${this.getLobbyTitle(lobby)}</span
+          >
+        </div>
+        <div
+          class="hud-sweep relative h-24 overflow-hidden rounded-lg border border-white/10 sm:h-28"
+        >
+          <img
+            src=${assetUrl(
+              `maps/${encodeURIComponent(normaliseMapKey(carte))}/thumbnail.webp`,
+            )}
+            alt=""
+            loading="lazy"
+            class="h-full w-full object-cover opacity-70"
+          />
+          <span
+            class="absolute bottom-1.5 left-1.5 rounded border border-white/15 bg-black/65 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white/85"
+            >${nom}</span
+          >
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Les deux facons de partir : seul, ou dans le prochain salon public.
+   *
+   * La maquette proposait « CLASSE » ; le classement d'OpenFront passe par le
+   * service ferme, absent ici. « Publique » est l'equivalent qui marche
+   * vraiment sur ce serveur — annoncer un mode qui echoue serait pire que de
+   * ne pas l'annoncer.
+   */
+  private renderQueueTabs() {
+    const onglet = (mode: "solo" | "public", libelle: string) => {
+      const actif = this.queueMode === mode;
+      return html`
+        <button
+          type="button"
+          class="rounded-lg border px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] transition-colors ${actif
+            ? "border-white/40 bg-white/10 text-white"
+            : "border-white/10 bg-black/20 text-white/45 hover:text-white/75"}"
+          aria-pressed=${actif ? "true" : "false"}
+          @click=${() => {
+            this.queueMode = mode;
+          }}
+        >
+          ${libelle}
+        </button>
+      `;
+    };
+    return html`
+      <div class="mt-3 grid grid-cols-2 gap-2">
+        ${onglet("solo", translateText("main.solo"))}
+        ${onglet("public", translateText("deployment.public"))}
+      </div>
+    `;
+  }
+
+  /**
+   * Le bouton de depart, a la couleur de la faction choisie.
+   *
+   * Il ne fait rien de neuf : il appelle les deux chemins deja en place, avec
+   * leurs verifications (pseudo valide, salon rejoignable). Un troisieme
+   * chemin aurait fini par diverger des deux autres.
+   */
+  private renderDeployButton(
+    prochain: PublicGameInfo | undefined,
+    accent: string,
+  ) {
+    const solo = this.queueMode === "solo";
+    const indisponible = !solo && prochain === undefined;
+    return html`
+      <button
+        type="button"
+        class="mt-2 w-full rounded-xl px-4 py-3 text-sm font-extrabold uppercase tracking-[0.16em] text-black transition-transform active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
+        style=${`background: linear-gradient(90deg, ${accent}, ${accent}aa);`}
+        ?disabled=${indisponible}
+        @click=${() => {
+          if (solo) this.openSinglePlayerModal();
+          else if (prochain !== undefined) this.validateAndJoin(prochain);
+        }}
+      >
+        ${solo
+          ? translateText("main.solo")
+          : indisponible
+            ? translateText("deployment.waiting")
+            : translateText("deployment.deploy")}
+      </button>
     `;
   }
 
