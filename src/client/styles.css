@@ -118,6 +118,14 @@
   }
 }
 
+/* Sur l'accueil, l'en-tete du poste de commandement (command-header) remplace
+   le bandeau du haut : les deux cote a cote affichaient deux fois le nom du
+   jeu et deux fois le selecteur de langue. Le bandeau revient des qu'une autre
+   page s'ouvre (body.page-open), ou il reste la seule navigation. */
+body:not(.page-open) desktop-nav-bar {
+  display: none;
+}
+
 @layer base {
   *,
   ::after,

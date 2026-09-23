@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { translateText } from "../Utils";
 import "./LanguageToggle";
+import "./NavUtilityIcons";
 
 /** Intervalle entre deux mesures de latence. */
 const PING_INTERVAL_MS = 30_000;
@@ -166,7 +167,7 @@ export class CommandHeader extends LitElement {
             >
           </div>
 
-          <!-- Joueur -->
+          <!-- Joueur, et les icones recuperees du bandeau du haut -->
           ${this.joueur
             ? html`<div class="hud-glass rounded-xl px-3 py-1.5 text-right">
                 <span class="block max-w-[12rem] truncate text-xs text-white/85"
@@ -179,6 +180,10 @@ export class CommandHeader extends LitElement {
                 >
               </div>`
             : nothing}
+
+          <div class="hud-glass flex items-center rounded-xl px-2 py-1.5">
+            <nav-utility-icons size="desktop"></nav-utility-icons>
+          </div>
         </div>
       </div>
     `;
