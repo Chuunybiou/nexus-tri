@@ -29,6 +29,7 @@ import { ControlPanel } from "./layers/ControlPanel";
 import { EmojiTable } from "./layers/EmojiTable";
 import { EventsDisplay } from "./layers/EventsDisplay";
 import { FactionStatus } from "./layers/FactionStatus";
+import { ResourceBar } from "./layers/ResourceBar";
 import { GameLeftSidebar } from "./layers/GameLeftSidebar";
 import { GameRightSidebar } from "./layers/GameRightSidebar";
 import { HeadsUpMessage } from "./layers/HeadsUpMessage";
@@ -309,6 +310,17 @@ export function createRenderer(
     console.error("faction status not found");
   }
 
+  // Meme prudence que pour faction-status : un shell sans l'element perd le
+  // bandeau des ressources, pas le rendu entier.
+  const resourceBar = document.querySelector(
+    "resource-bar",
+  ) as ResourceBar | null;
+  if (resourceBar instanceof ResourceBar) {
+    resourceBar.game = game;
+  } else {
+    console.error("resource bar not found");
+  }
+
   const inGamePromo = document.querySelector("in-game-promo") as InGamePromo;
   if (!(inGamePromo instanceof InGamePromo)) {
     console.error("in-game promo not found");
@@ -361,6 +373,7 @@ export function createRenderer(
     spawnTimer,
     immunityTimer,
     ...(factionStatus instanceof FactionStatus ? [factionStatus] : []),
+    ...(resourceBar instanceof ResourceBar ? [resourceBar] : []),
     gameLeftSidebar,
     unitDisplay,
     gameRightSidebar,

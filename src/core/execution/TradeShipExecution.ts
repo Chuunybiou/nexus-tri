@@ -8,6 +8,7 @@ import {
   UnitType,
 } from "../game/Game";
 import { TileRef } from "../game/GameMap";
+import { RESOURCE_RULES, resourceOf } from "../game/Resources";
 import { WaterPathFinder } from "../pathfinding/PathFinder";
 import { PathStatus } from "../pathfinding/types";
 import { findClosestBy } from "../Util";
@@ -193,6 +194,14 @@ export class TradeShipExecution implements Execution {
         undefined,
         this.origOwner.id(),
       );
+      // La cargaison part avec le bateau : le pirate recupere la ressource de
+      // faction que transportait le convoi. C'est ce qui donne un sens a la
+      // marine dans la course a l'arme ultime — couper une route, c'est
+      // retarder un adversaire, pas seulement lui prendre de l'or.
+      this.tradeShip!.owner().addResource(
+        resourceOf(this.origOwner.faction()),
+        RESOURCE_RULES.perTradeShip,
+      );
       // Record stats
       this.mg
         .stats()
@@ -202,12 +211,27 @@ export class TradeShipExecution implements Execution {
       this._dstPort.owner().addGold(gold, this._dstPort.tile());
       this.srcPort.owner().addTradeGold(gold);
       this._dstPort.owner().addTradeGold(gold);
+      this.exchangeResources(this.srcPort.owner(), this._dstPort.owner());
       // Record stats
       this.mg
         .stats()
         .boatArriveTrade(this.srcPort.owner(), this._dstPort.owner(), gold);
     }
     return;
+  }
+
+  /**
+   * Chaque arrivee echange les ressources de faction : chacun recoit celle que
+   * l'autre produit et qu'il ne saura jamais fabriquer.
+   *
+   * Entre joueurs de la MEME faction, rien ne passe. Sinon deux comptes de la
+   * meme race se suffiraient a eux-memes et l'alliance entre factions, qui est
+   * tout l'interet du systeme, ne servirait plus a rien.
+   */
+  private exchangeResources(a: Player, b: Player): void {
+    if (a.faction() === b.faction()) return;
+    a.addResource(resourceOf(b.faction()), RESOURCE_RULES.perTradeShip);
+    b.addResource(resourceOf(a.faction()), RESOURCE_RULES.perTradeShip);
   }
 
   isActive(): boolean {

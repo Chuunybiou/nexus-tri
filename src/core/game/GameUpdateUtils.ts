@@ -27,6 +27,27 @@ import {
  * instead (see PlayerImpl.toUpdate) and appear in PlayerUpdate objects only on
  * a player's first (full) emission.
  */
+/**
+ * Egalite des stocks de ressources (voir game/Resources.ts).
+ *
+ * toUpdate() reconstruit l'objet a chaque tick, donc `===` repondrait toujours
+ * « different » et on renverrait le stock de chaque joueur a chaque tick pour
+ * rien. Trois cles fixes : la comparaison est plus rapide que l'envoi.
+ */
+function resourcesEqual(
+  a: Record<string, number> | undefined,
+  b: Record<string, number> | undefined,
+): boolean {
+  if (a === b) return true;
+  if (a === undefined || b === undefined) return false;
+  const keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) return false;
+  for (const k of keys) {
+    if (a[k] !== b[k]) return false;
+  }
+  return true;
+}
+
 export function diffPlayerUpdate(
   prev: PlayerUpdate,
   next: PlayerUpdate,
@@ -51,6 +72,7 @@ export function diffPlayerUpdate(
     prev.tradeGold === next.tradeGold &&
     prev.trainGold === next.trainGold &&
     prev.piracyGold === next.piracyGold &&
+    resourcesEqual(prev.resources, next.resources) &&
     prev.isTraitor === next.isTraitor &&
     prev.traitorRemainingTicks === next.traitorRemainingTicks &&
     prev.inDoomsdayClock === next.inDoomsdayClock &&
@@ -104,6 +126,7 @@ export function diffPlayerUpdate(
   setIfDifferent("tradeGold", prev.tradeGold === next.tradeGold);
   setIfDifferent("trainGold", prev.trainGold === next.trainGold);
   setIfDifferent("piracyGold", prev.piracyGold === next.piracyGold);
+  setIfDifferent("resources", resourcesEqual(prev.resources, next.resources));
   // tilesOwned / gold / troops / goldEarned intentionally absent — see
   // EXCEPTION above (goldEarned churns every tick via worker income).
   setIfDifferent("isTraitor", prev.isTraitor === next.isTraitor);

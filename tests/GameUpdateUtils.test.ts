@@ -26,6 +26,7 @@ function makePlayerState(overrides: Partial<PlayerState> = {}): PlayerState {
     trainGold: 0,
     piracyGold: 0,
     goldEarned: 0,
+    resources: { URANIUM: 0, BIOMASS: 0, CRYSTAL: 0 },
     troops: 100,
     isTraitor: false,
     traitorRemainingTicks: 0,

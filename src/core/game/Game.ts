@@ -4,6 +4,7 @@ import { PathFinder } from "../pathfinding/types";
 import { AllPlayersStats, ClientID } from "../Schemas";
 import { formatPlayerDisplayName } from "../Util";
 import { DEFAULT_FACTION, Faction } from "./Factions";
+import { type Resource, type ResourceStock } from "./Resources";
 import { GameMap, TileRef } from "./GameMap";
 import {
   GameUpdate,
@@ -752,6 +753,12 @@ export interface Player {
 
   // Embargo
   hasEmbargoAgainst(other: Player): boolean;
+
+  // Ressources de faction (voir Resources.ts) : le stock, une cle a la fois,
+  // et l'ajout borne par le plafond (renvoie ce qui est reellement entre).
+  resources(): ResourceStock;
+  resource(type: Resource): number;
+  addResource(type: Resource, amount: number): number;
   tradingPartners(): Player[];
   addEmbargo(other: Player, isTemporary: boolean): void;
   getEmbargoes(): Embargo[];

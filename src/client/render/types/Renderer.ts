@@ -77,6 +77,8 @@ export interface PlayerState {
   piracyGold: number;
   /** Cumulative gold received from all sources (live). */
   goldEarned: number;
+  /** Stock des trois ressources de faction (voir core/game/Resources.ts). */
+  resources: Record<string, number>;
   troops: number;
   isTraitor: boolean;
   traitorRemainingTicks: number;

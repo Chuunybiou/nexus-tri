@@ -6,6 +6,7 @@ import { DoomsdayClockExecution } from "./execution/DoomsdayClockExecution";
 import { Executor } from "./execution/ExecutionManager";
 import { RecomputeRailClusterExecution } from "./execution/RecomputeRailClusterExecution";
 import { SpawnTimerExecution } from "./execution/SpawnTimerExecution";
+import { ResourceProductionExecution } from "./execution/ResourceProductionExecution";
 import { SwarmDecayExecution } from "./execution/SwarmDecayExecution";
 import { WinCheckExecution } from "./execution/WinCheckExecution";
 import { DEFAULT_FACTION } from "./game/Factions";
@@ -132,6 +133,9 @@ export class GameRunner {
     this.game.addExecution(new SwarmDecayExecution());
     this.game.addExecution(new AscendantGridExecution());
     this.game.addExecution(new AscendantShieldExecution());
+    // Ressources de faction : la production suit les villes, et le commerce
+    // fait circuler les deux ressources qu'on ne sait pas produire.
+    this.game.addExecution(new ResourceProductionExecution());
     if (this.game.config().doomsdayClockConfig().enabled) {
       this.game.addExecution(new DoomsdayClockExecution());
     }

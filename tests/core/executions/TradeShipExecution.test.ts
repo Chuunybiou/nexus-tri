@@ -1,4 +1,5 @@
 import { TradeShipExecution } from "../../../src/core/execution/TradeShipExecution";
+import { Faction } from "../../../src/core/game/Factions";
 import { Game, MessageType, Player, Unit } from "../../../src/core/game/Game";
 import { PathStatus } from "../../../src/core/pathfinding/types";
 import { setup } from "../../util/Setup";
@@ -35,6 +36,8 @@ describe("TradeShipExecution", () => {
       id: vi.fn(() => 1),
       clientID: vi.fn(() => 1),
       canTrade: vi.fn(() => true),
+      faction: vi.fn(() => Faction.Vanguard),
+      addResource: vi.fn(),
     } as any;
 
     dstOwner = {
@@ -47,6 +50,8 @@ describe("TradeShipExecution", () => {
       unitCount: vi.fn(() => 1),
       clientID: vi.fn(() => 2),
       canTrade: vi.fn(() => true),
+      faction: vi.fn(() => Faction.Swarm),
+      addResource: vi.fn(),
     } as any;
 
     pirate = {
@@ -59,6 +64,8 @@ describe("TradeShipExecution", () => {
       units: vi.fn(() => [piratePort, piratePort2]),
       unitCount: vi.fn(() => 2),
       canTrade: vi.fn(() => true),
+      faction: vi.fn(() => Faction.Ascendant),
+      addResource: vi.fn(),
     } as any;
 
     piratePort = {

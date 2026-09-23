@@ -28,6 +28,12 @@ import {
   AttackUpdate,
   PlayerUpdate,
 } from "../../core/game/GameUpdates";
+import {
+  emptyStock,
+  Resource,
+  resourcesAtThreshold,
+  type ResourceStock,
+} from "../../core/game/Resources";
 import { UserSettings } from "../../core/game/UserSettings";
 import { PlayerState, PlayerStatic, PlayerTypeEnum } from "../render/types";
 import { themeProvider } from "../theme/ThemeProvider";
@@ -88,6 +94,7 @@ function stateFromUpdate(pu: PlayerUpdate): PlayerState {
     trainGold: Number(pu.trainGold ?? 0n),
     piracyGold: Number(pu.piracyGold ?? 0n),
     goldEarned: Number(pu.goldEarned ?? 0n),
+    resources: pu.resources ?? emptyStock(),
     troops: pu.troops!,
     isTraitor: pu.isTraitor!,
     traitorRemainingTicks: Math.max(0, pu.traitorRemainingTicks ?? 0),
@@ -561,6 +568,25 @@ export class PlayerView {
   /** Cumulative gold received from all sources. */
   goldEarned(): number {
     return this.state.goldEarned;
+  }
+
+  /** Stock des trois ressources de faction (voir core/game/Resources.ts). */
+  resources(): ResourceStock {
+    const s = this.state.resources;
+    return {
+      [Resource.Uranium]: s[Resource.Uranium] ?? 0,
+      [Resource.Biomass]: s[Resource.Biomass] ?? 0,
+      [Resource.Crystal]: s[Resource.Crystal] ?? 0,
+    };
+  }
+
+  resource(type: Resource): number {
+    return this.state.resources[type] ?? 0;
+  }
+
+  /** Combien des trois ressources sont au seuil de l'arme : 0 a 3, visible par tous. */
+  resourcesAtThreshold(): number {
+    return resourcesAtThreshold(this.resources());
   }
 
   troops(): number {

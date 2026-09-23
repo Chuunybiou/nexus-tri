@@ -253,6 +253,8 @@ export interface PlayerUpdate {
   piracyGold?: Gold;
   /** Cumulative gold received from all sources (workers, trade, ...). */
   goldEarned?: Gold;
+  /** Stock des trois ressources de faction (voir Resources.ts). */
+  resources?: Record<string, number>;
   troops?: number;
   allies?: number[];
   embargoes?: Set<PlayerID>;

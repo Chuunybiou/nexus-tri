@@ -11,6 +11,12 @@ import {
 import { AttackImpl } from "./AttackImpl";
 import { Faction } from "./Factions";
 import {
+  emptyStock,
+  RESOURCE_RULES,
+  Resource,
+  type ResourceStock,
+} from "./Resources";
+import {
   Alliance,
   AllianceInfo,
   AllianceRequest,
@@ -128,6 +134,13 @@ export class PlayerImpl implements Player {
   private _piracyGold: bigint = 0n;
   /** Cumulative gold received from all sources (incremented in addGold). */
   private _goldEarned: bigint = 0n;
+
+  /**
+   * Stock des trois ressources de faction (voir Resources.ts). Toujours les
+   * trois cles : un joueur detient surtout la sienne, et ne recoit les deux
+   * autres que par le commerce.
+   */
+  private _resources: Record<Resource, number> = emptyStock();
 
   markedTraitorTick = -1;
   markedDoomsdayClockTick = -1;
@@ -380,6 +393,7 @@ export class PlayerImpl implements Player {
       trainGold: this._trainGold,
       piracyGold: this._piracyGold,
       goldEarned: this._goldEarned,
+      resources: { ...this._resources },
       troops: this.troops(),
       allies: allies,
       embargoes: embargoes,
@@ -1201,6 +1215,26 @@ export class PlayerImpl implements Player {
 
   recordEmbargoAll(): void {
     this.lastEmbargoAllTick = this.mg.ticks();
+  }
+
+  resources(): ResourceStock {
+    return this._resources;
+  }
+
+  resource(type: Resource): number {
+    return this._resources[type];
+  }
+
+  /**
+   * Ajoute au stock, sans jamais depasser le plafond ni descendre sous zero.
+   * Renvoie ce qui a reellement ete ajoute : le commerce s'en sert pour ne pas
+   * facturer une livraison qui n'entre plus.
+   */
+  addResource(type: Resource, amount: number): number {
+    const before = this._resources[type];
+    const after = within(before + Math.floor(amount), 0, RESOURCE_RULES.cap);
+    this._resources[type] = after;
+    return after - before;
   }
 
   hasEmbargoAgainst(other: Player): boolean {

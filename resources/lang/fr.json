@@ -1500,6 +1500,13 @@
     "tps": "TPS :",
     "tps_avg_60s": "Moy :"
   },
+  "resources": {
+    "title": "Ressources de faction",
+    "uranium": "Uranium",
+    "biomass": "Biomasse",
+    "crystal": "Cristal",
+    "gathered": "Ressources réunies"
+  },
   "player_panel": {
     "active": "Actif",
     "alliance_time_remaining": "L'alliance expire dans",
