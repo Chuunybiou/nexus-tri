@@ -3,6 +3,7 @@ import { customElement } from "lit/decorators.js";
 import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
 import { translateText } from "../Utils";
+import "./CommandStatusBar";
 import "./CosmeticBackground";
 import "./FactionLoreModal";
 import "./FactionSelector";
@@ -91,7 +92,8 @@ export class PlayPage extends LitElement {
              Desktop only: this row sits in the normal flow, which on mobile
              is UNDERNEATH the fixed bar above, so the mobile instance lives
              in that bar instead. -->
-        <div class="hidden lg:flex justify-end w-full pt-2">
+        <div class="hidden lg:flex items-center gap-2 w-full pt-2">
+          <command-status-bar class="min-w-0 flex-1"></command-status-bar>
           <language-toggle></language-toggle>
         </div>
 

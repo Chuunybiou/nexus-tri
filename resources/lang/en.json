@@ -1592,6 +1592,21 @@
     "vanguard_subtitle": "COLONIAL INDUSTRIAL ALLIANCE",
     "vanguard_text": "Born from the ashes of outer-rim colonial fleets, the Vanguard represent the resilience of steel and heavy conventional military technology. Backed by stable mining economies and formidable planetary artillery, they compensate for biological inflexibility with sheer firepower and iron discipline."
   },
+  "deployment": {
+    "next_drop": "NEXT DROP",
+    "no_tag": "NONE",
+    "ops_header": "COMMAND OPERATIONS",
+    "players_ready": "PLAYERS READY",
+    "queue_title": "DEPLOYMENT QUEUE",
+    "selected_faction": "SELECTED FACTION",
+    "squad_tag": "SQUAD TAG",
+    "upcoming": "UPCOMING ROTATION",
+    "waiting": "WAITING"
+  },
+  "status_bar": {
+    "offline": "OFFLINE",
+    "ready": "STATUS: READY"
+  },
   "lobby_deck": {
     "class_subtitle": "CLASS: REAL-TIME FRONT STRATEGY",
     "protocol_title": "TACTICAL DEPLOYMENT PROTOCOL"

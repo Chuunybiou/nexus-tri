@@ -2,6 +2,7 @@ import { html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
 import { UserMeResponse } from "../core/ApiSchemas";
+import { FACTIONS } from "../core/game/Factions";
 import {
   Duos,
   GameMapType,
@@ -11,8 +12,10 @@ import {
   Quads,
   Trios,
 } from "../core/game/Game";
+import { UserSettings } from "../core/game/UserSettings";
 import { PublicGameInfo, PublicGames } from "../core/Schemas";
 import { getDesktopSessionState } from "./Auth";
+import { factionAccent } from "./components/FactionEmblem";
 import "./components/IOSAddToHomeScreenBanner";
 import {
   canJoinTrustedLobby,
@@ -541,6 +544,10 @@ export class GameModeSelector extends LitElement {
           class="no-crazygames [&:empty]:hidden sm:col-span-2 sm:row-start-1"
         ></ios-add-to-home-screen-banner>
 
+        <div class="sm:col-span-2 sm:row-start-1">
+          ${this.renderDeploymentPanel(ffa, [teams, special])}
+        </div>
+
         <div class="flex gap-4 h-14 sm:col-span-2 sm:row-start-3">
           <div class="flex-[2]">
             ${this.renderSmallActionCard(
@@ -873,6 +880,127 @@ export class GameModeSelector extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  /**
+   * La file de deploiement, d'apres la maquette du poste de commandement.
+   *
+   * Uniquement de la lecture : le tag, la faction et les salons publics sont
+   * deja connus du client. Le panneau ne lance rien — les boutons qui lancent
+   * une partie restent ou ils sont, c'est la moitie du jeu et on ne la deplace
+   * pas pour une question de decor.
+   */
+  private renderDeploymentPanel(
+    prochain: PublicGameInfo | undefined,
+    aVenir: (PublicGameInfo | undefined)[],
+  ) {
+    const faction = new UserSettings().selectedFaction();
+    const accent = factionAccent(faction);
+    const tag = (localStorage.getItem("clanTag") ?? "").toUpperCase();
+    const config = prochain?.gameConfig;
+    const places = config?.maxPlayers;
+    const presents = prochain?.numClients ?? 0;
+    const secondes = prochain?.startsAt
+      ? getSecondsUntilServerTimestamp(prochain.startsAt, this.serverTimeOffset)
+      : undefined;
+
+    return html`
+      <div class="hud-glass rounded-2xl p-3 sm:p-4">
+        <div class="mb-2 flex items-baseline justify-between gap-3">
+          <span
+            class="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50"
+            >${translateText("deployment.queue_title")}</span
+          >
+          <span
+            class="truncate text-[11px] uppercase tracking-[0.14em] text-white/35"
+            >${translateText("deployment.ops_header")}</span
+          >
+        </div>
+
+        <div
+          class="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px] sm:grid-cols-4"
+        >
+          ${this.renderDeploymentRow(
+            translateText("deployment.squad_tag"),
+            tag === "" ? translateText("deployment.no_tag") : `[${tag}]`,
+          )}
+          ${this.renderDeploymentRow(
+            translateText("deployment.selected_faction"),
+            translateText(FACTIONS[faction].nameKey).toUpperCase(),
+            accent,
+          )}
+          ${this.renderDeploymentRow(
+            translateText("deployment.players_ready"),
+            places ? `${presents} / ${places}` : String(presents),
+          )}
+          ${this.renderDeploymentRow(
+            translateText("deployment.next_drop"),
+            secondes === undefined
+              ? translateText("deployment.waiting")
+              : renderDuration(Math.max(0, secondes)),
+          )}
+        </div>
+
+        ${this.renderUpcoming(aVenir)}
+      </div>
+    `;
+  }
+
+  private renderDeploymentRow(label: string, valeur: string, couleur?: string) {
+    return html`
+      <div class="flex min-w-0 items-baseline justify-between gap-2">
+        <span class="truncate uppercase tracking-[0.1em] text-white/40"
+          >${label}</span
+        >
+        <span
+          class="shrink-0 font-bold tabular-nums"
+          style=${couleur
+            ? `color: ${couleur}`
+            : "color: rgba(255,255,255,0.85)"}
+          >${valeur}</span
+        >
+      </div>
+    `;
+  }
+
+  /** Les salons suivants : quelle carte, et dans combien de temps. */
+  private renderUpcoming(salons: (PublicGameInfo | undefined)[]) {
+    const connus = salons.filter((l): l is PublicGameInfo => l !== undefined);
+    if (connus.length === 0) return nothing;
+
+    return html`
+      <div class="mt-3 border-t border-white/10 pt-2">
+        <div
+          class="mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35"
+        >
+          ${translateText("deployment.upcoming")}
+        </div>
+        <div class="flex flex-col gap-1">
+          ${connus.map((lobby) => {
+            const secondes = lobby.startsAt
+              ? getSecondsUntilServerTimestamp(
+                  lobby.startsAt,
+                  this.serverTimeOffset,
+                )
+              : undefined;
+            return html`
+              <div
+                class="flex items-baseline justify-between gap-2 text-[11px]"
+              >
+                <span class="min-w-0 truncate text-white/70"
+                  >${this.getLobbyTitle(lobby)}</span
+                >
+                <span class="shrink-0 tabular-nums text-white/45"
+                  >${secondes === undefined
+                    ? translateText("deployment.waiting")
+                    : renderDuration(Math.max(0, secondes))}</span
+                >
+              </div>
+            `;
+          })}
+        </div>
+      </div>
+    `;
   }
 
   private getLobbyTitle(lobby: PublicGameInfo): string {

@@ -16,6 +16,7 @@ import { checkClanTagOwnership } from "./ClanApi";
 import { verifiedBadge } from "./components/ui/VerifiedBadge";
 import { crazyGamesSDK } from "./CrazyGamesSDK";
 import { showInGameAlert, showInGameConfirm } from "./InGameModal";
+import { SERVICES_DE_COMPTE } from "./NexusTri";
 import {
   accountNameHeld,
   accountVerifiedName,
@@ -568,6 +569,15 @@ export class UsernameInput extends LitElement {
       this.clanCheck = Promise.resolve(tag);
       return;
     }
+    // Nexus Tri : sans service de comptes, un tag n'appartient a personne —
+    // chacun ecrit le sien, c'est une decoration. La verification de propriete
+    // taperait dans le service ferme (absent), echouerait, et refuserait tous
+    // les tags. Le serveur de jeu, lui, continue de filtrer les grossieretes.
+    if (!SERVICES_DE_COMPTE) {
+      this.clanCheckPending = false;
+      this.clanCheck = Promise.resolve(tag);
+      return;
+    }
     this.clanCheckPending = true;
     this.clanCheck = checkClanTagOwnership(tag).then((res) => {
       if (gen === this.clanCheckGen) {
@@ -962,13 +972,15 @@ export class UsernameInput extends LitElement {
                 ${translateText("username.clan_clear")}
               </button>`
             : null}
-          <button
-            type="button"
-            class="ml-auto rounded-lg px-2 py-1 text-sm text-malibu-blue hover:bg-malibu-blue/15 transition-colors cursor-pointer"
-            @click=${this.openClanBrowser}
-          >
-            ${translateText("username.clan_browse")}
-          </button>
+          ${SERVICES_DE_COMPTE
+            ? html`<button
+                type="button"
+                class="ml-auto rounded-lg px-2 py-1 text-sm text-malibu-blue hover:bg-malibu-blue/15 transition-colors cursor-pointer"
+                @click=${this.openClanBrowser}
+              >
+                ${translateText("username.clan_browse")}
+              </button>`
+            : null}
         </div>
       </div>
     `;

@@ -1531,6 +1531,21 @@
     "vanguard_subtitle": "ALLIANCE INDUSTRIELLE COLONIALE",
     "vanguard_text": "Nés des cendres des anciennes flottes coloniales de l'orion externe, les Vanguard représentent la résilience de l'acier et de la technologie conventionnelle lourde. Dotés d'une économie minière stable et d'artilleries planétaires redoutables, ils compensent leur manque de flexibilité biologique par une puissance de feu brute et une discipline de fer."
   },
+  "deployment": {
+    "next_drop": "PROCHAIN DÉPART",
+    "no_tag": "AUCUN",
+    "ops_header": "OPÉRATIONS DE COMMANDEMENT",
+    "players_ready": "JOUEURS PRÊTS",
+    "queue_title": "FILE DE DÉPLOIEMENT",
+    "selected_faction": "FACTION SÉLECTIONNÉE",
+    "squad_tag": "TAG D'ESCOUADE",
+    "upcoming": "ROTATION À VENIR",
+    "waiting": "EN ATTENTE"
+  },
+  "status_bar": {
+    "offline": "HORS LIGNE",
+    "ready": "STATUT : PRÊT"
+  },
   "lobby_deck": {
     "class_subtitle": "CLASSE : STRATÉGIE FRONTALE EN TEMPS RÉEL",
     "protocol_title": "PROTOCOLE DE DÉPLOIEMENT TACTIQUE"
