@@ -3,7 +3,7 @@ import { customElement } from "lit/decorators.js";
 import { ALL_FACTIONS, FACTIONS, Faction } from "../../core/game/Factions";
 import { translateText } from "../Utils";
 import { BaseModal } from "./BaseModal";
-import { factionAccent, factionEmblem } from "./FactionEmblem";
+import { factionEmblem, factionHex } from "./FactionEmblem";
 
 /** Les cles de recit, par faction. */
 const LORE_KEYS: Record<
@@ -60,7 +60,7 @@ export class FactionLoreModal extends BaseModal {
   }
 
   private renderCard(faction: Faction) {
-    const accent = factionAccent(faction);
+    const accent = factionHex(faction);
     const keys = LORE_KEYS[faction];
 
     return html`

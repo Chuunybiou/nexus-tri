@@ -7,6 +7,29 @@ import { Faction } from "../../core/game/Factions";
  * Lives beside the emblem so shape and colour can never drift apart: every
  * surface that draws one draws the other from the same switch.
  */
+/**
+ * La meme couleur, mais en hexadecimal litteral.
+ *
+ * Indispensable des qu'on COMPOSE une couleur : « var(--color-swarm)55 » n'est
+ * pas du CSS valide, la regle est ignoree, et on se retrouve avec un bouton
+ * transparent ou une carte sans liseré — sans la moindre erreur pour le dire.
+ * Avec un hexadecimal, « #f59e0b55 » fonctionne.
+ *
+ * Doit rester aligne sur les variables de styles.css (--color-vanguard,
+ * --color-swarm, --color-ascendant) : une couleur definie a deux endroits
+ * finit toujours par diverger, alors on la change ici ET la-bas.
+ */
+export function factionHex(faction: Faction): string {
+  switch (faction) {
+    case Faction.Swarm:
+      return "#f59e0b";
+    case Faction.Ascendant:
+      return "#a855f7";
+    default:
+      return "#38bdf8";
+  }
+}
+
 export function factionAccent(faction: Faction): string {
   switch (faction) {
     case Faction.Swarm:

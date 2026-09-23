@@ -1614,6 +1614,9 @@
     "ready": "STATUS: READY"
   },
   "lobby_deck": {
+    "callsign_label": "COMMANDER CALLSIGN (PSEUDO)",
+    "tag_hint": "MAX 5 CHARS",
+    "tag_label": "SQUAD TAG",
     "class_subtitle": "CLASS: REAL-TIME FRONT STRATEGY",
     "identity": "COMMANDER IDENTITY & SQUAD TAG",
     "protocol_title": "TACTICAL DEPLOYMENT PROTOCOL"

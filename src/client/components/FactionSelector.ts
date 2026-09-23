@@ -3,7 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import { ALL_FACTIONS, FACTIONS, Faction } from "../../core/game/Factions";
 import { UserSettings } from "../../core/game/UserSettings";
 import { translateText } from "../Utils";
-import { factionAccent, factionEmblem } from "./FactionEmblem";
+import { factionEmblem, factionHex } from "./FactionEmblem";
 
 /** Fired when the player picks a faction, so the lobby can pick up the change. */
 export const FACTION_CHANGED_EVENT = "faction-changed";
@@ -71,7 +71,7 @@ export class FactionSelector extends LitElement {
   }
 
   render() {
-    const accent = factionAccent(this.selected);
+    const accent = factionHex(this.selected);
     const doctrine = translateText("faction.doctrine", {
       faction: translateText(FACTIONS[this.selected].nameKey).toUpperCase(),
     });
@@ -123,7 +123,7 @@ export class FactionSelector extends LitElement {
   private renderOption(faction: Faction) {
     const traits = FACTIONS[faction];
     const isSelected = faction === this.selected;
-    const accent = factionAccent(faction);
+    const accent = factionHex(faction);
     const keys = FACTION_KEYS[faction];
 
     return html`
@@ -132,14 +132,15 @@ export class FactionSelector extends LitElement {
         role="radio"
         aria-checked=${isSelected ? "true" : "false"}
         class="group relative flex min-w-0 flex-col items-stretch gap-2.5
-               overflow-hidden rounded-lg border p-3 text-left
-               transition-[border-color,background-color,transform] duration-150
-               ${isSelected
-          ? "bg-white/[0.06] -translate-y-px"
-          : "bg-white/[0.02] hover:bg-white/[0.04]"}"
-        style=${`border-color: ${
-          isSelected ? accent : "var(--color-hairline)"
-        }; box-shadow: ${isSelected ? `0 0 24px -8px ${accent}` : "none"};`}
+               overflow-hidden rounded-xl border p-3.5 text-left
+               transition-[border-color,transform] duration-150
+               ${isSelected ? "-translate-y-px" : ""}"
+        style=${`
+          background: linear-gradient(135deg, ${accent}${isSelected ? "38" : "1f"} 0%, rgba(15,23,42,0.92) 100%);
+          border-color: ${isSelected ? accent : `${accent}45`};
+          border-width: ${isSelected ? "2px" : "1px"};
+          box-shadow: ${isSelected ? `0 0 25px ${accent}59, inset 0 1px 0 ${accent}66` : `inset 0 1px 0 ${accent}33`};
+        `}
         @click=${() => this.select(faction)}
       >
         <!-- Ligne de titre : embleme, nom, et l'etiquette de matiere a droite. -->

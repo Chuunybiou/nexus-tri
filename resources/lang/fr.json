@@ -1553,6 +1553,9 @@
     "ready": "STATUT : PRÊT"
   },
   "lobby_deck": {
+    "callsign_label": "INDICATIF DU COMMANDANT (PSEUDO)",
+    "tag_hint": "MAX 5 CARACTÈRES",
+    "tag_label": "TAG D'ESCOUADE",
     "class_subtitle": "CLASSE : STRATÉGIE FRONTALE EN TEMPS RÉEL",
     "identity": "IDENTITÉ DU COMMANDANT & TAG D'ESCOUADE",
     "protocol_title": "PROTOCOLE DE DÉPLOIEMENT TACTIQUE"

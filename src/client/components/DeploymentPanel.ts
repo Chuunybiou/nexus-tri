@@ -10,7 +10,7 @@ import {
   renderDuration,
   translateText,
 } from "../Utils";
-import { factionAccent } from "./FactionEmblem";
+import { factionHex } from "./FactionEmblem";
 
 /** Evenement ecoute par game-mode-selector, qui garde ses verifications. */
 export const DEPLOY_EVENT = "starfall-deploy";
@@ -83,7 +83,7 @@ export class DeploymentPanel extends LitElement {
 
   render() {
     const faction = new UserSettings().selectedFaction();
-    const accent = factionAccent(faction);
+    const accent = factionHex(faction);
     const tag = this.tag();
     const prochain = this.prochain;
     const attente = this.secondes(prochain);

@@ -98,7 +98,6 @@ export class PlayPage extends LitElement {
              in that bar instead. -->
         <div class="hidden lg:flex items-center gap-2 w-full pt-2">
           <command-header class="min-w-0 flex-1"></command-header>
-          <language-toggle></language-toggle>
         </div>
 
         <!-- Top strip: news + identity on the left, Streaming Now on the right. The 2fr/1fr
@@ -161,6 +160,23 @@ export class PlayPage extends LitElement {
                 class="mb-3 text-[11px] uppercase tracking-[0.18em] text-white/40"
               >
                 ${translateText("lobby_deck.identity")}
+              </div>
+              <!-- Les deux intitules, cales sur la largeur des champs qu'ils
+                   annoncent (le tag a gauche, l'indicatif a droite). -->
+              <div
+                class="mb-1 flex items-end gap-2 px-1 text-[10px] uppercase tracking-[0.14em] text-white/45"
+              >
+                <span class="flex w-[7.25rem] shrink-0 items-baseline justify-between gap-1">
+                  <span>${translateText("lobby_deck.tag_label")}</span>
+                  <span
+                    class="text-[9px]"
+                    style="color: var(--color-vanguard)"
+                    >${translateText("lobby_deck.tag_hint")}</span
+                  >
+                </span>
+                <span class="min-w-0 truncate"
+                  >${translateText("lobby_deck.callsign_label")}</span
+                >
               </div>
               <div
                 class="relative flex items-center rounded-xl border border-white/10 bg-black/25 p-1"
