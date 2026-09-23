@@ -730,6 +730,7 @@
     "alliance_request_status": "{name} {status} your alliance request",
     "atom_bomb_detonated": "{name} - atom bomb detonated",
     "trade_suspended_attack": "Trade with {player} is suspended: they attacked you. You can resume it from their panel.",
+    "coeur_pris": "{player} has taken the Heart of the map",
     "chat_message": "{name}: {text}",
     "attack_cancelled_retreat": "Attack cancelled, {troops} soldiers killed during retreat",
     "attack_request": "{name} requests you attack {target}",

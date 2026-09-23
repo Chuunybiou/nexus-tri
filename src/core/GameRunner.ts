@@ -2,6 +2,7 @@ import { placeName, placeSpawnName } from "../client/hud/NameBoxCalculator";
 import { Config } from "./configuration/Config";
 import { AscendantGridExecution } from "./execution/AscendantGridExecution";
 import { AscendantShieldExecution } from "./execution/AscendantShieldExecution";
+import { CoeurExecution } from "./execution/CoeurExecution";
 import { DoomsdayClockExecution } from "./execution/DoomsdayClockExecution";
 import { Executor } from "./execution/ExecutionManager";
 import { RecomputeRailClusterExecution } from "./execution/RecomputeRailClusterExecution";
@@ -156,6 +157,10 @@ export class GameRunner {
     // Ressources de faction : la production suit les villes, et le commerce
     // fait circuler les deux ressources qu'on ne sait pas produire.
     this.game.addExecution(new ResourceProductionExecution());
+    // Le Cœur : des gardiens au centre de la carte, et ce que rapporte le
+    // centre a qui le tient. Sur toutes les cartes (voir CoeurExecution.ts).
+    this.game.addExecution(...this.execManager.gardiensDuCoeur());
+    this.game.addExecution(new CoeurExecution());
     if (this.game.config().doomsdayClockConfig().enabled) {
       this.game.addExecution(new DoomsdayClockExecution());
     }
