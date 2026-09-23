@@ -1058,6 +1058,13 @@ export enum MessageType {
   DONATION_RECEIVED,
   CHAT,
   RENEW_ALLIANCE,
+  /**
+   * Nexus Tri: le commerce vient d'etre coupe automatiquement parce que
+   * l'autre joueur a attaque. La coupure existait deja dans le jeu, mais
+   * rien ne la disait au joueur, qui voyait ses revenus baisser sans savoir
+   * pourquoi ni qu'il pouvait la lever lui-meme.
+   */
+  TRADE_SUSPENDED,
 }
 
 // Message categories used for filtering events in the EventsDisplay
@@ -1092,6 +1099,7 @@ export const MESSAGE_TYPE_CATEGORIES: Record<MessageType, MessageCategory> = {
   [MessageType.RENEW_ALLIANCE]: MessageCategory.ALLIANCE,
   [MessageType.DONATION_SENT]: MessageCategory.TRADE,
   [MessageType.DONATION_RECEIVED]: MessageCategory.TRADE,
+  [MessageType.TRADE_SUSPENDED]: MessageCategory.TRADE,
   [MessageType.CHAT]: MessageCategory.CHAT,
 } as const;
 

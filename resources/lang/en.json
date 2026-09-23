@@ -729,6 +729,7 @@
     "alliance_request_sent": "Alliance request sent to {name}.",
     "alliance_request_status": "{name} {status} your alliance request",
     "atom_bomb_detonated": "{name} - atom bomb detonated",
+    "trade_suspended_attack": "Trade with {player} is suspended: they attacked you. You can resume it from their panel.",
     "attack_cancelled_retreat": "Attack cancelled, {troops} soldiers killed during retreat",
     "attack_request": "{name} requests you attack {target}",
     "betrayal_debuff_ends": "{time} seconds left until betrayal debuff ends",

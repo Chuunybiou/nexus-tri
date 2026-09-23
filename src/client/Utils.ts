@@ -688,6 +688,7 @@ export function getMessageTypeClasses(type: MessageType): string {
     case MessageType.NUKE_INBOUND:
     case MessageType.HYDROGEN_BOMB_INBOUND:
     case MessageType.SAM_MISS:
+    case MessageType.TRADE_SUSPENDED:
     case MessageType.ALLIANCE_EXPIRED:
     case MessageType.NAVAL_INVASION_INBOUND:
     case MessageType.RENEW_ALLIANCE:

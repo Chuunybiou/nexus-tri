@@ -706,6 +706,7 @@
     "alliance_request_sent": "Demande d'alliance envoyée à {name}.",
     "alliance_request_status": "{name} {status} votre demande d'alliance",
     "atom_bomb_detonated": "{name} - Bombe atomique explosée",
+    "trade_suspended_attack": "Le commerce avec {player} est suspendu : il vous a attaqué. Vous pouvez le reprendre depuis sa fiche.",
     "attack_cancelled_retreat": "Attaque annulée, {troops} soldats ont été tués pendant la retraite",
     "attack_request": "{name} vous demande d'attaquer {target}",
     "betrayal_debuff_ends": "{time} secondes restantes jusqu'à la fin du malus de trahison",

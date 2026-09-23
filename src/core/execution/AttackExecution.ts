@@ -101,7 +101,23 @@ export class AttackExecution implements Execution {
         this._owner.type() !== PlayerType.Bot
       ) {
         // Don't let bots embargo since they can't trade anyway.
+        //
+        // Nexus Tri: previenne la victime. La coupure etait deja automatique,
+        // mais silencieuse — on voyait ses revenus baisser sans savoir d'ou
+        // ca venait. Le message n'est envoye que la premiere fois (sinon
+        // chaque vague d'attaque le repeterait), et il rappelle que le joueur
+        // peut relancer le commerce lui-meme depuis la fiche de l'attaquant.
+        const commercaitEncore = !targetPlayer.hasEmbargoAgainst(this._owner);
         targetPlayer.addEmbargo(this._owner, true);
+        if (commercaitEncore && targetPlayer.hasEmbargoAgainst(this._owner)) {
+          this.mg.displayMessage(
+            "events_display.trade_suspended_attack",
+            MessageType.TRADE_SUSPENDED,
+            targetPlayer.id(),
+            undefined,
+            { player: this._owner.displayName() },
+          );
+        }
         this.rejectIncomingAllianceRequests(targetPlayer);
       }
     }
