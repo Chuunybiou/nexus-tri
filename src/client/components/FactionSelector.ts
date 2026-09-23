@@ -56,6 +56,20 @@ export class FactionSelector extends LitElement {
     );
   }
 
+  /**
+   * Ouvre les archives.
+   *
+   * Meme chemin que le bouton d'aide : on revele la page en ligne, puis on
+   * ouvre la fenetre. Le routeur, lui, ne sert qu'aux adresses (#modal=lore).
+   */
+  private openLore() {
+    window.showPage?.("page-lore");
+    const el = document.querySelector("faction-lore-modal") as
+      | (HTMLElement & { open?: () => void })
+      | null;
+    el?.open?.();
+  }
+
   render() {
     const accent = factionAccent(this.selected);
     const doctrine = translateText("faction.doctrine", {
@@ -77,6 +91,15 @@ export class FactionSelector extends LitElement {
             ${translateText("faction.select_title")}
           </span>
           <span class="h-px flex-1 bg-white/10"></span>
+          <!-- Les archives : d'ou viennent les trois factions. Le choix a
+               l'ecran d'accueil se fait sinon sur trois chiffres. -->
+          <button
+            type="button"
+            class="shrink-0 rounded border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white/55 transition-colors hover:border-white/35 hover:text-white/85"
+            @click=${() => this.openLore()}
+          >
+            ${translateText("lore.open")}
+          </button>
           <!-- La doctrine retenue, a droite : on lit son choix sans revenir
                aux cartes. -->
           <span
@@ -89,7 +112,7 @@ export class FactionSelector extends LitElement {
         <div
           class="grid grid-cols-1 gap-3 sm:grid-cols-3"
           role="radiogroup"
-          aria-label=${translateText("faction.select_title")}
+          aria-label=${translateText("faction.title")}
         >
           ${ALL_FACTIONS.map((faction) => this.renderOption(faction))}
         </div>

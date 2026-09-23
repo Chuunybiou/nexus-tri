@@ -1576,6 +1576,22 @@
     "send": "Send",
     "hint": "Press Enter to write to every player"
   },
+  "lore": {
+    "ascendant_origin": "ORIGIN: PRIME GRID NEXUS",
+    "ascendant_status": "STATUS: AWAKENED",
+    "ascendant_subtitle": "CRYSTALLINE ENERGY GRID",
+    "ascendant_text": "Heir to a forgotten stellar civilization, the Ascendants merge pure consciousness with giant crystalline matrices powered by a centralized energy grid network. Their elite units wield nearly impenetrable regenerative energy shields, turning every conquered bastion into an unassailable sanctuary.",
+    "open": "LORE / HISTORY",
+    "swarm_origin": "ORIGIN: UNCHARTED DEEPS",
+    "swarm_status": "STATUS: EXPANDING",
+    "swarm_subtitle": "BIOMECHANICAL HIVE MIND",
+    "swarm_text": "Emerged from the telluric depths of uncharted wild worlds, the Swarm is an evolving organic entity bound by relentless breeding pressure and an unyielding hive consciousness. Capable of instant mutation and frontline saturation through endless biomass streams, they know neither fear nor retreat.",
+    "title": "STARFALL ARCHIVES — FACTION HISTORY",
+    "vanguard_origin": "ORIGIN: SECTOR 01",
+    "vanguard_status": "STATUS: ACTIVE",
+    "vanguard_subtitle": "COLONIAL INDUSTRIAL ALLIANCE",
+    "vanguard_text": "Born from the ashes of outer-rim colonial fleets, the Vanguard represent the resilience of steel and heavy conventional military technology. Backed by stable mining economies and formidable planetary artillery, they compensate for biological inflexibility with sheer firepower and iron discipline."
+  },
   "lobby_deck": {
     "class_subtitle": "CLASS: REAL-TIME FRONT STRATEGY",
     "protocol_title": "TACTICAL DEPLOYMENT PROTOCOL"
@@ -1584,8 +1600,7 @@
     "title": "Faction resources",
     "uranium": "Uranium",
     "biomass": "Biomass",
-    "crystal": "Crystal",
-    "gathered": "Resources gathered"
+    "crystal": "Crystal"
   },
   "player_panel": {
     "active": "Active",

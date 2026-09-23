@@ -396,6 +396,10 @@ class Client {
       pageId: "page-profile",
     });
     modalRouter.register("help", { tag: "help-modal", pageId: "page-help" });
+    modalRouter.register("lore", {
+      tag: "faction-lore-modal",
+      pageId: "page-lore",
+    });
     modalRouter.register("news", { tag: "news-modal", pageId: "page-news" });
     modalRouter.register("language", {
       tag: "language-modal",

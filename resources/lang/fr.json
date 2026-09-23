@@ -1515,6 +1515,22 @@
     "send": "Envoyer",
     "hint": "Appuyez sur Entrée pour écrire à tous les joueurs"
   },
+  "lore": {
+    "ascendant_origin": "ORIGINE : NEXUS DU RÉSEAU PRIME",
+    "ascendant_status": "STATUT : ÉVEILLÉ",
+    "ascendant_subtitle": "RÉSEAU D'ÉNERGIE CRISTALLIN",
+    "ascendant_text": "Héritiers d'une civilisation stellaire oubliée, les Ascendants fusionnent la conscience pure avec des matrices cristallines géantes alimentées par un réseau d'énergie centrale. Leurs unités d'élite possèdent des boucliers régénératifs quasi impénétrables, transformant chaque bastion conquis en un sanctuaire imprenable.",
+    "open": "LORE / HISTOIRE",
+    "swarm_origin": "ORIGINE : PROFONDEURS INEXPLORÉES",
+    "swarm_status": "STATUT : EN EXPANSION",
+    "swarm_subtitle": "CONSCIENCE DE RUCHE BIOMÉCANIQUE",
+    "swarm_text": "Émergée des profondeurs telluriques de mondes sauvages non répertoriés, la Nuée (Swarm) est une entité organique évolutive unie par une pression de reproduction et une conscience collective implacable. Capables de muter instantanément et de saturer le front en un flux incessant de biomasse, ils ne connaissent ni la peur ni le recul.",
+    "title": "ARCHIVES — HISTOIRE DES FACTIONS",
+    "vanguard_origin": "ORIGINE : SECTEUR 01",
+    "vanguard_status": "STATUT : ACTIF",
+    "vanguard_subtitle": "ALLIANCE INDUSTRIELLE COLONIALE",
+    "vanguard_text": "Nés des cendres des anciennes flottes coloniales de l'orion externe, les Vanguard représentent la résilience de l'acier et de la technologie conventionnelle lourde. Dotés d'une économie minière stable et d'artilleries planétaires redoutables, ils compensent leur manque de flexibilité biologique par une puissance de feu brute et une discipline de fer."
+  },
   "lobby_deck": {
     "class_subtitle": "CLASSE : STRATÉGIE FRONTALE EN TEMPS RÉEL",
     "protocol_title": "PROTOCOLE DE DÉPLOIEMENT TACTIQUE"
@@ -1523,8 +1539,7 @@
     "title": "Ressources de faction",
     "uranium": "Uranium",
     "biomass": "Biomasse",
-    "crystal": "Cristal",
-    "gathered": "Ressources réunies"
+    "crystal": "Cristal"
   },
   "player_panel": {
     "active": "Actif",

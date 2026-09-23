@@ -4,6 +4,7 @@ import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
 import { translateText } from "../Utils";
 import "./CosmeticBackground";
+import "./FactionLoreModal";
 import "./FactionSelector";
 import "./LanguageToggle";
 import "./MapCatalog";
