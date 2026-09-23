@@ -1,0 +1,56 @@
+{
+  "id": "AnvilBelt",
+  "name": "Anvil Belt",
+  "translation_key": "map.anvilbelt",
+  "categories": ["cosmic"],
+  "multiplayer_frequency": 3,
+  "team_frequency": 20,
+  "nations": [
+    {
+      "coordinates": [360, 300],
+      "flag": "",
+      "name": "Anvil Station"
+    },
+    {
+      "coordinates": [1640, 1100],
+      "flag": "",
+      "name": "Slagport"
+    },
+    {
+      "coordinates": [300, 980],
+      "flag": "",
+      "name": "Kessler Reach"
+    },
+    {
+      "coordinates": [1700, 420],
+      "flag": "",
+      "name": "Drossfall"
+    },
+    {
+      "coordinates": [700, 640],
+      "flag": "",
+      "name": "Cold Furnace"
+    },
+    {
+      "coordinates": [1300, 760],
+      "flag": "",
+      "name": "Hammerhead"
+    }
+  ],
+  "teamGameSpawnAreas": {
+    "2": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 1000,
+        "height": 1400
+      },
+      {
+        "x": 1000,
+        "y": 0,
+        "width": 1000,
+        "height": 1400
+      }
+    ]
+  }
+}

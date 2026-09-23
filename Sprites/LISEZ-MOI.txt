@@ -1,0 +1,41 @@
+SPRITES DU JEU — copie de travail
+=================================
+
+Tous les fichiers de ce dossier sont des COPIES. Rien n'a ete deplace ni
+supprime dans le jeu : les originaux sont toujours dans resources/.
+Vous pouvez donc modifier ou supprimer ce qu'il y a ici sans rien casser.
+
+explosions-et-unites/  (23)  origine : resources/sprites/
+    Les vraies "sprites" du jeu : bombe atomique, bombe H, MIRV, missile SAM,
+    explosions (batiment, unite, SAM, nucleaire), feu, fumee, poussiere,
+    navire de guerre, navire marchand, transport de troupes, navire qui coule,
+    locomotive et wagons, epee de conquete.
+
+batiments/            (16)  origine : resources/images/buildings/
+    Ville, usine, fort, port, silo a missiles (avec version "reloading",
+    c'est-a-dire en rechargement). Les fichiers "_old" sont les anciens
+    dessins gardes par les developpeurs.
+  variantes/          (23)  origine : .../buildings/Extra/
+    Autres dessins possibles des memes batiments (city1 a city5, fort0 a
+    fort6, port2 a port5, silo2 a silo6...).
+  badges/              (1)  origine : .../buildings/badges/
+
+cartes/              (124)  origine : resources/maps/<nom>/thumbnail.webp
+    La miniature de chaque carte du jeu. Chaque fichier a ete renomme avec le
+    nom de la carte (europe.webp, vietnam.webp, mars.webp...) : dans le jeu
+    elles s'appelaient toutes "thumbnail.webp".
+
+interface/           (142)  origine : resources/images/ et images/extra/
+    Icones et visuels de l'ecran de jeu : alliance, couronne, construction,
+    or, troupes, bateau, destroyer, embargo, plein ecran, fonds d'ecran...
+
+atlas/                 (6)  origine : resources/atlases/
+    Grandes planches qui regroupent plusieurs petites images dans un seul
+    fichier (unites, effets, icones, emojis, statuts). Le jeu decoupe dedans.
+    Pour les voir separement il faut les ouvrir avec le fichier -meta.json
+    correspondant, reste dans resources/atlases/.
+
+NON COPIE VOLONTAIREMENT
+    resources/flags/ : 1023 drapeaux (SVG) de pays et de regions. Ce ne sont
+    pas des sprites de jeu et cela aurait triple la taille du dossier.
+    Dites-le-moi si vous les voulez aussi.
