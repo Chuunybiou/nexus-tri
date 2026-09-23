@@ -14,6 +14,7 @@ import {
   Trios,
   UnitType,
 } from "../core/game/Game";
+import { SERVICES_DE_COMPTE } from "../core/NexusTri";
 import { PseudoRandom } from "../core/PseudoRandom";
 import {
   GameConfig,
@@ -137,7 +138,10 @@ export class MapPlaylist {
 
   public async gameConfig(type: ScheduledPublicGameType): Promise<GameConfig> {
     this.scheduled++;
-    const trusted = this.scheduled % TRUSTED_PUBLIC_EVERY === 0;
+    // Sans service de comptes, personne ne peut etre « de confiance » : une
+    // partie verrouillee n'attendrait donc aucun joueur (voir core/NexusTri.ts).
+    const trusted =
+      SERVICES_DE_COMPTE && this.scheduled % TRUSTED_PUBLIC_EVERY === 0;
     const config = await this.rollConfig(type, trusted);
     if (trusted) {
       config.trusted = true;

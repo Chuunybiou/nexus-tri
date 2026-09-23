@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { SERVICES_DE_COMPTE } from "../../src/core/NexusTri";
 import { GameConfig, GameConfigSchema } from "../../src/core/Schemas";
 import { MapPlaylist } from "../../src/server/MapPlaylist";
 
@@ -11,6 +12,9 @@ vi.mock("../../src/server/MapLandTiles", () => ({
 // rotation, not a roll, so the lobbies on offer are never all locked at once.
 // 7 is coprime with the 3-type scheduling cycle, so the trusted slot rotates
 // across all game types instead of pinning to one.
+// Nexus Tri : tant que SERVICES_DE_COMPTE vaut false, aucune partie publique
+// n'est verrouillee — personne ne pourrait y entrer (voir src/core/NexusTri.ts).
+// Les tests suivent le drapeau plutot que de figer l'un des deux mondes.
 describe("MapPlaylist trusted-only public games", () => {
   it("marks every 7th game trusted-only across all types", async () => {
     const playlist = new MapPlaylist();
@@ -21,19 +25,20 @@ describe("MapPlaylist trusted-only public games", () => {
       expect(GameConfigSchema.safeParse(config).success).toBe(true);
       trusted.push(config.trusted === true);
     }
-    expect(trusted).toEqual([
-      ...Array(6).fill(false),
-      true,
-      ...Array(6).fill(false),
-      true,
-    ]);
+    expect(trusted).toEqual(
+      SERVICES_DE_COMPTE
+        ? [...Array(6).fill(false), true, ...Array(6).fill(false), true]
+        : Array(14).fill(false),
+    );
   });
 
   it("counts per playlist instance, starting open", async () => {
     const a = new MapPlaylist();
     const b = new MapPlaylist();
     for (let i = 0; i < 6; i++) await a.gameConfig("ffa");
-    expect((await a.gameConfig("ffa")).trusted).toBe(true);
+    expect((await a.gameConfig("ffa")).trusted).toBe(
+      SERVICES_DE_COMPTE ? true : undefined,
+    );
     // b has its own counter: its first game is open.
     expect((await b.gameConfig("ffa")).trusted).toBeUndefined();
   });
@@ -53,7 +58,9 @@ describe("MapPlaylist trusted-only public games", () => {
     }
     // The rotation is coprime with the 3-type cycle, so over 21 games the
     // trusted slot hits every type once — exercising all three cap paths.
-    expect(trustedTypes.sort()).toEqual(["ffa", "special", "team"]);
+    expect(trustedTypes.sort()).toEqual(
+      SERVICES_DE_COMPTE ? ["ffa", "special", "team"] : [],
+    );
   });
 
   it("never rolls the crowded modifier for trusted special games", async () => {
@@ -76,7 +83,9 @@ describe("MapPlaylist trusted-only public games", () => {
       expect((await playlist.gameConfig("ffa")).trusted).toBeUndefined();
       randomSpy.mockReturnValue(0.9);
       for (let i = 0; i < 5; i++) await playlist.gameConfig("team");
-      expect((await playlist.gameConfig("special")).trusted).toBe(true);
+      expect((await playlist.gameConfig("special")).trusted).toBe(
+        SERVICES_DE_COMPTE ? true : undefined,
+      );
     } finally {
       randomSpy.mockRestore();
     }
