@@ -1607,6 +1607,8 @@
     "waiting": "WAITING"
   },
   "status_bar": {
+    "tab_lobby": "LOBBY",
+    "tab_lore": "LORE / HISTORY",
     "offline": "OFFLINE",
     "ready": "STATUS: READY"
   },

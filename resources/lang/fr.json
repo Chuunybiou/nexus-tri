@@ -1546,6 +1546,8 @@
     "waiting": "EN ATTENTE"
   },
   "status_bar": {
+    "tab_lobby": "LOBBY",
+    "tab_lore": "LORE / HISTOIRE",
     "offline": "HORS LIGNE",
     "ready": "STATUT : PRÊT"
   },

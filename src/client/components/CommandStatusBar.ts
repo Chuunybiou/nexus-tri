@@ -18,7 +18,10 @@ const PING_INTERVAL_MS = 30_000;
 export class CommandStatusBar extends LitElement {
   @state() private pingMs: number | null = null;
   @state() private joueur = "";
+  /** Onglet en cours : l'accueil, ou les archives. */
+  @state() private ongletLore = false;
   private timer: ReturnType<typeof setInterval> | null = null;
+  private observateur: MutationObserver | null = null;
 
   createRenderRoot() {
     return this;
@@ -29,12 +32,36 @@ export class CommandStatusBar extends LitElement {
     this.lireJoueur();
     void this.mesurer();
     this.timer = setInterval(() => void this.mesurer(), PING_INTERVAL_MS);
+    this.suivrePageLore();
+  }
+
+  /**
+   * L'onglet actif suit la page, pas le dernier clic.
+   *
+   * Fermer les archives par leur croix ne passe pas par nos boutons : sans
+   * cette observation, l'onglet resterait allume sur une page fermee. On
+   * regarde donc l'attribut « class » de la page, qui porte « hidden ».
+   */
+  private suivrePageLore() {
+    const page = document.getElementById("page-lore");
+    if (page === null) return;
+    const relire = () => {
+      this.ongletLore = !page.classList.contains("hidden");
+    };
+    relire();
+    this.observateur = new MutationObserver(relire);
+    this.observateur.observe(page, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     if (this.timer !== null) clearInterval(this.timer);
     this.timer = null;
+    this.observateur?.disconnect();
+    this.observateur = null;
   }
 
   private lireJoueur() {
@@ -60,6 +87,35 @@ export class CommandStatusBar extends LitElement {
     this.lireJoueur();
   }
 
+  /** Un onglet : LOBBY revient a l'accueil, LORE ouvre les archives. */
+  private renderOnglet(lore: boolean, libelle: string) {
+    const actif = this.ongletLore === lore;
+    return html`
+      <button
+        type="button"
+        class="rounded-lg border px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] transition-colors ${actif
+          ? "border-white/35 bg-white/10 text-white"
+          : "border-transparent text-white/40 hover:text-white/75"}"
+        aria-pressed=${actif ? "true" : "false"}
+        @click=${() => this.ouvrir(lore)}
+      >
+        ${libelle}
+      </button>
+    `;
+  }
+
+  private ouvrir(lore: boolean) {
+    if (lore) {
+      window.showPage?.("page-lore");
+      const el = document.querySelector("faction-lore-modal") as
+        | (HTMLElement & { open?: () => void })
+        | null;
+      el?.open?.();
+    } else {
+      window.showPage?.("page-play");
+    }
+  }
+
   render() {
     const version = ClientEnv.gitCommit();
     return html`
@@ -82,6 +138,11 @@ export class CommandStatusBar extends LitElement {
                 >${version.slice(0, 12)}</span
               >`
             : nothing}
+        </div>
+
+        <div class="flex shrink-0 items-center gap-1">
+          ${this.renderOnglet(false, translateText("status_bar.tab_lobby"))}
+          ${this.renderOnglet(true, translateText("status_bar.tab_lore"))}
         </div>
 
         <div class="flex shrink-0 items-center gap-3 text-[10px]">
