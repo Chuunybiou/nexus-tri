@@ -81,6 +81,29 @@ export class WorkerClient {
     return new Promise((resolve, reject) => {
       const messageId = generateID();
 
+      // Un fil de calcul qui meurt au chargement (import manquant, erreur au
+      // niveau du module) ne repond simplement jamais : sans cette ecoute, on
+      // attend soixante secondes pour un « timeout » qui cache la vraie
+      // erreur. Elle est deja ecrite dans la console du navigateur, mais le
+      // joueur, lui, ne la voit pas.
+      worker.addEventListener("error", (event) => {
+        const where = event.filename
+          ? ` (${event.filename}:${event.lineno})`
+          : "";
+        reject(
+          new Error(
+            `Le moteur du jeu n'a pas pu demarrer : ${event.message}${where}`,
+          ),
+        );
+      });
+      worker.addEventListener("messageerror", () => {
+        reject(
+          new Error(
+            "Le moteur du jeu n'a pas pu lire les donnees de la partie.",
+          ),
+        );
+      });
+
       this.messageHandlers.set(messageId, (message) => {
         if (message.type === "initialized") {
           this.isInitialized = true;
