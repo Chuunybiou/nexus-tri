@@ -32,6 +32,13 @@ export class WorkerClient {
   private gameUpdateCallback?: (
     update: GameUpdateViewData | ErrorUpdate,
   ) => void;
+  /**
+   * Derniere etape franchie par la preparation de la partie.
+   *
+   * Sert au message d'attente : « bloque a l'etape carte » se diagnostique,
+   * « delai depasse » ne se diagnostique pas.
+   */
+  private derniereEtape = "aucune";
 
   constructor(
     private gameStartInfo: GameStartInfo,
@@ -60,6 +67,12 @@ export class WorkerClient {
         if (this.gameUpdateCallback && message.error) {
           this.gameUpdateCallback(message.error);
         }
+        break;
+
+      // Traite a part : plusieurs etapes arrivent pour un meme identifiant, et
+      // le gestionnaire ci-dessous est retire des qu'il a servi une fois.
+      case "init_step":
+        this.derniereEtape = message.step;
         break;
 
       case "initialized":
@@ -128,7 +141,11 @@ export class WorkerClient {
       setTimeout(() => {
         if (!this.isInitialized) {
           this.messageHandlers.delete(messageId);
-          reject(new Error("Worker initialization timeout"));
+          reject(
+            new Error(
+              `Le moteur du jeu ne repond plus (bloque a l'etape : ${this.derniereEtape}).`,
+            ),
+          );
         }
       }, 60000);
     });

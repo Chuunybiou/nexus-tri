@@ -78,6 +78,20 @@ describe("demarrage d'une partie (chemin du navigateur)", () => {
     expect(runner).toBeDefined();
   }, 120_000);
 
+  test("les etapes sont annoncees dans l'ordre", async () => {
+    const etapes: string[] = [];
+    await createGameRunner(
+      startInfo(),
+      "8Tq5BPLB",
+      mapLoader,
+      () => {},
+      (e) => etapes.push(e),
+    );
+    // C'est cette liste qui permet de dire OU ca bloque quand le moteur se
+    // fige dans le navigateur.
+    expect(etapes).toEqual(["config", "carte", "joueurs", "partie", "prete"]);
+  }, 120_000);
+
   test("une partie avec des tribus achetees se prepare aussi", async () => {
     const info = startInfo();
     // Les parties publiques portent parfois des noms de tribus achetees ;

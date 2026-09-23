@@ -14,6 +14,7 @@ export type WorkerMessageType =
   | "init"
   | "initialized"
   | "init_error"
+  | "init_step"
   | "turn"
   | "game_update"
   | "game_update_batch"
@@ -66,6 +67,12 @@ export interface InitializedMessage extends BaseWorkerMessage {
 export interface InitErrorMessage extends BaseWorkerMessage {
   type: "init_error";
   message: string;
+}
+
+/** Etape atteinte pendant la preparation (voir GameRunner.EtapeDemarrage). */
+export interface InitStepMessage extends BaseWorkerMessage {
+  type: "init_step";
+  step: string;
 }
 
 export interface GameUpdateMessage extends BaseWorkerMessage {
@@ -166,6 +173,7 @@ export type MainThreadMessage =
 export type WorkerMessage =
   | InitializedMessage
   | InitErrorMessage
+  | InitStepMessage
   | GameUpdateMessage
   | GameUpdateBatchMessage
   | GameErrorMessage

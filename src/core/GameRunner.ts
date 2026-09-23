@@ -5,8 +5,8 @@ import { AscendantShieldExecution } from "./execution/AscendantShieldExecution";
 import { DoomsdayClockExecution } from "./execution/DoomsdayClockExecution";
 import { Executor } from "./execution/ExecutionManager";
 import { RecomputeRailClusterExecution } from "./execution/RecomputeRailClusterExecution";
-import { SpawnTimerExecution } from "./execution/SpawnTimerExecution";
 import { ResourceProductionExecution } from "./execution/ResourceProductionExecution";
+import { SpawnTimerExecution } from "./execution/SpawnTimerExecution";
 import { SwarmDecayExecution } from "./execution/SwarmDecayExecution";
 import { WinCheckExecution } from "./execution/WinCheckExecution";
 import { DEFAULT_FACTION } from "./game/Factions";
@@ -37,19 +37,37 @@ import { PseudoRandom } from "./PseudoRandom";
 import { ClientID, GameStartInfo, Turn } from "./Schemas";
 import { simpleHash } from "./Util";
 
+/**
+ * Etapes de la preparation d'une partie.
+ *
+ * Elles sont annoncees au fur et a mesure pour qu'un blocage soit localisable :
+ * quand le fil de calcul se fige, le joueur n'a qu'un « delai depasse » qui ne
+ * dit pas OU ca s'est arrete, et cote serveur on ne voit rien du tout.
+ */
+export type EtapeDemarrage =
+  | "config"
+  | "carte"
+  | "joueurs"
+  | "partie"
+  | "prete";
+
 export async function createGameRunner(
   gameStart: GameStartInfo,
   clientID: ClientID | undefined,
   mapLoader: GameMapLoader,
   callBack: (gu: GameUpdateViewData | ErrorUpdate) => void,
+  onEtape: (etape: EtapeDemarrage) => void = () => {},
 ): Promise<GameRunner> {
+  onEtape("config");
   const config = new Config(gameStart.config, null, false, gameStart.listed);
+  onEtape("carte");
   const gameMap = await loadGameMap(
     gameStart.config.gameMap,
     gameStart.config.gameMapSize,
     mapLoader,
     false, // Worker never renders layers — skip image loading to save memory.
   );
+  onEtape("joueurs");
   const random = new PseudoRandom(simpleHash(gameStart.gameID));
 
   const humans = gameStart.players.map((p) => {
@@ -75,6 +93,7 @@ export async function createGameRunner(
     random,
   );
 
+  onEtape("partie");
   const game: Game = createGame(
     humans,
     nations,
@@ -95,6 +114,7 @@ export async function createGameRunner(
     callBack,
   );
   gr.init();
+  onEtape("prete");
   return gr;
 }
 

@@ -6,6 +6,7 @@ import {
   AttackClusteredPositionsResultMessage,
   InitErrorMessage,
   InitializedMessage,
+  InitStepMessage,
   MainThreadMessage,
   PlayerActionsResultMessage,
   PlayerBorderTilesResultMessage,
@@ -152,6 +153,12 @@ ctx.addEventListener("message", async (e: MessageEvent<MainThreadMessage>) => {
           message.clientID,
           mapLoader,
           gameUpdate,
+          (etape) =>
+            sendMessage({
+              type: "init_step",
+              id: message.id,
+              step: etape,
+            } as InitStepMessage),
         )
           .then((gr) => {
             sendMessage({
