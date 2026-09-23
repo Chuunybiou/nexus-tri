@@ -42,6 +42,18 @@ const RAYON_PAR_MILLE = 90;
 const PRIME_PAR_SECONDE = 2;
 
 /**
+ * Troupes donnees une fois a chaque gardien.
+ *
+ * Sans ca, un gardien ressemble a n'importe quel robot et l'anneau ne se voit
+ * pas : c'est pourtant tout l'interet du Cœur, qu'on le reconnaisse au premier
+ * coup d'oeil et qu'il faille s'organiser pour le prendre.
+ */
+const TROUPES_GARDIEN = 3000;
+
+/** Le nom qui identifie un gardien, aussi bien a l'ecran que dans le code. */
+export const PREFIXE_GARDIEN = "Gardien";
+
+/**
  * Les six directions du cercle, en millièmes, calculees a la main.
  *
  * Surtout pas de Math.cos / Math.sin : ces fonctions ne rendent pas le meme
@@ -113,7 +125,7 @@ export function gardiensDuCoeur(mg: Game, gameID: GameID): SpawnExecution[] {
       new SpawnExecution(
         gameID,
         new PlayerInfo(
-          `Gardien ${i + 1}`,
+          `${PREFIXE_GARDIEN} ${i + 1}`,
           PlayerType.Bot,
           null,
           random.nextID(),
@@ -157,9 +169,26 @@ export class CoeurExecution implements Execution {
   private centre: TileRef | null = null;
   private proprietaire: Player | null = null;
 
+  private renforcesFaits = false;
+
   init(mg: Game, _ticks: number): void {
     this.mg = mg;
     this.centre = tileDuCoeur(mg);
+  }
+
+  /**
+   * Un seul renfort, a la premiere seconde de jeu : les gardiens sont poses
+   * pendant la phase de depart, donc ils n'existent pas encore au moment ou
+   * cette execution est creee.
+   */
+  private renforcer(mg: Game): void {
+    if (this.renforcesFaits) return;
+    this.renforcesFaits = true;
+    for (const joueur of mg.players()) {
+      if (joueur.name().startsWith(PREFIXE_GARDIEN)) {
+        joueur.addTroops(TROUPES_GARDIEN);
+      }
+    }
   }
 
   tick(ticks: number): void {
@@ -167,6 +196,7 @@ export class CoeurExecution implements Execution {
     const mg = this.mg;
     const centre = this.centre;
     if (mg === null || centre === null) return;
+    this.renforcer(mg);
 
     const owner = mg.owner(centre);
     if (!owner.isPlayer()) {
