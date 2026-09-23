@@ -9,6 +9,7 @@ import { RecomputeRailClusterExecution } from "./execution/RecomputeRailClusterE
 import { ResourceProductionExecution } from "./execution/ResourceProductionExecution";
 import { SpawnTimerExecution } from "./execution/SpawnTimerExecution";
 import { SwarmDecayExecution } from "./execution/SwarmDecayExecution";
+import { SwarmExpansionExecution } from "./execution/SwarmExpansionExecution";
 import { WinCheckExecution } from "./execution/WinCheckExecution";
 import { DEFAULT_FACTION } from "./game/Factions";
 import {
@@ -152,6 +153,7 @@ export class GameRunner {
     // other two factions, so they cost one enum comparison per tick in a
     // game where nobody picked them.
     this.game.addExecution(new SwarmDecayExecution());
+    this.game.addExecution(new SwarmExpansionExecution());
     this.game.addExecution(new AscendantGridExecution());
     this.game.addExecution(new AscendantShieldExecution());
     // Ressources de faction : la production suit les villes, et le commerce
