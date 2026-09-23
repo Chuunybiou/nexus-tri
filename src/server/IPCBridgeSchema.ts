@@ -58,7 +58,7 @@ const WorkerReadySchema = z.object({
   workerId: z.number(),
 });
 
-// Nexus Tri : resultat d'une partie entre humains (voir nexus/Resultats.ts).
+// Starfall : resultat d'une partie entre humains (voir nexus/Resultats.ts).
 // Le worker joue la partie, mais seul le processus principal ecrit les
 // fichiers de comptes. On ne transmet que des identifiants d'appareil, jamais
 // de pseudonyme ni d'adresse e-mail.

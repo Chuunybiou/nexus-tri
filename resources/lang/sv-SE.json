@@ -9,7 +9,7 @@
     "close": "Stäng"
   },
   "main": {
-    "title": "Nexus Tri (ALPHA)",
+    "title": "STARFALL.IO (ALPHA)",
     "join_discord": "Gå med i Discord!",
     "login_discord": "Logga in med Discord",
     "checking_login": "Kontrollerar inloggning...",
@@ -569,8 +569,8 @@
       "cursor": "Muspekare",
       "hand": "Hand",
       "radiation": "Radioaktivitet",
-      "openfront_qr": "Nexus Tri QR kod",
-      "openfront": "Nexus Tri",
+      "openfront_qr": "Starfall QR kod",
+      "openfront": "Starfall",
       "t_rex": "T-Rex",
       "embelem": "Emblem",
       "grogu_head": "Grogu Huvud",

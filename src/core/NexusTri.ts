@@ -1,4 +1,4 @@
-// Nexus Tri est une version modifiee d'OpenFront. Le service en ligne d'OpenFront
+// Starfall est une version modifiee d'OpenFront. Le service en ligne d'OpenFront
 // (comptes, boutique, inventaire, classement, clans, cosmetiques, Steam, actualites)
 // est ferme : il ne fait pas partie du code libre et n'a pas d'equivalent ici.
 //

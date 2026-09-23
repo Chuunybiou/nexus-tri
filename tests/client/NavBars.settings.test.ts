@@ -102,7 +102,7 @@ describe("the nav bars that host the cluster", () => {
     window.currentPageId = "page-play";
   });
 
-  // Nexus Tri n'a pas de comptes : le controle de profil est masque tant que
+  // Starfall n'a pas de comptes : le controle de profil est masque tant que
   // SERVICES_DE_COMPTE vaut false (voir src/client/NexusTri.ts). Le test suit le
   // drapeau, pour rester juste dans les deux cas.
   const profil = (cluster: Element) =>

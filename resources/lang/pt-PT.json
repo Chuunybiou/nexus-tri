@@ -9,7 +9,7 @@
     "close": "Fechar"
   },
   "main": {
-    "title": "Nexus Tri (ALPHA)",
+    "title": "STARFALL.IO (ALPHA)",
     "join_discord": "Junte-se no Discord!",
     "login_discord": "Inicie a sessão com Discord",
     "checking_login": "A verificar a sessão...",
@@ -580,8 +580,8 @@
       "cursor": "Cursor",
       "hand": "Mãos",
       "radiation": "Radiação",
-      "openfront_qr": "Nexus Tri Código QR",
-      "openfront": "Nexus Tri",
+      "openfront_qr": "Starfall Código QR",
+      "openfront": "Starfall",
       "t_rex": "T-Rex",
       "embelem": "Emblema",
       "contributor": "Contribuidor",

@@ -568,7 +568,7 @@ export const SafeString = z
   .max(1000);
 
 /**
- * Texte d'un message de joueur (chat libre de Nexus Tri).
+ * Texte d'un message de joueur (chat libre de Starfall).
  *
  * SafeString, utilise ailleurs, refuse les accents : « ça va ? » serait
  * rejete, et tout le vietnamien avec. On accepte donc n'importe quel texte
@@ -814,7 +814,7 @@ export const IntentSchema = z.discriminatedUnion("type", [
   TogglePauseIntentSchema,
   UpdateGameConfigIntentSchema,
   ToggleGameStartTimerIntentSchema,
-  // Ajout Nexus Tri, toujours en dernier : le fil binaire encode le type par
+  // Ajout Starfall, toujours en dernier : le fil binaire encode le type par
   // son rang dans cette liste, une insertion au milieu decalerait tout.
   ChatIntentSchema,
 ]);

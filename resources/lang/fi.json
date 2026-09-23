@@ -9,7 +9,7 @@
     "close": "Sulje"
   },
   "main": {
-    "title": "Nexus Tri (ALPHA)",
+    "title": "STARFALL.IO (ALPHA)",
     "join_discord": "Liity Discordiin!",
     "login_discord": "Kirjaudu sisään Discordilla",
     "checking_login": "Tarkistetaan sisäänkirjautumista...",
@@ -461,8 +461,8 @@
     "not_enough_money": "Ei tarpeeksi rahaa"
   },
   "win_modal": {
-    "support_openfront": "Tue Nexus Triia!",
-    "territory_pattern": "Osta aluekuvio tukeaksesi Nexus Triia!",
+    "support_openfront": "Tue Starfallia!",
+    "territory_pattern": "Osta aluekuvio tukeaksesi Starfallia!",
     "died": "Sinä kuolit",
     "your_team": "Joukkueesi voitti!",
     "other_team": "{team} joukkue on voittanut!",
@@ -618,8 +618,8 @@
       "cursor": "Kursori",
       "hand": "Käsi",
       "radiation": "Säteily",
-      "openfront_qr": "Nexus Tri:n QR-koodi",
-      "openfront": "Nexus Tri",
+      "openfront_qr": "Starfall:n QR-koodi",
+      "openfront": "Starfall",
       "t_rex": "T-Rex",
       "embelem": "Tunnus",
       "contributor": "Avustaja",

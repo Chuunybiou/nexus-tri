@@ -67,7 +67,7 @@ export class PlayPage extends LitElement {
             >
               <img
                 src=${assetUrl("images/NexusTriLogo.svg")}
-                alt="Nexus Tri"
+                alt="Starfall"
                 class="h-full w-auto"
               />
             </div>

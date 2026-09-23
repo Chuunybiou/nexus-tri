@@ -1,5 +1,5 @@
 /**
- * Resultats de partie -> comptes Nexus Tri.
+ * Resultats de partie -> comptes Starfall.
  *
  * Regle voulue : le classement ne compte QUE les parties entre humains. Les
  * parties contre des robots ne rapportent rien, sinon il suffirait de gagner

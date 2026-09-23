@@ -130,7 +130,7 @@ export class CommandStatusBar extends LitElement {
           ></span>
           <span
             class="truncate text-[11px] font-bold uppercase tracking-[0.18em] text-white/70"
-            >Nexus Tri</span
+            >STARFALL.IO</span
           >
           ${version
             ? html`<span

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { PartialGameRecord } from "../../src/core/Schemas";
 import { messageDePartie } from "../../src/server/nexus/Resultats";
 
-// Regle Nexus Tri : le classement ne compte QUE les parties entre humains.
+// Regle Starfall : le classement ne compte QUE les parties entre humains.
 
 function partie(
   joueurs: { clientID: string; persistentID: string }[],
@@ -13,7 +13,7 @@ function partie(
   } as unknown as PartialGameRecord;
 }
 
-describe("resultats Nexus Tri", () => {
+describe("resultats Starfall", () => {
   it("ignore une partie a un seul humain (solo ou contre des robots)", () => {
     expect(
       messageDePartie(partie([{ clientID: "c1", persistentID: "p1" }])),

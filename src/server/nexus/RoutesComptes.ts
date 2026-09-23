@@ -1,5 +1,5 @@
 /**
- * Adresses des comptes Nexus Tri, montees sur le serveur principal.
+ * Adresses des comptes Starfall, montees sur le serveur principal.
  *
  * Rien ici n'est obligatoire pour jouer : sans compte, le jeu fonctionne
  * exactement pareil. Le compte ajoute le pseudonyme reserve, l'historique et

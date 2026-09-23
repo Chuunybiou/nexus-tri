@@ -32,7 +32,7 @@ async function mount<T extends LitElement>(element: T): Promise<T> {
 
 afterEach(() => document.body.replaceChildren());
 
-// L'inventaire vient du service ferme d'OpenFront : Nexus Tri le masque tant que
+// L'inventaire vient du service ferme d'OpenFront : Starfall le masque tant que
 // SERVICES_DE_COMPTE est false (voir src/client/NexusTri.ts). Les tests qui le
 // manipulent n'ont alors plus d'objet.
 const siComptes = it.skipIf(!SERVICES_DE_COMPTE);

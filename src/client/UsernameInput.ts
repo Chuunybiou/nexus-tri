@@ -569,7 +569,7 @@ export class UsernameInput extends LitElement {
       this.clanCheck = Promise.resolve(tag);
       return;
     }
-    // Nexus Tri : sans service de comptes, un tag n'appartient a personne —
+    // Starfall : sans service de comptes, un tag n'appartient a personne —
     // chacun ecrit le sien, c'est une decoration. La verification de propriete
     // taperait dans le service ferme (absent), echouerait, et refuserait tous
     // les tags. Le serveur de jeu, lui, continue de filtrer les grossieretes.

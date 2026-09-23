@@ -148,7 +148,7 @@ app.use("/api", (_req, res, next) => {
   next();
 });
 
-// Comptes Nexus Tri (pseudonyme, historique, classement). Jamais obligatoires :
+// Comptes Starfall (pseudonyme, historique, classement). Jamais obligatoires :
 // tout le jeu reste accessible sans compte (voir core/NexusTri.ts).
 app.use("/api", routesComptes());
 

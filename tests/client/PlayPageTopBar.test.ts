@@ -57,7 +57,7 @@ describe("play-page mobile top bar", () => {
     beforeEach(mount);
 
     it("puts the bell/help icons beside the profile menu", () => {
-      // Nexus Tri masque le controle de profil tant que SERVICES_DE_COMPTE est
+      // Starfall masque le controle de profil tant que SERVICES_DE_COMPTE est
       // false (pas de comptes sans le service ferme) : le test suit le drapeau.
       expect(rightSlot()).toEqual(
         SERVICES_DE_COMPTE

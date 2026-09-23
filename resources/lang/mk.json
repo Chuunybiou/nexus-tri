@@ -9,7 +9,7 @@
     "close": "Затвори"
   },
   "main": {
-    "title": "Nexus Tri (АЛФА)",
+    "title": "Starfall (АЛФА)",
     "join_discord": "Приклучи се на Discord!",
     "login_discord": "Најави се со Discord",
     "checking_login": "Проверка на најава...",
@@ -461,8 +461,8 @@
     "not_enough_money": "Нема доволно пари"
   },
   "win_modal": {
-    "support_openfront": "Поддржи го Nexus Tri!",
-    "territory_pattern": "Купи шаблон за територија за да го поддржиш Nexus Tri!",
+    "support_openfront": "Поддржи го Starfall!",
+    "territory_pattern": "Купи шаблон за територија за да го поддржиш Starfall!",
     "died": "Умре",
     "your_team": "Твојот тим победи!",
     "other_team": "Тимот {team} победи!",
@@ -618,8 +618,8 @@
       "cursor": "Курсор",
       "hand": "Рака",
       "radiation": "Зрачење",
-      "openfront_qr": "Nexus Tri QR код",
-      "openfront": "Nexus Tri",
+      "openfront_qr": "Starfall QR код",
+      "openfront": "Starfall",
       "t_rex": "Т-Рекс",
       "embelem": "Амблем",
       "contributor": "Придонесувач",

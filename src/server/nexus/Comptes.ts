@@ -1,5 +1,5 @@
 /**
- * Comptes Nexus Tri : pseudonyme + mot de passe, chez nous.
+ * Comptes Starfall : pseudonyme + mot de passe, chez nous.
  *
  * Regle du projet : un compte AJOUTE (pseudonyme reserve, historique,
  * classement) et ne retire jamais rien. Tout reste jouable sans compte.

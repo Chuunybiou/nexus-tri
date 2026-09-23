@@ -60,7 +60,7 @@ export class DesktopNavBar extends LitElement {
             <img
               class="block h-full aspect-[1364/259]"
               src=${assetUrl("images/NexusTriLogo.svg")}
-              alt="Nexus Tri"
+              alt="Starfall"
             />
           </div>
           <div

@@ -498,8 +498,8 @@
     "spectating": "Наблюдает"
   },
   "desktop_session": {
-    "generic": "Не удалось войти в ваш аккаунт Nexus Tri",
-    "network": "Невозможно связаться с Nexus Tri. Проверьте подключение.",
+    "generic": "Не удалось войти в ваш аккаунт Starfall",
+    "network": "Невозможно связаться с Starfall. Проверьте подключение.",
     "retry": "Повторить попытку",
     "retrying": "Выполняется вход…",
     "steam_backend": "У Steam возникли проблемы с вашим входом. Попробуйте позже.",
@@ -825,7 +825,7 @@
     "preset_colorblind_desc": "Цвета территорий и границ, адаптированные для дальтоников",
     "preset_custom": "Пользовательский",
     "preset_default": "Стандартный",
-    "preset_default_desc": "Стандартный вид Nexus Tri",
+    "preset_default_desc": "Стандартный вид Starfall",
     "preset_delete_confirm": "Удалить шаблон «{name}»?",
     "preset_evans_pick": "Выбор Эвана",
     "preset_evans_pick_desc": "Настройки, с какими игрет Эван",
@@ -943,7 +943,7 @@
     "radial_title": "Круговое меню",
     "table_action": "Действие",
     "table_key": "Клавиша",
-    "troubleshooting_desc": "Если вы испытываете проблемы с производительностью, сбои или другие проблемы во время игры в Nexus Tri, перейдите на страницу устранения неполадок для диагностики и устранения распространённых проблем:",
+    "troubleshooting_desc": "Если вы испытываете проблемы с производительностью, сбои или другие проблемы во время игры в Starfall, перейдите на страницу устранения неполадок для диагностики и устранения распространённых проблем:",
     "ui_attack_ratio": "Соотношение атаки — Количество войск, которое будет использовано при атаке. Вы можете настроить соотношение атаки с помощью ползунка. Имея больше войск атаки, чем войск защиты, вы уменьшите потери во время атаки, а меньше — увеличите потери, наносимые вашим атакующим войскам. Эффект не превышает соотношения 2:1.",
     "ui_control": "Панель управления",
     "ui_control_desc": "Панель управления содержит следующие элементы:",
@@ -963,7 +963,7 @@
     "ui_wilderness": "Пустошь",
     "ui_your_team": "Ваша команда:",
     "video_tutorial": "Видеоинструкция",
-    "video_tutorial_title": "Руководство Nexus Tri"
+    "video_tutorial_title": "Руководство Starfall"
   },
   "host_modal": {
     "anonymous_players": "Анонимные игроки",
@@ -1035,14 +1035,14 @@
     "got_it": "Понятно",
     "how": "Как",
     "later": "Позже",
-    "modal_desc": "Ваш браузер не поддерживает полноэкранный режим, но вы можете добавить Nexus Tri на домашний экран для погруженного опыта:",
+    "modal_desc": "Ваш браузер не поддерживает полноэкранный режим, но вы можете добавить Starfall на домашний экран для погруженного опыта:",
     "modal_title": "Полноэкранный режим на iOS",
     "never": "Никогда",
     "step_add_to_home_label": "Добавь на главный экран",
     "step_open": "Откройте с домашнего экрана — игра запуститься в полноэкранном режиме без адресной строки",
     "step_scroll_and_tap": "Прокрутите вниз и нажмите",
     "step_share": "Нажмите кнопку «Поделиться» в вашем браузере",
-    "text": "Для полноэкранного режима добавьте Nexus Tri на домашний экран"
+    "text": "Для полноэкранного режима добавьте Starfall на домашний экран"
   },
   "kick_reason": {
     "admin": "Выгнан администратором",
@@ -1134,7 +1134,7 @@
     "solo": "Соло",
     "store": "Магазин",
     "terms_of_service": "Условия предоставления услуг",
-    "title": "Nexus Tri (АЛЬФА)",
+    "title": "Starfall (АЛЬФА)",
     "troubleshooting": "Устранение неполадок",
     "user_avatar_alt": "Аватар {username}",
     "wiki": "Вики",
@@ -1300,7 +1300,7 @@
     "dismiss": "Отклонить",
     "error": "Не удалось сохранить. Попробуйте ещё раз.",
     "no": "Нет, спасибо",
-    "title": "Хотите быть в курсе новостей Nexus Tri?",
+    "title": "Хотите быть в курсе новостей Starfall?",
     "yes": "Да, пожалуйста"
   },
   "matchmaking_modal": {
@@ -1360,7 +1360,7 @@
   },
   "news_box": {
     "dismiss": "Отклонить",
-    "firefox_warning": "Nexus Tri плохо работает с [браузерами, основанными на Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Мы рекомендуем использовать [браузеры, основанные на Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) для лучшей производительности.",
+    "firefox_warning": "Starfall плохо работает с [браузерами, основанными на Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Мы рекомендуем использовать [браузеры, основанные на Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) для лучшей производительности.",
     "go_to_item": "Перейти к пункту {num}",
     "news": "НОВОСТИ",
     "tournament": "ТУРНИР",
@@ -1591,9 +1591,9 @@
     "waiting_for_players": "Ожидание игроков"
   },
   "purchase_nudge": {
-    "body": "Похоже, вам нравится играть в Nexus Tri! Пожалуйста, поддержите нас, сделав покупку — любая покупка пожизненно избавит вас от рекламы.",
+    "body": "Похоже, вам нравится играть в Starfall! Пожалуйста, поддержите нас, сделав покупку — любая покупка пожизненно избавит вас от рекламы.",
     "close": "Закрыть",
-    "title": "Нравится Nexus Tri?",
+    "title": "Нравится Starfall?",
     "visit_store": "Посетить магазин"
   },
   "radial_menu": {
@@ -1656,7 +1656,7 @@
     "reason_expired": "Срок действия этой ссылки истёк. Попробуйте ещё раз через Steam.",
     "reason_rate_limited": "Слишком много попыток. Подождите {seconds, plural, =0 {несколько секунд} one {# секунду} few {# секунды} many {# секунд} other {# секунд}} и попробуйте ещё раз.",
     "reason_steam_has_progress": "Этот аккаунт Steam уже имеет собственный прогресс и не может быть объединён.",
-    "reason_steam_linked_elsewhere": "Этот аккаунт Steam уже привязан к другому аккаунту Nexus Tri.",
+    "reason_steam_linked_elsewhere": "Этот аккаунт Steam уже привязан к другому аккаунту Starfall.",
     "success": "Ваш аккаунт Steam привязан.",
     "title": "Привязать аккаунт Steam"
   },
@@ -1666,9 +1666,9 @@
   },
   "steam_wishlist": {
     "cta": "Добавьте в список желаемого",
-    "on_steam": "Nexus Tri в Steam",
+    "on_steam": "Starfall в Steam",
     "release": "Выпуск III квартала 2026",
-    "title": "Добавьте Nexus Tri в список желаемого в Steam!"
+    "title": "Добавьте Starfall в список желаемого в Steam!"
   },
   "store": {
     "already_subscribed": "Подписка уже оформлена.",
@@ -1756,7 +1756,7 @@
     "tribes_purchase_heading": "Покупка названия племени",
     "your_tribes_heading": "Ваши названия племён",
     "merch": "Мерч",
-    "merch_blurb": "Закажи мерч Nexus Tri прямо к своей двери!",
+    "merch_blurb": "Закажи мерч Starfall прямо к своей двери!",
     "merch_visit_store": "Посетить магазин"
   },
   "streaming_now": {
@@ -1798,7 +1798,7 @@
     "browser": "Браузер",
     "canvas_2d_no_gpu": "2D-полотно (без ГП)",
     "charging": "Зарядка",
-    "chromium_tip": "Nexus Tri лучше всего работает в браузерах на базе Chromium.",
+    "chromium_tip": "Starfall лучше всего работает в браузерах на базе Chromium.",
     "copied_to_clipboard": "Информация скопирована в буфер обмена! Не забудьте поделиться ей в нашем Discord, если вам нужна помощь.",
     "device_pixel_ratio": "Пиксельное соотношение устройства (DPR)",
     "environment": "Среда",
@@ -2016,7 +2016,7 @@
     "other_won": "Игрок {player} победил!",
     "requeue": "Играть ещё раз",
     "spectate": "Наблюдать",
-    "support_openfront": "Поддержите Nexus Tri!",
+    "support_openfront": "Поддержите Starfall!",
     "territory_pattern": "Купите скин территории, чтобы избавиться от рекламы!",
     "you_won": "Вы победили!",
     "your_team": "Ваша команда победила!",

@@ -1070,7 +1070,7 @@ export enum MessageType {
   CHAT,
   RENEW_ALLIANCE,
   /**
-   * Nexus Tri: le commerce vient d'etre coupe automatiquement parce que
+   * Starfall: le commerce vient d'etre coupe automatiquement parce que
    * l'autre joueur a attaque. La coupure existait deja dans le jeu, mais
    * rien ne la disait au joueur, qui voyait ses revenus baisser sans savoir
    * pourquoi ni qu'il pouvait la lever lui-meme.

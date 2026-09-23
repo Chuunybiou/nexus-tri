@@ -148,7 +148,7 @@ function mintGroupToken(): string {
 export function defaultGameServerDeps(): GameServerDeps {
   return {
     archive: (record) => {
-      // Nexus Tri : le resultat part vers nos comptes (classement) avant
+      // Starfall : le resultat part vers nos comptes (classement) avant
       // l'archivage historique, qui vise un service exterieur.
       remonterResultat(record);
       return archive(finalizeGameRecord(record));

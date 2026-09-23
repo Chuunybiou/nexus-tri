@@ -32,7 +32,7 @@
     "desktop_login_discord": "Tiếp tục với Discord trong trình duyệt của bạn",
     "desktop_login_google": "Tiếp tục với Google trong trình duyệt của bạn",
     "desktop_login_needs_update": "Đăng nhập yêu cầu phiên bản mới hơn của ứng dụng trên máy tính. Khởi động lại Steam để cập nhật, sau đó thử lại.",
-    "desktop_sign_in_desc": "Đăng nhập sẽ mở website của Nexus Tri trong trình duyệt của bạn. Hãy đăng nhập ở đó, xác nhận liên kết với tài khoản Steam của bạn, và trò chơi sẽ tự động nhận diện.",
+    "desktop_sign_in_desc": "Đăng nhập sẽ mở website của Starfall trong trình duyệt của bạn. Hãy đăng nhập ở đó, xác nhận liên kết với tài khoản Steam của bạn, và trò chơi sẽ tự động nhận diện.",
     "email_placeholder": "Nhập địa chỉ email của bạn",
     "enter_email_address": "Vui lòng nhập địa chỉ email",
     "failed_to_send_recovery_email": "Không thể gửi email khôi phục",
@@ -50,7 +50,7 @@
     "link_google_already_linked": "Tài khoản Google đã liên kết với một người chơi khác.",
     "link_google_error": "Không thể liên kết với tài khoản Google của bạn. Vui lòng đảm bảo rằng bạn đã đăng nhập và thử lại.",
     "link_google_failed": "Không thể bắt đầu liên kết với Google. Vui lòng thử lại.",
-    "link_google_on_web": "Liên kết Tài khoản Google trên Nexus Tri",
+    "link_google_on_web": "Liên kết Tài khoản Google trên Starfall",
     "link_google_success": "Tài khoản Google đã liên kết.",
     "link_steam": "Liên kết Tài khoản Steam",
     "link_steam_error": "Không thể liên kết với tài khoản Google của bạn. Vui lòng đảm bảo rằng bạn đã đăng nhập và thử lại.",
@@ -64,13 +64,13 @@
     "login_deleted": "Tài khoản này đã bị xóa.",
     "login_email_exists": "Bạn đã có tài khoản bằng email này. Hãy đăng nhập vào tài khoản đó, sau đó liên kết tài khoản này trong phần cài đặt.",
     "login_error": "Chúng tôi không thể xác minh việc đăng nhập đó. Vui lòng thử lại.",
-    "login_no_account": "Chưa có tài khoản Nexus Tri nào sử dụng tài khoản Steam này. Hãy đăng nhập bằng tài khoản hiện có và liên kết với Steam trong phần cài đặt, hoặc khởi chạy game trên Steam.",
+    "login_no_account": "Chưa có tài khoản Starfall nào sử dụng tài khoản Steam này. Hãy đăng nhập bằng tài khoản hiện có và liên kết với Steam trong phần cài đặt, hoặc khởi chạy game trên Steam.",
     "manage_subscription": "Quản lý",
     "manage_subscription_on_steam": "Thanh toán qua Steam. Quản lý sẽ mở trang về các gói định kỳ trên Steam của bạn.",
     "manage_subscription_on_steam_ending": "Đã hủy — vẫn có hiệu lực đến {date}. Quản lý sẽ mở trang về các gói định kỳ trên Steam của bạn.",
     "manage_subscription_on_steam_ending_no_date": "Đã hủy — vẫn có hiệu lực đến hết kỳ hạn bạn đã thanh toán. Quản lý sẽ mở trang về các gói định kỳ trên Steam của bạn.",
     "manage_subscription_on_steam_no_tier_change": "Thanh toán qua Steam. Quản lý sẽ mở trang về các gói định kỳ trên Steam của bạn. Để chuyển sang cấp độ khác, hãy hủy gói hiện tại và đăng ký gói mới sau khi tháng hiện tại kết thúc.",
-    "manage_subscription_on_web": "Quản lý hoặc thay đổi thanh toán của bạn trên website của Nexus Tri.",
+    "manage_subscription_on_web": "Quản lý hoặc thay đổi thanh toán của bạn trên website của Starfall.",
     "marketing_desc": "Nhận tin tức, thông tin về sự kiện và các cập nhật trò chơi khi có. Bạn có thể hủy đăng ký bất cứ lúc nào.",
     "marketing_no_email": "Liên kết tài khoản email với tài khoản của bạn để đăng ký nhận thông báo cập nhật.",
     "marketing_no_email_steam": "Steam không chia sẻ địa chỉ email của bạn với chúng tôi, nên không có gì để gửi thông báo cập nhật.",
@@ -577,8 +577,8 @@
     "spectating": "Đang xem"
   },
   "desktop_session": {
-    "generic": "Không thể đăng nhập vào tài khoản Nexus Tri của bạn",
-    "network": "Không thể kết nối với Nexus Tri. Vui lòng kiểm tra kết nối của bạn.",
+    "generic": "Không thể đăng nhập vào tài khoản Starfall của bạn",
+    "network": "Không thể kết nối với Starfall. Vui lòng kiểm tra kết nối của bạn.",
     "retry": "Thử lại",
     "retrying": "Đang đăng nhập…",
     "steam_backend": "Steam đang gặp lỗi khi đăng nhập. Vui lòng thử lại.",
@@ -903,7 +903,7 @@
     "preset_colorblind_desc": "Sử dụng màu lãnh thổ và đường biên thân thiện với người mù màu",
     "preset_custom": "Tuỳ chỉnh",
     "preset_default": "Mặc định",
-    "preset_default_desc": "Giao diện Nexus Tri tiêu chuẩn",
+    "preset_default_desc": "Giao diện Starfall tiêu chuẩn",
     "preset_delete_confirm": "Xóa thiết lập \"{name}\"?",
     "preset_evans_pick": "Evan chọn",
     "preset_evans_pick_desc": "Cấu hình mà Evan thực sự dùng để chơi",
@@ -1021,7 +1021,7 @@
     "radial_title": "Menu tròn",
     "table_action": "Hành động",
     "table_key": "Phím",
-    "troubleshooting_desc": "Nếu bạn gặp vấn đề về hiệu suất, lỗi văng game hoặc các sự cố khác khi chơi Nexus Tri, vui lòng truy cập trang Khắc phục sự cố của chúng tôi để được hỗ trợ tìm và khắc phục các lỗi thường gặp:",
+    "troubleshooting_desc": "Nếu bạn gặp vấn đề về hiệu suất, lỗi văng game hoặc các sự cố khác khi chơi Starfall, vui lòng truy cập trang Khắc phục sự cố của chúng tôi để được hỗ trợ tìm và khắc phục các lỗi thường gặp:",
     "ui_attack_ratio": "Cường độ tấn công – Số lượng quân được sử dụng khi bạn tấn công. Bạn có thể điều chỉnh cường độ tấn công sử dụng thanh trượt. Có nhiều quân tấn công hơn quân phòng thủ giúp bạn mất ít quân hơn khi tấn công, ngược lại nếu quân tấn công ít hơn thì sẽ tăng sát thương cho đội quân của bạn. Hiệu ứng không vượt quá tỉ lệ 2:1.",
     "ui_control": "Bảng điều khiển",
     "ui_control_desc": "Bảng điều khiển bao gồm các thành phần sau:",
@@ -1041,7 +1041,7 @@
     "ui_wilderness": "Đất hoang",
     "ui_your_team": "Đội của bạn:",
     "video_tutorial": "Video hướng dẫn",
-    "video_tutorial_title": "Hướng dẫn chơi Nexus Tri"
+    "video_tutorial_title": "Hướng dẫn chơi Starfall"
   },
   "host_modal": {
     "anonymous_players": "Người chơi ẩn danh",
@@ -1113,14 +1113,14 @@
     "got_it": "Đã hiểu",
     "how": "Cách làm",
     "later": "Để sau",
-    "modal_desc": "Trình duyệt của bạn không hỗ trợ toàn màn hình, nhưng bạn có thể thêm Nexus Tri vào Màn hình chính để có trải nghiệm chơi tốt hơn:",
+    "modal_desc": "Trình duyệt của bạn không hỗ trợ toàn màn hình, nhưng bạn có thể thêm Starfall vào Màn hình chính để có trải nghiệm chơi tốt hơn:",
     "modal_title": "Chế độ toàn màn hình trên iOS",
     "never": "Không bao giờ",
     "step_add_to_home_label": "Thêm vào Màn hình chính",
     "step_open": "Mở từ Màn hình chính — chạy ở chế độ toàn màn hình mà không có thanh địa chỉ",
     "step_scroll_and_tap": "Cuộn xuống và nhấn",
     "step_share": "Nhấn nút Chia sẻ trong trình duyệt của bạn",
-    "text": "Để sử dụng chế độ toàn màn hình, hãy thêm Nexus Tri vào Màn hình chính"
+    "text": "Để sử dụng chế độ toàn màn hình, hãy thêm Starfall vào Màn hình chính"
   },
   "kick_reason": {
     "admin": "Đã bị quản trị viên đuổi",
@@ -1214,7 +1214,7 @@
     "solo": "Chơi đơn",
     "store": "Cửa hàng",
     "terms_of_service": "Điều Khoản Dịch Vụ",
-    "title": "Nexus Tri (ALPHA)",
+    "title": "STARFALL.IO (ALPHA)",
     "troubleshooting": "Khắc phục sự cố",
     "tutorial": "Hướng dẫn",
     "user_avatar_alt": "Ảnh đại diện của {username}",
@@ -1385,7 +1385,7 @@
     "dismiss": "Bỏ qua",
     "error": "Không thể lưu. Vui lòng thử lại.",
     "no": "Không, cảm ơn",
-    "title": "Theo dõi Nexus Tri?",
+    "title": "Theo dõi Starfall?",
     "yes": "Có, tôi muốn"
   },
   "matchmaking_modal": {
@@ -1445,7 +1445,7 @@
   },
   "news_box": {
     "dismiss": "Bỏ qua",
-    "firefox_warning": "Nexus Tri hoạt động không tốt trên các [Trình duyệt dựa trên Firefox] (https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Chúng tôi khuyên bạn sử dụng [Trình duyệt dựa trên Chromium] (https://vi.wikipedia.org/wiki/Chromium_(tr%C3%ACnh_duy%E1%BB%87t)#C%C3%A1c_tr%C3%ACnh_duy%E1%BB%87t_%C4%91%C6%B0%E1%BB%A3c_x%C3%A2y_d%E1%BB%B1ng_d%E1%BB%B1a_tr%C3%AAn_m%C3%A3_ngu%E1%BB%93n_Chromium) để có hiệu suất tốt nhất.",
+    "firefox_warning": "Starfall hoạt động không tốt trên các [Trình duyệt dựa trên Firefox] (https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Chúng tôi khuyên bạn sử dụng [Trình duyệt dựa trên Chromium] (https://vi.wikipedia.org/wiki/Chromium_(tr%C3%ACnh_duy%E1%BB%87t)#C%C3%A1c_tr%C3%ACnh_duy%E1%BB%87t_%C4%91%C6%B0%E1%BB%A3c_x%C3%A2y_d%E1%BB%B1ng_d%E1%BB%B1a_tr%C3%AAn_m%C3%A3_ngu%E1%BB%93n_Chromium) để có hiệu suất tốt nhất.",
     "go_to_item": "Đi đến mục {num}",
     "news": "TIN TỨC",
     "tournament": "GIẢI ĐẤU",
@@ -1682,9 +1682,9 @@
     "waiting_for_players": "Đang chờ người chơi"
   },
   "purchase_nudge": {
-    "body": "Có vẻ bạn thích chơi Nexus Tri! Hãy cân nhắc ủng hộ chúng tôi bằng cách mua một vật phẩm — bất kỳ giao dịch nào cũng giúp bạn loại bỏ quảng cáo vĩnh viễn.",
+    "body": "Có vẻ bạn thích chơi Starfall! Hãy cân nhắc ủng hộ chúng tôi bằng cách mua một vật phẩm — bất kỳ giao dịch nào cũng giúp bạn loại bỏ quảng cáo vĩnh viễn.",
     "close": "Đóng",
-    "title": "Thích chơi Nexus Tri?",
+    "title": "Thích chơi Starfall?",
     "visit_store": "Ghé qua cửa hàng"
   },
   "radial_menu": {
@@ -1747,7 +1747,7 @@
     "reason_expired": "Liên kết này đã hết hạn. Vui lòng thử lại từ Steam.",
     "reason_rate_limited": "Bạn đã thử quá nhiều lần. Vui lòng đợi {seconds, plural, =0 {một lát} one {# giây} other {# giây}} rồi thử lại.",
     "reason_steam_has_progress": "Tài khoản Steam này đã có tiến trình riêng và không thể hợp nhất.",
-    "reason_steam_linked_elsewhere": "Tài khoản Steam này đã được liên kết với một tài khoản Nexus Tri khác.",
+    "reason_steam_linked_elsewhere": "Tài khoản Steam này đã được liên kết với một tài khoản Starfall khác.",
     "success": "Tài khoản Steam của bạn đã được liên kết.",
     "title": "Liên kết tài khoản Steam"
   },
@@ -1757,9 +1757,9 @@
   },
   "steam_wishlist": {
     "cta": "Thêm vào Danh sách ước",
-    "on_steam": "Nexus Tri trên Steam",
+    "on_steam": "Starfall trên Steam",
     "release": "Phát hành vào Quý 3 năm 2026",
-    "title": "Thêm Nexus Tri vào Danh sách ước trên Steam!"
+    "title": "Thêm Starfall vào Danh sách ước trên Steam!"
   },
   "store": {
     "already_owned": "Bạn đã sở hữu vật phẩm này rồi. Không có khoản phí nào được tính.",
@@ -1833,7 +1833,7 @@
     "subscription_purchase_success": "Đã kích hoạt gói định kỳ!",
     "subscriptions": "Gói định kỳ",
     "switch_button": "Chuyển đổi",
-    "tier_change_steam_needs_desktop": "Gói định kỳ của bạn được thanh toán qua Steam. Hãy thay đổi nó từ ứng dụng Nexus Tri trên Steam, hoặc quản lý nó trong cài đặt tài khoản Steam của bạn.",
+    "tier_change_steam_needs_desktop": "Gói định kỳ của bạn được thanh toán qua Steam. Hãy thay đổi nó từ ứng dụng Starfall trên Steam, hoặc quản lý nó trong cài đặt tài khoản Steam của bạn.",
     "tier_change_unavailable_steam": "Để đổi cấp độ trên Steam, hãy hủy gói định kỳ trong cài đặt tài khoản Steam của bạn và đăng ký cấp độ mới sau khi tháng hiện tại kết thúc.",
     "title": "Cửa hàng",
     "tribe_boost_button": "Quảng bá",
@@ -1910,7 +1910,7 @@
     "browser": "Trình duyệt",
     "canvas_2d_no_gpu": "Canvas 2D (không dùng GPU)",
     "charging": "Đang sạc",
-    "chromium_tip": "Nexus Tri hoạt động tốt nhất trên các trình duyệt dựa trên Chromium.",
+    "chromium_tip": "Starfall hoạt động tốt nhất trên các trình duyệt dựa trên Chromium.",
     "copied_to_clipboard": "Đã sao chép thông tin vào bảng tạm! Nếu cần trợ giúp, hãy chia sẻ thông tin này trên máy chủ Discord của chúng tôi.",
     "device_pixel_ratio": "Tỷ lệ điểm ảnh của thiết bị",
     "environment": "Môi trường",
@@ -2001,8 +2001,8 @@
     "warship": "Tàu chiến"
   },
   "update_available": {
-    "desktop": "Đã có phiên bản mới của Nexus Tri. Nó sẽ tải xuống trong nền; hãy tải lại từ thanh cập nhật khi sẵn sàng.",
-    "message": "Đã có phiên bản mới của Nexus Tri. Trang sẽ tự động tải lại để cập nhật."
+    "desktop": "Đã có phiên bản mới của Starfall. Nó sẽ tải xuống trong nền; hãy tải lại từ thanh cập nhật khi sẵn sàng.",
+    "message": "Đã có phiên bản mới của Starfall. Trang sẽ tự động tải lại để cập nhật."
   },
   "user_setting": {
     "alert_frame_desc": "Bật hoặc tắt khung cảnh báo. Khi bật, khung sẽ xuất hiện khi bạn bị phản bội hoặc bị tấn công qua đường bộ.",
@@ -2160,7 +2160,7 @@
     "zoom_in_desc": "Phóng to bản đồ",
     "zoom_out": "Thu nhỏ",
     "zoom_out_desc": "Thu nhỏ bản đồ",
-    "quit_desc": "Đóng Nexus Tri và quay về màn hình máy tính.",
+    "quit_desc": "Đóng Starfall và quay về màn hình máy tính.",
     "quit_label": "Thoát game"
   },
   "username": {
@@ -2211,7 +2211,7 @@
     "other_won": "{player} đã chiến thắng!",
     "requeue": "Chơi lại",
     "spectate": "Xem",
-    "support_openfront": "Hỗ trợ Nexus Tri!",
+    "support_openfront": "Hỗ trợ Starfall!",
     "territory_pattern": "Mua một skin lãnh thổ để loại bỏ quảng cáo!",
     "you_won": "Bạn thắng!",
     "your_team": "Đội của bạn đã thắng!",

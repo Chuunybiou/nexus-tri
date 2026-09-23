@@ -10,7 +10,7 @@
     "cancel_subscription_confirm": "Uw abonnement annuleren? Je kunt de toegang onmiddellijk verliezen.",
     "cancel_subscription_confirm_steam": "Je abonnement blijft actief tot {date}. Steam-abonnementen kunnen niet opnieuw worden geactiveerd nadat ze zijn geannuleerd — als je je opnieuw wilt abonneren zou je een nieuwe aanschaffen.",
     "cancel_subscription_confirm_steam_no_date": "Je abonnement blijft actief tot het einde van de periode waarvoor je hebt betaald. Steam abonnementen kunnen niet gereactiveerd worden zodra ze geannuleerd zijn — om opnieuw te abonneren koop je een nieuwe.",
-    "cancel_subscription_failed": "Het annuleren van het abonnement is mislukt. Probeer het opnieuw of beheer je facturering op de Nexus Tri website.",
+    "cancel_subscription_failed": "Het annuleren van het abonnement is mislukt. Probeer het opnieuw of beheer je facturering op de Starfall website.",
     "cancel_subscription_success": "Abonnement geannuleerd. Je account toont nu je huidige toegang.",
     "cancel_subscription_success_steam": "Geannuleerd — actief tot {date}.",
     "cancel_subscription_success_steam_no_date": "Geannuleerd - actief tot het einde van de periode waarvoor je hebt betaald.",
@@ -32,7 +32,7 @@
     "desktop_login_discord": "Ga verder met Discord in je browser",
     "desktop_login_google": "Ga verder met Google in je browser",
     "desktop_login_needs_update": "Inloggen vereist een nieuwere versie van de desktopapp. Herstart Steam om te updaten, en probeer het opnieuw.",
-    "desktop_sign_in_desc": "Inloggen opent de Nexus Tri website in uw browser. Meld je hier aan, bevestig de link naar je Steam account en het spel zal het ophalen.",
+    "desktop_sign_in_desc": "Inloggen opent de Starfall website in uw browser. Meld je hier aan, bevestig de link naar je Steam account en het spel zal het ophalen.",
     "email_placeholder": "Voer je e-mailadres in",
     "enter_email_address": "Voer een e-mailadres in alsjeblieft",
     "failed_to_send_recovery_email": "Verzenden herstel e-mail mislukt",
@@ -50,7 +50,7 @@
     "link_google_already_linked": "Dat Google-account is al gekoppeld aan een andere speler.",
     "link_google_error": "Kan je Google-account niet koppelen. Zorg ervoor dat je bent aangemeld en probeer het opnieuw.",
     "link_google_failed": "Kan Google-koppeling niet starten. Probeer het opnieuw.",
-    "link_google_on_web": "Koppel Google op de Nexus Tri website",
+    "link_google_on_web": "Koppel Google op de Starfall website",
     "link_google_success": "Google-account gekoppeld.",
     "link_steam": "Koppel Steam Account",
     "link_steam_error": "Kan je Steam-account niet koppelen. Zorg ervoor dat je bent aangemeld en probeer het opnieuw.",
@@ -64,13 +64,13 @@
     "login_deleted": "Dit account is al verwijderd.",
     "login_email_exists": "Je hebt al een account met dit e-mailadres. Log in met dit account en koppel dit account in instellingen.",
     "login_error": "Inloggen kon niet worden geverifieerd. Probeer het opnieuw.",
-    "login_no_account": "Nog geen Nexus Tri account gebruikt dit Steam account. Meld je aan met je bestaande account en koppel Steam via instellingen, of start het spel op Steam.",
+    "login_no_account": "Nog geen Starfall account gebruikt dit Steam account. Meld je aan met je bestaande account en koppel Steam via instellingen, of start het spel op Steam.",
     "manage_subscription": "Beheren",
     "manage_subscription_on_steam": "Via Steam gefactureerd. Beheer opent de Steam abonnementspagina.",
     "manage_subscription_on_steam_ending": "Geannuleerd - actief tot {date}. Beheer opent je Steam abonnementen pagina.",
     "manage_subscription_on_steam_ending_no_date": "Geannuleerd — actief tot het einde van de periode waarvoor je hebt betaald. Beheer opent je Steam abonnementen pagina.",
     "manage_subscription_on_steam_no_tier_change": "Gefactureerd via Steam. Beheer opent je Steam abonnementen pagina. Om van niveau te wisselen, annuleer en abonneer je op de nieuwe rang na afloop van je huidige maand.",
-    "manage_subscription_on_web": "Beheer of wijzig uw facturering op de Nexus Tri website.",
+    "manage_subscription_on_web": "Beheer of wijzig uw facturering op de Starfall website.",
     "marketing_desc": "Af en toe nieuwsberichten, evenementen en game-updates. Afmelden kan op ieder moment.",
     "marketing_no_email": "Koppel een email aan uw account om updates te ontvangen.",
     "marketing_title": "Email updates",
@@ -569,8 +569,8 @@
     "spectating": "Aan het toeschouwen"
   },
   "desktop_session": {
-    "generic": "Kan niet inloggen op je Nexus Tri account",
-    "network": "Kan Nexus Tri niet bereiken. Controleer je verbinding.",
+    "generic": "Kan niet inloggen op je Starfall account",
+    "network": "Kan Starfall niet bereiken. Controleer je verbinding.",
     "retry": "Probeer opnieuw",
     "retrying": "Aanmelden…",
     "steam_backend": "Steam heeft problemen met je inlog. Probeer het binnenkort opnieuw.",
@@ -893,7 +893,7 @@
     "preset_colorblind_desc": "Kleurenblind-vriendelijke territorium en rand kleuren",
     "preset_custom": "Aangepast",
     "preset_default": "Standaard",
-    "preset_default_desc": "De standaard Nexus Tri look",
+    "preset_default_desc": "De standaard Starfall look",
     "preset_delete_confirm": "Verwijder preset \"{name}\"?",
     "preset_evans_pick": "Evan's Keuze",
     "preset_evans_pick_desc": "De instellingen waarmee Evan daadwerkelijk speelt",
@@ -1110,14 +1110,14 @@
     "got_it": "Begrepen",
     "how": "Hoe",
     "later": "Later",
-    "modal_desc": "Je browser ondersteunt geen volledig scherm, maar je kunt Nexus Tri toevoegen aan je startscherm voor een meeslepende ervaring:",
+    "modal_desc": "Je browser ondersteunt geen volledig scherm, maar je kunt Starfall toevoegen aan je startscherm voor een meeslepende ervaring:",
     "modal_title": "Volledig scherm op iOS",
     "never": "Nooit",
     "step_add_to_home_label": "Aan Startscherm toevoegen",
     "step_open": "Open vanaf uw startscherm — start volledig scherm zonder de adresbalk",
     "step_scroll_and_tap": "Scroll naar beneden en klik",
     "step_share": "Tik op de knop 'Delen' in uw browser",
-    "text": "Voor volledig scherm, voeg Nexus Tri toe aan je startscherm"
+    "text": "Voor volledig scherm, voeg Starfall toe aan je startscherm"
   },
   "kick_reason": {
     "admin": "Uit het spel verwijderd door een admin",
@@ -1210,7 +1210,7 @@
     "solo": "Solo",
     "store": "Winkel",
     "terms_of_service": "Servicevoorwaarden",
-    "title": "Nexus Tri (ALFA)",
+    "title": "Starfall (ALFA)",
     "troubleshooting": "Problemen oplossen",
     "tutorial": "Tutorial",
     "user_avatar_alt": "Avatar van {username}",
@@ -1379,7 +1379,7 @@
     "dismiss": "Negeren",
     "error": "Kan dat niet opslaan. Probeer het opnieuw.",
     "no": "Nee bedankt",
-    "title": "Blijf bij met Nexus Tri?",
+    "title": "Blijf bij met Starfall?",
     "yes": "Ja graag"
   },
   "matchmaking_modal": {
@@ -1440,7 +1440,7 @@
   },
   "news_box": {
     "dismiss": "Dismiss",
-    "firefox_warning": "Nexus Tri presteert niet goed op [Firefox-gebaseerde browsers](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). We raden je aan om een [Chromium-gebaseerde browser] (https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) te gebruiken voor de beste prestaties.",
+    "firefox_warning": "Starfall presteert niet goed op [Firefox-gebaseerde browsers](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). We raden je aan om een [Chromium-gebaseerde browser] (https://en.wikipedia.org/wiki/Chromium_(web_browser)#Browsers_based_on_Chromium) te gebruiken voor de beste prestaties.",
     "go_to_item": "Ga naar item nr. {num}",
     "news": "NIEUWS",
     "tournament": "TOURNOOI",
@@ -1673,9 +1673,9 @@
     "waiting_for_players": "Wachten op spelers"
   },
   "purchase_nudge": {
-    "body": "Het lijkt erop dat je geniet van het spelen van Nexus Tri! Overweeg om ons te steunen door een aankoop te doen - elke aankoop maakt je advertentievrij voor het leven.",
+    "body": "Het lijkt erop dat je geniet van het spelen van Starfall! Overweeg om ons te steunen door een aankoop te doen - elke aankoop maakt je advertentievrij voor het leven.",
     "close": "Sluiten",
-    "title": "Tevreden met Nexus Tri?",
+    "title": "Tevreden met Starfall?",
     "visit_store": "Bezoek winkel"
   },
   "radial_menu": {
@@ -1738,7 +1738,7 @@
     "reason_expired": "Deze link is verlopen. Probeer het opnieuw via Steam.",
     "reason_rate_limited": "Te veel pogingen. Wacht aub {seconds, plural, =0 {een moment} one {# seconde} other {# seconden}} en probeer het opnieuw.",
     "reason_steam_has_progress": "Dit Steam account heeft al zijn eigen voortgang en kan niet worden samengevoegd.",
-    "reason_steam_linked_elsewhere": "Dit Steam account is al gekoppeld aan een ander Nexus Tri account.",
+    "reason_steam_linked_elsewhere": "Dit Steam account is al gekoppeld aan een ander Starfall account.",
     "success": "Je Steam account is nu gekoppeld.",
     "title": "Koppel Steam Account"
   },
@@ -1748,9 +1748,9 @@
   },
   "steam_wishlist": {
     "cta": "Zet nu op je verlanglijst",
-    "on_steam": "Nexus Tri op steam",
+    "on_steam": "Starfall op steam",
     "release": "Beschikbaar Q3 2026",
-    "title": "Zet Nexus Tri op je Steam verlanglijst!"
+    "title": "Zet Starfall op je Steam verlanglijst!"
   },
   "store": {
     "already_subscribed": "Al geabonneerd.",
@@ -1819,7 +1819,7 @@
     "subscription_purchase_success": "Abonnement geactiveerd!",
     "subscriptions": "Abonnementen",
     "switch_button": "Wissel",
-    "tier_change_steam_needs_desktop": "Je abonnement wordt gefactureerd via Steam. Verander het via Nexus Tri app op Steam of beheer het in je Steam account instellingen.",
+    "tier_change_steam_needs_desktop": "Je abonnement wordt gefactureerd via Steam. Verander het via Starfall app op Steam of beheer het in je Steam account instellingen.",
     "tier_change_unavailable_steam": "Om van niveau te wisselen op Steam, annuleer je abonnement in je Steam account instellingen en meld je aan op de nieuwe rang na afloop van je huidige maand.",
     "title": "Winkel",
     "tribe_boost_button": "Boost",
@@ -1892,7 +1892,7 @@
     "browser": "Browser",
     "canvas_2d_no_gpu": "Canvas 2D (geen GPU)",
     "charging": "Opladen",
-    "chromium_tip": "Nexus Tri werkt het best met browsers gebaseerd op Chromium.",
+    "chromium_tip": "Starfall werkt het best met browsers gebaseerd op Chromium.",
     "copied_to_clipboard": "Info gekopieerd naar het klembord! Voel je vrij om het te delen op onze Discord als je hulp nodig hebt.",
     "device_pixel_ratio": "Pixelverhouding van apparaat",
     "environment": "Milieu",
@@ -2168,7 +2168,7 @@
     "other_won": "{player} heeft gewonnen!",
     "requeue": "Opnieuw spelen",
     "spectate": "Toekijken",
-    "support_openfront": "Steun Nexus Tri!",
+    "support_openfront": "Steun Starfall!",
     "territory_pattern": "Koop een skin om advertentievrij te gaan!",
     "you_won": "Je hebt gewonnen!",
     "your_team": "Je team heeft gewonnen!",

@@ -9,7 +9,7 @@
     "close": "Zavrieť"
   },
   "main": {
-    "title": "Nexus Tri (ALFA)",
+    "title": "Starfall (ALFA)",
     "join_discord": "Pridaj sa do Discordu!",
     "login_discord": "Prihlás sa cez Discord",
     "checking_login": "Kontrolujem prihlásenie...",
@@ -580,8 +580,8 @@
       "cursor": "Kurzor",
       "hand": "Ruka",
       "radiation": "Radiácia",
-      "openfront_qr": "QR kód Nexus Tri",
-      "openfront": "Nexus Tri",
+      "openfront_qr": "QR kód Starfall",
+      "openfront": "Starfall",
       "t_rex": "T-rex",
       "embelem": "Odznak",
       "contributor": "Prispievateľ",

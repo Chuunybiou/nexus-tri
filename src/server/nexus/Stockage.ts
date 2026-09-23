@@ -1,5 +1,5 @@
 /**
- * Petit magasin de donnees pour Nexus Tri : un fichier JSON par table.
+ * Petit magasin de donnees pour Starfall : un fichier JSON par table.
  *
  * Pourquoi pas une vraie base : ce serveur accueille des parties entre amis,
  * pas un service public. Quelques centaines de comptes tiennent en memoire

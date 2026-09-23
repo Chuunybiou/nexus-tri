@@ -102,7 +102,7 @@ export class AttackExecution implements Execution {
       ) {
         // Don't let bots embargo since they can't trade anyway.
         //
-        // Nexus Tri: previenne la victime. La coupure etait deja automatique,
+        // Starfall: previenne la victime. La coupure etait deja automatique,
         // mais silencieuse — on voyait ses revenus baisser sans savoir d'ou
         // ca venait. Le message n'est envoye que la premiere fois (sinon
         // chaque vague d'attaque le repeterait), et il rappelle que le joueur

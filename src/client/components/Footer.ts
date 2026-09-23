@@ -127,7 +127,7 @@ export class Footer extends LitElement {
               target="_blank"
               rel="noopener"
               class="hover:text-white transition-colors"
-              >Nexus Tri — code source (AGPL v3)</a
+              >Starfall — code source (AGPL v3)</a
             >
             <a
               href="/privacy-policy.html"

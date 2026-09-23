@@ -10,7 +10,7 @@
     "cancel_subscription_confirm": "Résilier votre abonnement ? Vous pourriez perdre l'accès immédiatement.",
     "cancel_subscription_confirm_steam": "Votre abonnement reste actif jusqu'au {date}. Les abonnements Steam ne peuvent plus être réactivés une fois annulés — Pour vous réabonner, vous devrez payer de nouveau.",
     "cancel_subscription_confirm_steam_no_date": "Votre abonnement reste actif jusqu'à la fin de la période pour laquelle vous avez payé. Les abonnements Steam ne peuvent plus être réactivés une fois annulés — Pour vous réabonner, vous devrez payer de nouveau.",
-    "cancel_subscription_failed": "Impossible de résilier l'abonnement. Veuillez réessayer ou utiliser l'option \"Gérer\" sur le site Nexus Tri.",
+    "cancel_subscription_failed": "Impossible de résilier l'abonnement. Veuillez réessayer ou utiliser l'option \"Gérer\" sur le site Starfall.",
     "cancel_subscription_success": "Abonnement résilié. Votre compte montre maintenant vos avantages actuels.",
     "cancel_subscription_success_steam": "Annulé — actif jusqu'au {date}.",
     "cancel_subscription_success_steam_no_date": "Annulé — actif jusqu'à la fin de la période pour laquelle vous avez payé.",
@@ -32,7 +32,7 @@
     "desktop_login_discord": "Continuer avec Discord dans votre navigateur",
     "desktop_login_google": "Continuer avec Google dans votre navigateur",
     "desktop_login_needs_update": "La connexion nécessite une version plus récente de l'application de bureau. Redémarrez Steam pour le mettre à jour, puis réessayez.",
-    "desktop_sign_in_desc": "La connexion ouvre Nexus Tri dans votre navigateur. Connectez-vous là-bas, confirmez le lien vers votre compte Steam, et le jeu suivra.",
+    "desktop_sign_in_desc": "La connexion ouvre Starfall dans votre navigateur. Connectez-vous là-bas, confirmez le lien vers votre compte Steam, et le jeu suivra.",
     "email_placeholder": "Entrez votre adresse email",
     "enter_email_address": "Veuillez saisir une adresse e-mail",
     "failed_to_send_recovery_email": "Échec de l'envoi de l'e-mail de récupération",
@@ -50,7 +50,7 @@
     "link_google_already_linked": "Ce compte Google est déjà lié à un autre joueur.",
     "link_google_error": "Impossible de lier votre compte Google. Assurez-vous que votre compte est bien connecté et réessayez.",
     "link_google_failed": "Impossible de démarrer la liaison Google. Veuillez réessayer.",
-    "link_google_on_web": "Lier Google sur le site Nexus Tri",
+    "link_google_on_web": "Lier Google sur le site Starfall",
     "link_google_success": "Compte Google lié.",
     "link_steam": "Lier un compte Steam",
     "link_steam_error": "Impossible de lier votre compte Steam. Merci de vous assurer que votre compte est bien connecté, puis réessayez.",
@@ -64,13 +64,13 @@
     "login_deleted": "Ce compte a été supprimé.",
     "login_email_exists": "Vous avez déjà un compte avec cet e-mail. Connectez-vous, puis liez ce compte dans les paramètres.",
     "login_error": "Nous n'avons pas pu vérifier cette connexion. Merci de réessayer l'opération.",
-    "login_no_account": "Aucun compte Nexus Tri n'utilise ce compte Steam pour le moment. Connectez-vous avec un compte existant et liez-le à Steam depuis les paramètres, ou en lançant le jeu depuis Steam.",
+    "login_no_account": "Aucun compte Starfall n'utilise ce compte Steam pour le moment. Connectez-vous avec un compte existant et liez-le à Steam depuis les paramètres, ou en lançant le jeu depuis Steam.",
     "manage_subscription": "Gérer",
     "manage_subscription_on_steam": "Facturé via Steam. \"Gérer\" ouvre votre page d'abonnements Steam.",
     "manage_subscription_on_steam_ending": "Annulé — actif jusqu'au {date}. \"Gérer\" ouvre votre page d'abonnements Steam.",
     "manage_subscription_on_steam_ending_no_date": "Annulé — actif jusqu'à la fin de la période pour laquelle vous avez payé. \"Gérer\" ouvre votre page d'abonnements Steam.",
     "manage_subscription_on_steam_no_tier_change": "Facturé via Steam. \"Gérer\" ouvre votre page d'abonnements Steam. Pour changer de grade d'abonnement, annulez l'actuel et abonnez-vous au nouveau après la fin du mois en cours.",
-    "manage_subscription_on_web": "Gérez ou modifiez votre facturation sur le site Web Nexus Tri.",
+    "manage_subscription_on_web": "Gérez ou modifiez votre facturation sur le site Web Starfall.",
     "marketing_desc": "Nouveautés occasionnelles, événements, et mises à jour. Se désabonner à tout moment.",
     "marketing_no_email": "Lier une adresse mail à votre compte pour vous abonner aux mises à jour.",
     "marketing_no_email_steam": "Steam ne partageant pas votre adresse e-mail avec nous, nous n'avons aucun moyen de vous envoyer des mises à jour.",
@@ -577,8 +577,8 @@
     "spectating": "Mode spectateur"
   },
   "desktop_session": {
-    "generic": "Impossible de se connecter à votre compte Nexus Tri",
-    "network": "Impossible d'accéder à Nexus Tri. Vérifiez votre connexion.",
+    "generic": "Impossible de se connecter à votre compte Starfall",
+    "network": "Impossible d'accéder à Starfall. Vérifiez votre connexion.",
     "retry": "Réessayer",
     "retrying": "Connexion en cours…",
     "steam_backend": "Steam a du mal à vous connecter. Merci de réessayer dans quelques minutes.",
@@ -927,10 +927,10 @@
     "preset_colorblind_desc": "Couleurs des territoires et des frontières adaptées aux personnes daltoniennes",
     "preset_custom": "Personnalisé",
     "preset_default": "Par défaut",
-    "preset_default_desc": "L’apparence standard d’Nexus Tri",
+    "preset_default_desc": "L’apparence standard d’Starfall",
     "preset_delete_confirm": "Supprimer le préréglage « {name} » ?",
     "preset_evans_pick": "Choix d'Evan",
-    "preset_evans_pick_desc": "Les paramètres avec lesquels Evan joue à Nexus Tri",
+    "preset_evans_pick_desc": "Les paramètres avec lesquels Evan joue à Starfall",
     "preset_migrated_name": "Mes paramètres",
     "preset_name_placeholder": "Nom du préréglage",
     "preset_night": "Nuit",
@@ -1045,7 +1045,7 @@
     "radial_title": "Menu radial",
     "table_action": "Action",
     "table_key": "Touche",
-    "troubleshooting_desc": "Si vous rencontrez des problèmes de performance, des plantages ou d'autres problèmes lors de la lecture d'Nexus Tri, veuillez visiter notre page de dépannage pour vous aider à diagnostiquer et à résoudre les problèmes courants :",
+    "troubleshooting_desc": "Si vous rencontrez des problèmes de performance, des plantages ou d'autres problèmes lors de la lecture d'Starfall, veuillez visiter notre page de dépannage pour vous aider à diagnostiquer et à résoudre les problèmes courants :",
     "ui_attack_ratio": "Ratio d'attaque - La quantité de troupes qui seront utilisées lors de votre attaque. Vous pouvez ajuster le ratio d'attaque en utilisant le curseur. Avoir plus de troupes attaquantes que défensives vous fera perdre moins de troupes dans l'attaque, quand en avoir moins va augmenter les dommages infligés à vos troupes attaquantes. L'effet ne dépasse pas le ratio de 2:1.",
     "ui_control": "Panneau de contrôle",
     "ui_control_desc": "Le panneau de contrôle contient les éléments suivants :",
@@ -1065,7 +1065,7 @@
     "ui_wilderness": "Région sauvage",
     "ui_your_team": "Votre équipe :",
     "video_tutorial": "Tutoriel vidéo",
-    "video_tutorial_title": "Tutoriel Nexus Tri"
+    "video_tutorial_title": "Tutoriel Starfall"
   },
   "host_modal": {
     "anonymous_players": "Joueurs anonymes",
@@ -1137,14 +1137,14 @@
     "got_it": "J'ai compris",
     "how": "Comment",
     "later": "Plus tard",
-    "modal_desc": "Votre navigateur ne supporte pas le grand écran, mais vous pouvez ajouter Nexus Tri à votre écran d'accueil pour une meilleure expérience :",
+    "modal_desc": "Votre navigateur ne supporte pas le grand écran, mais vous pouvez ajouter Starfall à votre écran d'accueil pour une meilleure expérience :",
     "modal_title": "Grand écran sur iOS",
     "never": "Jamais",
     "step_add_to_home_label": "Ajouter à l'écran d'accueil",
     "step_open": "Ouvrir depuis votre écran d'accueil — ouvre en grand écran sans la barre d'adresse",
     "step_scroll_and_tap": "Défilez vers le bas et tapotez",
     "step_share": "Tapotez le bouton \"Partager\" dans votre navigateur",
-    "text": "Pour le grand écran, ajouter Nexus Tri à votre écran d'accueil"
+    "text": "Pour le grand écran, ajouter Starfall à votre écran d'accueil"
   },
   "kick_reason": {
     "admin": "Expulsé par un admin",
@@ -1238,7 +1238,7 @@
     "solo": "Solo",
     "store": "Boutique",
     "terms_of_service": "Conditions d'utilisation",
-    "title": "Nexus Tri (ALPHA)",
+    "title": "STARFALL.IO (ALPHA)",
     "troubleshooting": "Dépannage",
     "tutorial": "Tutoriel",
     "user_avatar_alt": "Avatar de {username}",
@@ -1417,7 +1417,7 @@
     "dismiss": "Ignorer",
     "error": "Échec de la sauvegarde. Veuillez réessayer.",
     "no": "Non merci",
-    "title": "Voulez-vous rester informé·e des nouveautés d'Nexus Tri ?",
+    "title": "Voulez-vous rester informé·e des nouveautés d'Starfall ?",
     "yes": "Oui s'il vous plaît"
   },
   "matchmaking_modal": {
@@ -1477,7 +1477,7 @@
   },
   "news_box": {
     "dismiss": "Ignorer",
-    "firefox_warning": "Nexus Tri ne fonctionne pas bien avec [les navigateurs basés sur Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Nous vous recommandons d'utiliser un navigateur [basé sur Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser) #Browsers_based_on_Chromium) pour de meilleures performances.",
+    "firefox_warning": "Starfall ne fonctionne pas bien avec [les navigateurs basés sur Firefox](https://simple.wikipedia.org/wiki/Web_browsers_based_on_Firefox). Nous vous recommandons d'utiliser un navigateur [basé sur Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser) #Browsers_based_on_Chromium) pour de meilleures performances.",
     "go_to_item": "Aller à l'article {num}",
     "news": "NOUVEAUTÉS",
     "tournament": "TOURNOI",
@@ -1770,9 +1770,9 @@
     "waiting_for_players": "En attente de joueurs"
   },
   "purchase_nudge": {
-    "body": "On dirait que vous aimez jouer à Nexus Tri ! Pensez à nous soutenir en effectuant un achat dans la boutique : n’importe quel achat supprime les publicités à vie.",
+    "body": "On dirait que vous aimez jouer à Starfall ! Pensez à nous soutenir en effectuant un achat dans la boutique : n’importe quel achat supprime les publicités à vie.",
     "close": "Fermer",
-    "title": "Vous aimez Nexus Tri ?",
+    "title": "Vous aimez Starfall ?",
     "visit_store": "Visiter la boutique"
   },
   "radial_menu": {
@@ -1835,7 +1835,7 @@
     "reason_expired": "Ce lien a expiré. Veuillez réessayer depuis Steam.",
     "reason_rate_limited": "Trop de tentatives. Attendez {seconds, plural, =0 {un instant} one {# seconde} other {# secondes}} et réessayez.",
     "reason_steam_has_progress": "Ce compte Steam possède déjà sa propre progression et ne peut pas être fusionné.",
-    "reason_steam_linked_elsewhere": "Ce compte Steam est déjà lié à un compte Nexus Tri différent.",
+    "reason_steam_linked_elsewhere": "Ce compte Steam est déjà lié à un compte Starfall différent.",
     "success": "Votre compte Steam est maintenant lié.",
     "title": "Lier un compte Steam"
   },
@@ -1845,9 +1845,9 @@
   },
   "steam_wishlist": {
     "cta": "Ajouter à la liste de souhaits",
-    "on_steam": "Nexus Tri sur Steam",
+    "on_steam": "Starfall sur Steam",
     "release": "Disponible au 3ᵉ trimestre 2026",
-    "title": "Ajoutez Nexus Tri à votre liste de souhaits sur Steam !"
+    "title": "Ajoutez Starfall à votre liste de souhaits sur Steam !"
   },
   "store": {
     "already_owned": "Vous possédez déjà cet article. Aucun montant n’a été débité.",
@@ -1921,7 +1921,7 @@
     "subscription_purchase_success": "Abonnement activé !",
     "subscriptions": "Abonnements",
     "switch_button": "Changer",
-    "tier_change_steam_needs_desktop": "Votre abonnement est facturé via Steam. Modifiez-le depuis Nexus Tri sur Steam ou gérez-le dans les paramètres de votre compte Steam.",
+    "tier_change_steam_needs_desktop": "Votre abonnement est facturé via Steam. Modifiez-le depuis Starfall sur Steam ou gérez-le dans les paramètres de votre compte Steam.",
     "tier_change_unavailable_steam": "Pour changer de grade sur Steam, annulez votre abonnement dans les paramètres de votre compte Steam, puis abonnez-vous au grade souhaité à la fin du mois en cours.",
     "title": "Boutique",
     "tribe_boost_button": "Mettre en avant",
@@ -1998,7 +1998,7 @@
     "browser": "Navigateur",
     "canvas_2d_no_gpu": "Canvas 2D (sans GPU)",
     "charging": "Chargement",
-    "chromium_tip": "Nexus Tri fonctionne mieux sur les navigateurs basés sur Chromium.",
+    "chromium_tip": "Starfall fonctionne mieux sur les navigateurs basés sur Chromium.",
     "copied_to_clipboard": "Informations copiées dans le presse-papiers ! N'hésitez pas à le partager sur notre Discord si vous avez besoin d'aide.",
     "device_pixel_ratio": "Ratio de pixels de l'appareil",
     "environment": "Environnement",
@@ -2089,8 +2089,8 @@
     "warship": "Navire de guerre"
   },
   "update_available": {
-    "desktop": "Une nouvelle version d’Nexus Tri est disponible. Elle sera téléchargée en arrière-plan ; une fois prête, rechargez la page depuis la barre de mise à jour.",
-    "message": "Une nouvelle version d'Nexus Tri est disponible. La page va maintenant se rafraîchir pour se mettre à jour."
+    "desktop": "Une nouvelle version d’Starfall est disponible. Elle sera téléchargée en arrière-plan ; une fois prête, rechargez la page depuis la barre de mise à jour.",
+    "message": "Une nouvelle version d'Starfall est disponible. La page va maintenant se rafraîchir pour se mettre à jour."
   },
   "user_setting": {
     "alert_frame_desc": "Activer/Désactiver le cadre d'alerte. Lorsqu'il est activé, le cadre s'affichera lorsque vous serez trahi ou attaqué par la terre.",
@@ -2248,7 +2248,7 @@
     "zoom_in_desc": "Zoom sur la carte",
     "zoom_out": "Zoom arrière",
     "zoom_out_desc": "Dézoom de la carte",
-    "quit_desc": "Fermer Nexus Tri et revenir au bureau.",
+    "quit_desc": "Fermer Starfall et revenir au bureau.",
     "quit_label": "Quitter le jeu"
   },
   "username": {
@@ -2299,7 +2299,7 @@
     "other_won": "{player} a gagné !",
     "requeue": "Rejouer",
     "spectate": "Regarder",
-    "support_openfront": "Soutenir Nexus Tri!",
+    "support_openfront": "Soutenir Starfall!",
     "territory_pattern": "Achetez une décoration de territoire pour retirer les publicités !",
     "you_won": "Vous avez gagné !",
     "your_team": "Votre équipe a gagné !",

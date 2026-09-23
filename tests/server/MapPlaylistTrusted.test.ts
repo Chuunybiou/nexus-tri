@@ -12,7 +12,7 @@ vi.mock("../../src/server/MapLandTiles", () => ({
 // rotation, not a roll, so the lobbies on offer are never all locked at once.
 // 7 is coprime with the 3-type scheduling cycle, so the trusted slot rotates
 // across all game types instead of pinning to one.
-// Nexus Tri : tant que SERVICES_DE_COMPTE vaut false, aucune partie publique
+// Starfall : tant que SERVICES_DE_COMPTE vaut false, aucune partie publique
 // n'est verrouillee — personne ne pourrait y entrer (voir src/core/NexusTri.ts).
 // Les tests suivent le drapeau plutot que de figer l'un des deux mondes.
 describe("MapPlaylist trusted-only public games", () => {
