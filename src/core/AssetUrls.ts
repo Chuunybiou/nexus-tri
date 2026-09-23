@@ -108,6 +108,23 @@ export function assetUrl(path: string): string {
   return buildAssetUrl(path, getAssetManifest(), getCdnBase());
 }
 
+/**
+ * Base d'adresses a donner au fil de calcul (web worker).
+ *
+ * Le worker du jeu est embarque dans le paquet (`?worker&inline`), donc il
+ * tourne depuis une adresse `blob:`. Une adresse `blob:` ne peut pas servir de
+ * base : `fetch("/_assets/maps/world/manifest.json")` y echoue avec
+ * « Failed to parse URL », et la partie ne demarre jamais.
+ *
+ * En production d'origine le probleme ne se voit pas, parce qu'un CDN est
+ * configure et que toutes les adresses sont deja absolues. Un serveur SANS
+ * CDN — le notre — tombe en plein dedans : il faut alors lui donner l'origine
+ * de la page.
+ */
+export function workerAssetBase(cdnBase: string, pageOrigin: string): string {
+  return cdnBase !== "" ? cdnBase : pageOrigin;
+}
+
 // Rewrites Vite's emitted /assets/... references in the built index.html to
 // use the cdnBaseRaw EJS placeholder, so RenderHtml.ts can prefix them with
 // CDN_BASE at request time. Scoped to src=/href= attribute values so inline

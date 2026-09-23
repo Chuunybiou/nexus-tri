@@ -1,4 +1,4 @@
-import { getCdnBase } from "../AssetUrls";
+import { getCdnBase, workerAssetBase } from "../AssetUrls";
 import {
   BuildableUnit,
   Cell,
@@ -135,7 +135,9 @@ export class WorkerClient {
         id: messageId,
         gameStartInfo: this.gameStartInfo,
         clientID: this.clientID,
-        cdnBase: getCdnBase(),
+        // Absolue, toujours : le worker tourne depuis une adresse blob:,
+        // ou une adresse relative ne peut pas etre resolue.
+        cdnBase: workerAssetBase(getCdnBase(), location.origin),
       });
 
       setTimeout(() => {

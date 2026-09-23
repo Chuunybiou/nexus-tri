@@ -1,4 +1,4 @@
-import { assetUrl } from "../AssetUrls";
+import { assetUrl, workerAssetBase } from "../AssetUrls";
 import { FetchGameMapLoader } from "../game/FetchGameMapLoader";
 import { ErrorUpdate, GameUpdateViewData } from "../game/GameUpdates";
 import { createGameRunner, GameRunner } from "../GameRunner";
@@ -147,7 +147,13 @@ ctx.addEventListener("message", async (e: MessageEvent<MainThreadMessage>) => {
       try {
         // Set before createGameRunner so map fetches via mapLoader pick up the
         // CDN base. Workers have no `window`, so AssetUrls falls back to this.
-        globalThis.__CDN_BASE__ = message.cdnBase;
+        // Repli : si la base arrive vide, on prend l'origine de la page.
+        // Une adresse relative depuis un blob: est irresolvable et la partie
+        // ne demarrerait jamais (voir AssetUrls.workerAssetBase).
+        globalThis.__CDN_BASE__ = workerAssetBase(
+          message.cdnBase ?? "",
+          self.location.origin,
+        );
         gameRunner = createGameRunner(
           message.gameStartInfo,
           message.clientID,
