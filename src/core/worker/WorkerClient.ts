@@ -85,6 +85,12 @@ export class WorkerClient {
         if (message.type === "initialized") {
           this.isInitialized = true;
           resolve();
+        } else if (message.type === "init_error") {
+          // La vraie cause, plutot que le delai d'attente de soixante
+          // secondes qui suivrait sans ca.
+          reject(
+            new Error(`La partie n'a pas pu demarrer : ${message.message}`),
+          );
         }
       });
 

@@ -13,6 +13,7 @@ import { ClientID, GameStartInfo, Turn } from "../Schemas";
 export type WorkerMessageType =
   | "init"
   | "initialized"
+  | "init_error"
   | "turn"
   | "game_update"
   | "game_update_batch"
@@ -52,6 +53,19 @@ export interface TurnMessage extends BaseWorkerMessage {
 // Messages from worker to main thread
 export interface InitializedMessage extends BaseWorkerMessage {
   type: "initialized";
+}
+
+/**
+ * La preparation de la partie a echoue dans le fil de calcul.
+ *
+ * Sans ce message, l'echec est muet : la promesse de createGameRunner est
+ * rejetee, personne ne l'attrape, et le joueur regarde « La partie est en
+ * train de commencer... » pendant soixante secondes avant un « Worker
+ * initialization timeout » qui ne dit rien de la cause.
+ */
+export interface InitErrorMessage extends BaseWorkerMessage {
+  type: "init_error";
+  message: string;
 }
 
 export interface GameUpdateMessage extends BaseWorkerMessage {
@@ -151,6 +165,7 @@ export type MainThreadMessage =
 // Message send from worker
 export type WorkerMessage =
   | InitializedMessage
+  | InitErrorMessage
   | GameUpdateMessage
   | GameUpdateBatchMessage
   | GameErrorMessage

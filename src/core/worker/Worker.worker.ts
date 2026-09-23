@@ -4,6 +4,7 @@ import { ErrorUpdate, GameUpdateViewData } from "../game/GameUpdates";
 import { createGameRunner, GameRunner } from "../GameRunner";
 import {
   AttackClusteredPositionsResultMessage,
+  InitErrorMessage,
   InitializedMessage,
   MainThreadMessage,
   PlayerActionsResultMessage,
@@ -151,13 +152,28 @@ ctx.addEventListener("message", async (e: MessageEvent<MainThreadMessage>) => {
           message.clientID,
           mapLoader,
           gameUpdate,
-        ).then((gr) => {
-          sendMessage({
-            type: "initialized",
-            id: message.id,
-          } as InitializedMessage);
-          return gr;
-        });
+        )
+          .then((gr) => {
+            sendMessage({
+              type: "initialized",
+              id: message.id,
+            } as InitializedMessage);
+            return gr;
+          })
+          .catch((error) => {
+            // Sans ce catch, l'echec est muet : le fil principal attend
+            // soixante secondes puis affiche « Worker initialization
+            // timeout », qui ne dit rien de la cause. Le try/catch qui
+            // entoure ce bloc ne sert a rien ici, il est synchrone.
+            sendMessage({
+              type: "init_error",
+              id: message.id,
+              message: String(
+                (error as Error)?.stack ?? (error as Error)?.message ?? error,
+              ),
+            } as InitErrorMessage);
+            throw error;
+          });
       } catch (error) {
         console.error("Failed to initialize game runner:", error);
         throw error;
