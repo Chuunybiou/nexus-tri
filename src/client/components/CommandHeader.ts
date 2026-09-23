@@ -1,6 +1,5 @@
 import { LitElement, html, nothing } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { ClientEnv } from "../ClientEnv";
 import { translateText } from "../Utils";
 import "./LanguageToggle";
 
@@ -104,7 +103,9 @@ export class CommandHeader extends LitElement {
   }
 
   render() {
-    const version = ClientEnv.gitCommit();
+    // Surtout pas gitCommit() : sur ce serveur il vaut « nexus-tri », et
+    // l'etiquette affichait donc l'ancien nom du jeu.
+    const version = "ALPHA";
     return html`
       <div class="flex w-full flex-wrap items-center justify-between gap-2">
         <!-- Marque et version -->

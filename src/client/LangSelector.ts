@@ -297,6 +297,8 @@ export class LangSelector extends LitElement {
       // la cle brute (« STATUS_BAR.TAB_LOBBY ») parce qu'ils s'affichent avant
       // le chargement des traductions et ne se re-affichent jamais.
       "command-header",
+      "play-page",
+      "deployment-panel",
       "resource-bar",
       "chat-bar",
       "faction-lore-modal",

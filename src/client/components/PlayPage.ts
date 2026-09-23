@@ -4,6 +4,7 @@ import { SERVICES_DE_COMPTE } from "../NexusTri";
 import { translateText } from "../Utils";
 import "./CommandHeader";
 import "./CosmeticBackground";
+import "./DeploymentPanel";
 import "./FactionLoreModal";
 import "./FactionSelector";
 import "./LanguageToggle";
@@ -81,9 +82,11 @@ export class PlayPage extends LitElement {
             >
               <language-toggle></language-toggle>
               <nav-utility-icons size="mobile"></nav-utility-icons>
-              ${SERVICES_DE_COMPTE
-                ? html`<nav-account-menu variant="mobile"></nav-account-menu>`
-                : ""}
+              ${
+                SERVICES_DE_COMPTE
+                  ? html`<nav-account-menu variant="mobile"></nav-account-menu>`
+                  : ""
+              }
             </div>
           </div>
         </div>
@@ -114,35 +117,6 @@ export class PlayPage extends LitElement {
             <!-- Actualites : servies par le service ferme (voir NexusTri.ts) -->
             ${SERVICES_DE_COMPTE ? html`<news-box></news-box>` : ""}
 
-            <!-- Intitule du bloc, comme sur la maquette : on comprend ce
-                 qu'on est en train de remplir. -->
-            <div
-              class="flex items-center gap-2 px-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/40"
-            >
-              <span
-                class="h-2 w-2 shrink-0"
-                style="background: var(--color-vanguard)"
-                aria-hidden="true"
-              ></span>
-              ${translateText("lobby_deck.identity")}
-            </div>
-
-            <!-- Identity row: username over the currently selected cosmetic background. -->
-            <div
-              class="relative bg-surface border-y border-white/10 overflow-visible flex items-center sm:min-h-[60px] sm:flex-1 sm:z-20 sm:border-y-0 sm:rounded-xl"
-            >
-              <!-- Selected skin/pattern fills the bubble like the player's territory in game. -->
-              <cosmetic-background
-                class="absolute inset-0 z-0 overflow-hidden sm:rounded-xl pointer-events-none"
-              ></cosmetic-background>
-              <div
-                class="relative z-10 flex h-full w-full min-w-0 items-center bg-surface/80 p-1 sm:rounded-xl"
-              >
-                <username-input
-                  class="flex-1 min-w-0 h-10 sm:h-[50px]"
-                ></username-input>
-              </div>
-            </div>
           </div>
 
           <!-- Right column: Streaming Now (desktop only), stretched to the left column's
@@ -153,7 +127,7 @@ export class PlayPage extends LitElement {
         </div>
 
         <!-- Bandeau de protocole : ce que le joueur regarde, et de quel genre
-             de jeu il s'agit. Repris de la maquette du poste de commandement. -->
+             de jeu il s'agit. Repris de la maquette. -->
         <div class="flex items-center justify-between gap-3 px-2 pt-1 lg:px-0">
           <div class="flex min-w-0 items-center gap-2">
             <span
@@ -175,25 +149,59 @@ export class PlayPage extends LitElement {
           </span>
         </div>
 
-        <div class="hud-glass rounded-2xl p-3 sm:p-4">
-          <faction-selector></faction-selector>
-        </div>
+        <!-- La grille de la maquette : le jeu a gauche, la file a droite. -->
+        <div
+          id="starfall-grid"
+          class="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-start"
+        >
+          <div class="flex min-w-0 flex-col gap-4 lg:col-span-8">
+            <!-- Identite : le tag et l'indicatif, dans leur cadre. -->
+            <div class="hud-glass rounded-2xl p-4">
+              <div
+                class="mb-3 text-[11px] uppercase tracking-[0.18em] text-white/40"
+              >
+                ${translateText("lobby_deck.identity")}
+              </div>
+              <div
+                class="relative flex items-center rounded-xl border border-white/10 bg-black/25 p-1"
+              >
+                <cosmetic-background
+                  class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-xl opacity-60"
+                ></cosmetic-background>
+                <username-input
+                  class="relative z-10 h-11 w-full min-w-0"
+                ></username-input>
+              </div>
+            </div>
 
-        <div class="hud-glass rounded-2xl p-3 sm:p-4">
-          <game-mode-selector></game-mode-selector>
-        </div>
+            <div class="hud-glass rounded-2xl p-3 sm:p-4">
+              <faction-selector></faction-selector>
+            </div>
 
-        <div class="hud-glass rounded-2xl p-3 sm:p-4">
-          <map-catalog></map-catalog>
+            <div class="hud-glass rounded-2xl p-3 sm:p-4">
+              <game-mode-selector></game-mode-selector>
+            </div>
+
+            <div class="hud-glass rounded-2xl p-3 sm:p-4">
+              <map-catalog></map-catalog>
+            </div>
+          </div>
+
+          <div class="min-w-0 lg:col-span-4">
+            <deployment-panel></deployment-panel>
+          </div>
+        </div>
         </div>
 
         <!-- Desktop gets the compact footer button instead. -->
-        ${SERVICES_DE_COMPTE
-          ? html`<steam-wishlist
-              campaign="home_mobile"
-              class="block px-2 pb-4 lg:hidden"
-            ></steam-wishlist>`
-          : ""}
+        ${
+          SERVICES_DE_COMPTE
+            ? html`<steam-wishlist
+                campaign="home_mobile"
+                class="block px-2 pb-4 lg:hidden"
+              ></steam-wishlist>`
+            : ""
+        }
       </div>
     `;
   }

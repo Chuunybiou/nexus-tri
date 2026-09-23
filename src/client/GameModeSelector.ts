@@ -2,8 +2,6 @@ import { html, LitElement, nothing, type TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { ClientEnv } from "src/client/ClientEnv";
 import { UserMeResponse } from "../core/ApiSchemas";
-import { assetUrl } from "../core/AssetUrls";
-import { FACTIONS } from "../core/game/Factions";
 import {
   Duos,
   GameMapType,
@@ -13,10 +11,9 @@ import {
   Quads,
   Trios,
 } from "../core/game/Game";
-import { UserSettings } from "../core/game/UserSettings";
 import { PublicGameInfo, PublicGames } from "../core/Schemas";
 import { getDesktopSessionState } from "./Auth";
-import { factionAccent } from "./components/FactionEmblem";
+import { DEPLOY_EVENT } from "./components/DeploymentPanel";
 import "./components/IOSAddToHomeScreenBanner";
 import {
   canJoinTrustedLobby,
@@ -52,9 +49,7 @@ import { UsernameInput } from "./UsernameInput";
 import {
   calculateServerTimeOffset,
   getGamesPlayed,
-  getMapName,
   getSecondsUntilServerTimestamp,
-  normaliseMapKey,
   reloadForUpdate,
   renderDuration,
   showToast,
@@ -373,6 +368,7 @@ export class GameModeSelector extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.lobbySocket.start();
+    document.addEventListener(DEPLOY_EVENT, this.onDeploy);
     this.defaultLobbyTime = ClientEnv.gameCreationRate() / 1000;
     window.addEventListener(
       "username-validity-change",
@@ -415,6 +411,23 @@ export class GameModeSelector extends LitElement {
       this.inputValid = usernameInput.canPlay();
     }
   }
+
+  /**
+   * Le bouton de la file de deploiement (colonne de droite).
+   *
+   * Il passe par ici et pas en direct : c'est ce composant qui detient les
+   * verifications (pseudo valide, salon rejoignable, serveur joignable), et
+   * un second chemin d'acces aurait fini par diverger du premier.
+   */
+  private onDeploy = (e: Event) => {
+    const mode = (e as CustomEvent).detail?.mode;
+    if (mode === "solo") {
+      this.openSinglePlayerModal();
+      return;
+    }
+    const ffa = this.lobbies?.games?.["ffa"]?.[0];
+    if (ffa !== undefined) this.validateAndJoin(ffa);
+  };
 
   disconnectedCallback() {
     this.stop();
@@ -542,14 +555,12 @@ export class GameModeSelector extends LitElement {
     // DOM is in phone order; sm+ places the same elements onto a grid and
     // reading-flow keeps focus order following the rows (Chromium only).
     return html`
-      <div
-        class="flex w-full flex-col gap-4 px-4 pb-4 mx-auto sm:px-0 sm:pb-0 lg:grid lg:grid-cols-12 lg:items-start lg:gap-4"
-      >
+      <div class="flex w-full flex-col gap-4 px-4 pb-4 mx-auto sm:px-0 sm:pb-0">
         <!-- Colonne gauche : le jeu lui-meme (salons, solo, creation). Sa
              grille interne est inchangee — c'est elle qui tient la mise en
              page sur telephone. -->
         <div
-          class="flex min-w-0 flex-col gap-4 sm:grid sm:grid-cols-[2fr_1fr] sm:grid-rows-[auto_min(24rem,40vh)_auto_auto] sm:[reading-flow:grid-rows] lg:col-span-8"
+          class="flex min-w-0 flex-col gap-4 sm:grid sm:grid-cols-[2fr_1fr] sm:grid-rows-[auto_min(24rem,40vh)_auto_auto] sm:[reading-flow:grid-rows]"
         >
           <ios-add-to-home-screen-banner
             class="no-crazygames [&:empty]:hidden sm:col-span-2 sm:row-start-1"
@@ -629,11 +640,6 @@ export class GameModeSelector extends LitElement {
               : nothing}
             ${this.renderUpcomingHeading()}
           </section>
-        </div>
-
-        <!-- Colonne droite : la file de deploiement. -->
-        <div class="min-w-0 lg:col-span-4">
-          ${this.renderDeploymentPanel(ffa, [teams, special])}
         </div>
 
         ${this.showTrustRequired
@@ -893,241 +899,6 @@ export class GameModeSelector extends LitElement {
         composed: true,
       }),
     );
-  }
-
-  /**
-   * La file de deploiement, d'apres la maquette du poste de commandement.
-   *
-   * Uniquement de la lecture : le tag, la faction et les salons publics sont
-   * deja connus du client. Le panneau ne lance rien — les boutons qui lancent
-   * une partie restent ou ils sont, c'est la moitie du jeu et on ne la deplace
-   * pas pour une question de decor.
-   */
-  private renderDeploymentPanel(
-    prochain: PublicGameInfo | undefined,
-    aVenir: (PublicGameInfo | undefined)[],
-  ) {
-    const faction = new UserSettings().selectedFaction();
-    const accent = factionAccent(faction);
-    const tag = (localStorage.getItem("clanTag") ?? "").toUpperCase();
-    const config = prochain?.gameConfig;
-    const places = config?.maxPlayers;
-    const presents = prochain?.numClients ?? 0;
-    const secondes = prochain?.startsAt
-      ? getSecondsUntilServerTimestamp(prochain.startsAt, this.serverTimeOffset)
-      : undefined;
-
-    return html`
-      <div class="hud-glass rounded-2xl p-3 sm:p-4">
-        <div class="mb-2 flex items-baseline justify-between gap-3">
-          <span
-            class="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50"
-            >${translateText("deployment.queue_title")}</span
-          >
-          <span
-            class="truncate text-[11px] uppercase tracking-[0.14em] text-white/35"
-            >${translateText("deployment.ops_header")}</span
-          >
-        </div>
-
-        <div
-          class="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px] sm:grid-cols-4"
-        >
-          ${this.renderDeploymentRow(
-            translateText("deployment.squad_tag"),
-            tag === "" ? translateText("deployment.no_tag") : `[${tag}]`,
-          )}
-          ${this.renderDeploymentRow(
-            translateText("deployment.selected_faction"),
-            translateText(FACTIONS[faction].nameKey).toUpperCase(),
-            accent,
-          )}
-          ${this.renderDeploymentRow(
-            translateText("deployment.players_ready"),
-            places ? `${presents} / ${places}` : String(presents),
-          )}
-          ${this.renderDeploymentRow(
-            translateText("deployment.next_drop"),
-            secondes === undefined
-              ? translateText("deployment.waiting")
-              : renderDuration(Math.max(0, secondes)),
-          )}
-        </div>
-
-        ${this.renderQueueTabs()} ${this.renderDeployButton(prochain, accent)}
-        ${this.renderTheatre(prochain)} ${this.renderUpcoming(aVenir)}
-      </div>
-    `;
-  }
-
-  /**
-   * La carte du prochain depart, en vignette.
-   *
-   * C'est la vraie image de la carte, celle du catalogue : montrer un dessin
-   * generique aurait ete plus joli et moins utile — on veut reconnaitre le
-   * terrain avant de s'engager. Le balayage lumineux est du decor, et il
-   * s'arrete pour qui demande moins d'animations (voir styles.css).
-   */
-  private renderTheatre(lobby: PublicGameInfo | undefined) {
-    // On sort AVANT de se servir du salon : sans ce test, le titre plus bas
-    // recevrait un salon absent.
-    if (lobby === undefined) return nothing;
-    const carte = lobby.gameConfig?.gameMap;
-    if (carte === undefined) return nothing;
-    const nom = getMapName(carte) ?? carte;
-
-    return html`
-      <div class="mt-3 border-t border-white/10 pt-2">
-        <div
-          class="mb-1.5 flex items-baseline justify-between gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35"
-        >
-          <span>${translateText("deployment.theater")}</span>
-          <span class="truncate text-white/50"
-            >${this.getLobbyTitle(lobby)}</span
-          >
-        </div>
-        <div
-          class="hud-sweep relative h-24 overflow-hidden rounded-lg border border-white/10 sm:h-28"
-        >
-          <img
-            src=${assetUrl(
-              `maps/${encodeURIComponent(normaliseMapKey(carte))}/thumbnail.webp`,
-            )}
-            alt=""
-            loading="lazy"
-            class="h-full w-full object-cover opacity-70"
-          />
-          <span
-            class="absolute bottom-1.5 left-1.5 rounded border border-white/15 bg-black/65 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-white/85"
-            >${nom}</span
-          >
-        </div>
-      </div>
-    `;
-  }
-
-  /**
-   * Les deux facons de partir : seul, ou dans le prochain salon public.
-   *
-   * La maquette proposait « CLASSE » ; le classement d'OpenFront passe par le
-   * service ferme, absent ici. « Publique » est l'equivalent qui marche
-   * vraiment sur ce serveur — annoncer un mode qui echoue serait pire que de
-   * ne pas l'annoncer.
-   */
-  private renderQueueTabs() {
-    const onglet = (mode: "solo" | "public", libelle: string) => {
-      const actif = this.queueMode === mode;
-      return html`
-        <button
-          type="button"
-          class="rounded-lg border px-3 py-2 text-[11px] font-bold uppercase tracking-[0.14em] transition-colors ${actif
-            ? "border-white/40 bg-white/10 text-white"
-            : "border-white/10 bg-black/20 text-white/45 hover:text-white/75"}"
-          aria-pressed=${actif ? "true" : "false"}
-          @click=${() => {
-            this.queueMode = mode;
-          }}
-        >
-          ${libelle}
-        </button>
-      `;
-    };
-    return html`
-      <div class="mt-3 grid grid-cols-2 gap-2">
-        ${onglet("solo", translateText("main.solo"))}
-        ${onglet("public", translateText("deployment.public"))}
-      </div>
-    `;
-  }
-
-  /**
-   * Le bouton de depart, a la couleur de la faction choisie.
-   *
-   * Il ne fait rien de neuf : il appelle les deux chemins deja en place, avec
-   * leurs verifications (pseudo valide, salon rejoignable). Un troisieme
-   * chemin aurait fini par diverger des deux autres.
-   */
-  private renderDeployButton(
-    prochain: PublicGameInfo | undefined,
-    accent: string,
-  ) {
-    const solo = this.queueMode === "solo";
-    const indisponible = !solo && prochain === undefined;
-    return html`
-      <button
-        type="button"
-        class="mt-2 w-full rounded-xl px-4 py-3 text-sm font-extrabold uppercase tracking-[0.16em] text-black transition-transform active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
-        style=${`background: linear-gradient(90deg, ${accent}, ${accent}aa);`}
-        ?disabled=${indisponible}
-        @click=${() => {
-          if (solo) this.openSinglePlayerModal();
-          else if (prochain !== undefined) this.validateAndJoin(prochain);
-        }}
-      >
-        ${solo
-          ? translateText("main.solo")
-          : indisponible
-            ? translateText("deployment.waiting")
-            : translateText("deployment.deploy")}
-      </button>
-    `;
-  }
-
-  private renderDeploymentRow(label: string, valeur: string, couleur?: string) {
-    return html`
-      <div class="flex min-w-0 items-baseline justify-between gap-2">
-        <span class="truncate uppercase tracking-[0.1em] text-white/40"
-          >${label}</span
-        >
-        <span
-          class="shrink-0 font-bold tabular-nums"
-          style=${couleur
-            ? `color: ${couleur}`
-            : "color: rgba(255,255,255,0.85)"}
-          >${valeur}</span
-        >
-      </div>
-    `;
-  }
-
-  /** Les salons suivants : quelle carte, et dans combien de temps. */
-  private renderUpcoming(salons: (PublicGameInfo | undefined)[]) {
-    const connus = salons.filter((l): l is PublicGameInfo => l !== undefined);
-    if (connus.length === 0) return nothing;
-
-    return html`
-      <div class="mt-3 border-t border-white/10 pt-2">
-        <div
-          class="mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/35"
-        >
-          ${translateText("deployment.upcoming")}
-        </div>
-        <div class="flex flex-col gap-1">
-          ${connus.map((lobby) => {
-            const secondes = lobby.startsAt
-              ? getSecondsUntilServerTimestamp(
-                  lobby.startsAt,
-                  this.serverTimeOffset,
-                )
-              : undefined;
-            return html`
-              <div
-                class="flex items-baseline justify-between gap-2 text-[11px]"
-              >
-                <span class="min-w-0 truncate text-white/70"
-                  >${this.getLobbyTitle(lobby)}</span
-                >
-                <span class="shrink-0 tabular-nums text-white/45"
-                  >${secondes === undefined
-                    ? translateText("deployment.waiting")
-                    : renderDuration(Math.max(0, secondes))}</span
-                >
-              </div>
-            `;
-          })}
-        </div>
-      </div>
-    `;
   }
 
   private getLobbyTitle(lobby: PublicGameInfo): string {
