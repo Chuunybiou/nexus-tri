@@ -1515,6 +1515,10 @@
     "send": "Envoyer",
     "hint": "Appuyez sur Entrée pour écrire à tous les joueurs"
   },
+  "lobby_deck": {
+    "class_subtitle": "CLASSE : STRATÉGIE FRONTALE EN TEMPS RÉEL",
+    "protocol_title": "PROTOCOLE DE DÉPLOIEMENT TACTIQUE"
+  },
   "resources": {
     "title": "Ressources de faction",
     "uranium": "Uranium",

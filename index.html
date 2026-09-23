@@ -247,6 +247,10 @@
         class="absolute inset-0 bg-center bg-no-repeat bg-contain lg:hidden"
         style="background-image: var(--mobile-logo-image-url); opacity: 0.5"
       ></div>
+      <!-- Trame de balayage, tout en haut de la pile : elle passe sur le fond,
+           jamais sur l'interface (le conteneur est en -z-50 et ne recoit aucun
+           clic). -->
+      <div class="hud-scanlines absolute inset-0 opacity-40"></div>
     </div>
 
     <!-- LEFT SIDEBAR MENU -->

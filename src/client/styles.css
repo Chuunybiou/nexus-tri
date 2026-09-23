@@ -35,9 +35,14 @@
    * everything else is slate. That is what keeps the three factions readable at
    * a glance instead of competing with decorative blues and yellows.
    */
-  --color-vanguard: #5b9bd5;
-  --color-swarm: #a06cf5;
-  --color-ascendant: #f0b429;
+  /*
+   * Alignees sur la maquette du poste de commandement (23/09/2026). L'ambre
+   * va au Swarm (organique, insecte) et le violet a l'Ascendant (cristal) :
+   * c'etait l'inverse, et la lecture etait moins evidente.
+   */
+  --color-vanguard: #38bdf8;
+  --color-swarm: #f59e0b;
+  --color-ascendant: #a855f7;
 
   /* Openfront.io brand palette — see Openfront_Brand_Guidelines.pdf §4 */
   /*
@@ -76,6 +81,41 @@
     0 0 0 2px #4a7fb5, 0 0 20px rgba(74, 127, 181, 0.5);
   --shadow-action-card-hover:
     0 0 0 1px #4a7fb5, 0 0 12px rgba(74, 127, 181, 0.35);
+}
+
+/* ───────────────────────────────── habillage « poste de commandement »
+   Panneaux de verre et trame de balayage, d'apres la maquette. Ecrits en CSS
+   ordinaire plutot qu'en classes utilitaires : ils servent a plusieurs
+   endroits, et une seule definition evite que les panneaux divergent. */
+.hud-glass {
+  background: rgba(13, 20, 36, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Fines lignes horizontales, comme un vieil ecran de controle. Purement
+   decoratif : jamais au-dessus d'un element cliquable. */
+.hud-scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(15, 23, 42, 0.25) 50%,
+    rgba(15, 23, 42, 0.25)
+  );
+  background-size: 100% 4px;
+}
+
+/* Un ecran qui clignote donne mal a la tete : on l'eteint pour qui demande
+   moins d'animations, comme le reste des effets du jeu. */
+@media (prefers-reduced-motion: reduce) {
+  .hud-scanlines {
+    display: none;
+  }
 }
 
 @layer base {

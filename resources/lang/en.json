@@ -1576,6 +1576,10 @@
     "send": "Send",
     "hint": "Press Enter to write to every player"
   },
+  "lobby_deck": {
+    "class_subtitle": "CLASS: REAL-TIME FRONT STRATEGY",
+    "protocol_title": "TACTICAL DEPLOYMENT PROTOCOL"
+  },
   "resources": {
     "title": "Faction resources",
     "uranium": "Uranium",

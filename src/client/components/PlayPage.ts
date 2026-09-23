@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
 import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
+import { translateText } from "../Utils";
 import "./CosmeticBackground";
 import "./FactionSelector";
 import "./LanguageToggle";
@@ -134,11 +135,40 @@ export class PlayPage extends LitElement {
           ></streaming-now>
         </div>
 
-        <faction-selector></faction-selector>
+        <!-- Bandeau de protocole : ce que le joueur regarde, et de quel genre
+             de jeu il s'agit. Repris de la maquette du poste de commandement. -->
+        <div class="flex items-center justify-between gap-3 px-2 pt-1 lg:px-0">
+          <div class="flex min-w-0 items-center gap-2">
+            <span
+              class="h-4 w-1.5 shrink-0 rounded-full"
+              style="background: var(--color-vanguard)"
+              aria-hidden="true"
+            ></span>
+            <span
+              class="truncate text-[11px] font-bold uppercase tracking-[0.22em]"
+              style="color: var(--color-vanguard)"
+            >
+              ${translateText("lobby_deck.protocol_title")}
+            </span>
+          </div>
+          <span
+            class="hidden shrink-0 text-[11px] uppercase tracking-[0.14em] text-white/40 sm:inline"
+          >
+            ${translateText("lobby_deck.class_subtitle")}
+          </span>
+        </div>
 
-        <game-mode-selector></game-mode-selector>
+        <div class="hud-glass rounded-2xl p-3 sm:p-4">
+          <faction-selector></faction-selector>
+        </div>
 
-        <map-catalog></map-catalog>
+        <div class="hud-glass rounded-2xl p-3 sm:p-4">
+          <game-mode-selector></game-mode-selector>
+        </div>
+
+        <div class="hud-glass rounded-2xl p-3 sm:p-4">
+          <map-catalog></map-catalog>
+        </div>
 
         <!-- Desktop gets the compact footer button instead. -->
         ${SERVICES_DE_COMPTE
