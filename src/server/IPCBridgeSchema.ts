@@ -58,9 +58,21 @@ const WorkerReadySchema = z.object({
   workerId: z.number(),
 });
 
+// Nexus Tri : resultat d'une partie entre humains (voir nexus/Resultats.ts).
+// Le worker joue la partie, mais seul le processus principal ecrit les
+// fichiers de comptes. On ne transmet que des identifiants d'appareil, jamais
+// de pseudonyme ni d'adresse e-mail.
+const WorkerPartieTermineeSchema = z.object({
+  type: z.literal("partieTerminee"),
+  joueurs: z.array(z.string()).max(200),
+  gagnants: z.array(z.string()).max(200),
+});
+export type WorkerPartieTerminee = z.infer<typeof WorkerPartieTermineeSchema>;
+
 export const WorkerMessageSchema = z.discriminatedUnion("type", [
   WorkerLobbyListSchema,
   WorkerReadySchema,
+  WorkerPartieTermineeSchema,
 ]);
 
 // --- Master Messages ---

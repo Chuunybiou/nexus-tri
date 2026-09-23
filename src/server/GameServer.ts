@@ -66,6 +66,7 @@ import {
 import { ListingState } from "./ListingState";
 import { identityFor, MatchTelemetryRecorder } from "./MatchTelemetryRecorder";
 import { friendsLookup, NameVisibility } from "./NameVisibility";
+import { remonterResultat } from "./nexus/Resultats";
 import { Roster } from "./Roster";
 import { ServerEnv } from "./ServerEnv";
 import { SocketIngress } from "./SocketIngress";
@@ -146,7 +147,12 @@ function mintGroupToken(): string {
 
 export function defaultGameServerDeps(): GameServerDeps {
   return {
-    archive: (record) => archive(finalizeGameRecord(record)),
+    archive: (record) => {
+      // Nexus Tri : le resultat part vers nos comptes (classement) avant
+      // l'archivage historique, qui vise un service exterieur.
+      remonterResultat(record);
+      return archive(finalizeGameRecord(record));
+    },
     fetchTribes: fetchCustomTribes,
     env: () => ServerEnv.env(),
     turnIntervalMs: () => ServerEnv.turnIntervalMs(),

@@ -17,6 +17,8 @@ import { getDescriptor } from "./DesktopRelease";
 import { logger } from "./Logger";
 import { MapPlaylist } from "./MapPlaylist";
 import { MasterLobbyService } from "./MasterLobbyService";
+import { ecouterResultats } from "./nexus/Resultats";
+import { routesComptes } from "./nexus/RoutesComptes";
 import { setNoStoreHeaders } from "./NoStoreHeaders";
 import { startPolling } from "./PollingLoop";
 import { renderAppShell } from "./RenderHtml";
@@ -146,6 +148,10 @@ app.use("/api", (_req, res, next) => {
   next();
 });
 
+// Comptes Nexus Tri (pseudonyme, historique, classement). Jamais obligatoires :
+// tout le jeu reste accessible sans compte (voir core/NexusTri.ts).
+app.use("/api", routesComptes());
+
 // Start the master process
 export async function startMaster() {
   if (!cluster.isPrimary) {
@@ -175,6 +181,7 @@ export async function startMaster() {
     });
 
     lobbyService.registerWorker(i, worker);
+    ecouterResultats(worker);
     log.info(`Started worker ${i} (PID: ${worker.process.pid})`);
   }
 
@@ -201,6 +208,7 @@ export async function startMaster() {
     });
 
     lobbyService.registerWorker(workerIdNum, newWorker);
+    ecouterResultats(newWorker);
     log.info(
       `Restarted worker ${workerId} (New PID: ${newWorker.process.pid})`,
     );
