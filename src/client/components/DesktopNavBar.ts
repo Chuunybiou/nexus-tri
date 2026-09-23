@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
 import "./NavAccountMenu";
 import { NavNotificationsController } from "./NavNotificationsController";
@@ -57,11 +56,15 @@ export class DesktopNavBar extends LitElement {
       >
         <div class="flex flex-col items-center justify-center">
           <div class="h-8">
-            <img
-              class="block h-full aspect-[1364/259]"
-              src=${assetUrl("images/NexusTriLogo.svg")}
-              alt="Starfall"
-            />
+            <!-- Le nom ecrit, pas une image : l'ancien logo dessinait
+                 « NEXUS TRI » en traces, impossible a renommer. -->
+            <span
+              class="block whitespace-nowrap text-2xl font-bold tracking-[0.18em] text-white"
+              translate="no"
+              >STARFALL<span style="color: var(--color-vanguard)"
+                >.IO</span
+              ></span
+            >
           </div>
           <div
             id="game-version"

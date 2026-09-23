@@ -293,6 +293,13 @@ export class LangSelector extends LitElement {
       "steam-wishlist-button",
       "streaming-now",
       "tutorial-panel",
+      // Ajouts Starfall : sans cette ligne, ces composants restent figes sur
+      // la cle brute (« STATUS_BAR.TAB_LOBBY ») parce qu'ils s'affichent avant
+      // le chargement des traductions et ne se re-affichent jamais.
+      "command-header",
+      "resource-bar",
+      "chat-bar",
+      "faction-lore-modal",
     ];
 
     document.title = this.translateText("main.title") ?? document.title;

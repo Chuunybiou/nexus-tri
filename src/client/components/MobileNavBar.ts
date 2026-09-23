@@ -1,6 +1,5 @@
 import { html, LitElement, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
-import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
 import { NavNotificationsController } from "./NavNotificationsController";
 
@@ -86,11 +85,13 @@ export class MobileNavBar extends LitElement {
           class="flex flex-col text-malibu-blue mb-4 ml-[clamp(0.2rem,0.4vw,0.4vh)]"
         >
           <div class="flex flex-col items-center gap-1">
-            <img
-              src=${assetUrl("images/NexusTriLogo.svg")}
-              alt="Starfall"
-              class="w-auto h-auto max-w-[220px] max-h-[4.5rem]"
-            />
+            <span
+              class="block whitespace-nowrap text-lg font-bold tracking-[0.16em] text-white"
+              translate="no"
+              >STARFALL<span style="color: var(--color-vanguard)"
+                >.IO</span
+              ></span
+            >
             <div
               id="game-version"
               class="l-header__highlightText text-center"

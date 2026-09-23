@@ -1,9 +1,8 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { assetUrl } from "../../core/AssetUrls";
 import { SERVICES_DE_COMPTE } from "../NexusTri";
 import { translateText } from "../Utils";
-import "./CommandStatusBar";
+import "./CommandHeader";
 import "./CosmeticBackground";
 import "./FactionLoreModal";
 import "./FactionSelector";
@@ -65,11 +64,13 @@ export class PlayPage extends LitElement {
             <div
               class="col-start-2 flex items-center justify-center text-malibu-blue min-w-0"
             >
-              <img
-                src=${assetUrl("images/NexusTriLogo.svg")}
-                alt="Starfall"
-                class="h-full w-auto"
-              />
+              <span
+                class="block whitespace-nowrap text-lg font-bold tracking-[0.16em] text-white"
+                translate="no"
+                >STARFALL<span style="color: var(--color-vanguard)"
+                  >.IO</span
+                ></span
+              >
             </div>
 
             <!-- Right slot: bell, help, settings and the profile control. The menu is
@@ -93,7 +94,7 @@ export class PlayPage extends LitElement {
              is UNDERNEATH the fixed bar above, so the mobile instance lives
              in that bar instead. -->
         <div class="hidden lg:flex items-center gap-2 w-full pt-2">
-          <command-status-bar class="min-w-0 flex-1"></command-status-bar>
+          <command-header class="min-w-0 flex-1"></command-header>
           <language-toggle></language-toggle>
         </div>
 
