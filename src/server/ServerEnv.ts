@@ -115,7 +115,25 @@ export class ServerEnv {
   static turnIntervalMs(): number {
     return 100;
   }
+  /**
+   * Compte a rebours d'un salon public, avant que la partie ne demarre.
+   *
+   * Le jeu d'origine descend a 5 secondes en mode developpement, pour tester
+   * vite. Notre serveur tourne en mode developpement pour une tout autre
+   * raison — desactiver les services fermes d'OpenFront (voir NexusTri.ts) —
+   * et heritait de ce 5 secondes : le joueur cliquait, la partie demarrait
+   * aussitot, sans laisser le temps de choisir ou se poser ni a un ami de
+   * rejoindre.
+   *
+   * NEXUS_ATTENTE_LOBBY (en secondes) tranche, quel que soit le mode. Le
+   * plancher de 5 secondes evite qu'une valeur fantaisiste rende le jeu
+   * injouable.
+   */
   static gameCreationRate(): number {
+    const reglage = Number(process.env.NEXUS_ATTENTE_LOBBY);
+    if (Number.isFinite(reglage) && reglage >= 5) {
+      return reglage * 1000;
+    }
     return ServerEnv.gameEnv === GameEnv.Dev ? 5 * 1000 : 2 * 60 * 1000;
   }
   static workerIndex(gameID: GameID): number {
