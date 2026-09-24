@@ -30,6 +30,13 @@ import { TileRef } from "../game/GameMap";
 /** Part de la carte couverte par le cercle du Cœur, en pour mille. */
 const PART_DE_LA_CARTE_POUR_MILLE = 200;
 
+/**
+ * Garnison du Cœur. Elle ne sert pas a se battre — les attaques qui le visent
+ * sont deja arretees avant de partir — mais a le dire : au classement, le Cœur
+ * apparait pour ce qu'il est, une masse qu'on ne prend pas.
+ */
+const TROUPES_DU_COEUR = 2_000_000;
+
 /** Identifiant et nom du joueur qui tient le centre (sert aussi a le colorier). */
 export const ID_DU_COEUR = "le-coeur";
 export const NOM_DU_COEUR = "Le Cœur";
@@ -104,6 +111,7 @@ export class CoeurExecution implements Execution {
       new PlayerInfo(NOM_DU_COEUR, PlayerType.Bot, null, ID_DU_COEUR),
     );
     const coeur = mg.player(ID_DU_COEUR);
+    coeur.setTroops(TROUPES_DU_COEUR);
 
     const rayonCarre = rayon * rayon;
     const yMin = Math.max(0, cy - rayon);
@@ -129,6 +137,8 @@ export class CoeurExecution implements Execution {
     if (this.zone.length === 0) return;
     if (!mg.hasPlayer(ID_DU_COEUR)) return;
     const coeur = mg.player(ID_DU_COEUR);
+    // La garnison ne fond pas et ne grossit pas : deux millions, toujours.
+    if (coeur.troops() !== TROUPES_DU_COEUR) coeur.setTroops(TROUPES_DU_COEUR);
 
     for (const tile of this.zone) {
       if (mg.owner(tile) !== coeur) coeur.conquer(tile);

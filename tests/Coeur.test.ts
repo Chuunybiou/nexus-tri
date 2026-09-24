@@ -119,6 +119,9 @@ describe("la zone du Cœur, dans une vraie partie", () => {
     // moins. C'est la promesse faite, « 20 % de la carte ».
     expect(coeur.numTilesOwned()).toBe(terreDansLeCercle(runner.game));
     expect(coeur.numTilesOwned()).toBeGreaterThan(1000);
+
+    // Et la garnison annoncee : deux millions, des le depart.
+    expect(coeur.troops()).toBe(2_000_000);
   }, 300_000);
 
   test("elle ne bouge plus : ni plus grande, ni plus petite", async () => {
@@ -136,5 +139,7 @@ describe("la zone du Cœur, dans une vraie partie", () => {
     for (let i = 0; i < 800; i++) runner.game.executeNextTick();
 
     expect(runner.game.player(ID_DU_COEUR).numTilesOwned()).toBe(depart);
+    // La garnison non plus ne fond pas.
+    expect(runner.game.player(ID_DU_COEUR).troops()).toBe(2_000_000);
   }, 600_000);
 });
