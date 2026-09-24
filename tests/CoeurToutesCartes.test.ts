@@ -1,10 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import {
-  gardiensDuCoeur,
-  tileDuCoeur,
-} from "../src/core/execution/CoeurExecution";
+import { tileDuCoeur } from "../src/core/execution/CoeurExecution";
 import { GameMapSize, GameMapType } from "../src/core/game/Game";
 import { loadTerrainMap } from "../src/core/game/TerrainMapLoader";
 import { NodeGameMapLoader } from "./perf/fullgame/NodeGameMapLoader";
@@ -43,33 +40,45 @@ function typeDeCarte(dossier: string): string {
   return manifeste.name ?? dossier;
 }
 
-describe("le Cœur existe sur toutes les cartes", () => {
+describe("le Cœur trouve sa place sur toutes les cartes", () => {
   const loader = new NodeGameMapLoader(RACINE);
 
   for (const dossier of CARTES) {
-    test(`${dossier} : un centre sur la terre, et des gardiens autour`, async () => {
-      const existe = fs.existsSync(path.join(RACINE, dossier));
-      expect(existe).toBe(true);
+    test(
+      `${dossier} : un centre sur la terre, et de quoi tenir 20 % des terres`,
+      async () => {
+        const existe = fs.existsSync(path.join(RACINE, dossier));
+        expect(existe).toBe(true);
 
-      const terrain = await loadTerrainMap(
-        typeDeCarte(dossier) as GameMapType,
-        GameMapSize.Normal,
-        loader,
-        false,
-      );
-      // On n'a pas besoin d'une partie complete : la carte suffit, et
-      // c'est elle qu'on teste.
-      const carte = terrain.gameMap as unknown as Parameters<
-        typeof tileDuCoeur
-      >[0];
+        const terrain = await loadTerrainMap(
+          typeDeCarte(dossier) as GameMapType,
+          GameMapSize.Normal,
+          loader,
+          false,
+        );
+        // On n'a pas besoin d'une partie complete : la carte suffit, et
+        // c'est elle qu'on teste.
+        const carte = terrain.gameMap as unknown as Parameters<
+          typeof tileDuCoeur
+        >[0];
 
-      const centre = tileDuCoeur(carte);
-      expect(centre).not.toBeNull();
-      expect(carte.isLand(centre!)).toBe(true);
-      expect(carte.isImpassable(centre!)).toBe(false);
+        const centre = tileDuCoeur(carte);
+        expect(centre).not.toBeNull();
+        expect(carte.isLand(centre!)).toBe(true);
+        expect(carte.isImpassable(centre!)).toBe(false);
 
-      const gardiens = gardiensDuCoeur(carte, `test-${dossier}`);
-      expect(gardiens.length).toBeGreaterThan(0);
-    }, 120_000);
+        // La zone visee vaut 20 % des terres : si la carte n'a presque pas de
+        // terre, la promesse n'a pas de sens. Toutes celles-ci en ont assez.
+        let terres = 0;
+        for (let y = 0; y < carte.height(); y++) {
+          for (let x = 0; x < carte.width(); x++) {
+            const t = carte.ref(x, y);
+            if (carte.isLand(t) && !carte.isImpassable(t)) terres++;
+          }
+        }
+        expect(Math.floor(terres * 0.2)).toBeGreaterThan(100);
+      },
+      120_000,
+    );
   }
 });

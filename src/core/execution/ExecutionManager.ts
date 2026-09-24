@@ -9,7 +9,6 @@ import { BreakAllianceExecution } from "./alliance/BreakAllianceExecution";
 import { AttackExecution } from "./AttackExecution";
 import { BoatRetreatExecution } from "./BoatRetreatExecution";
 import { ChatExecution } from "./ChatExecution";
-import { gardiensDuCoeur } from "./CoeurExecution";
 import { ConstructionExecution } from "./ConstructionExecution";
 import { DeleteUnitExecution } from "./DeleteUnitExecution";
 import { DonateGoldExecution } from "./DonateGoldExecution";
@@ -153,11 +152,6 @@ export class Executor {
       numTribes,
       this.purchasedTribeNames,
     );
-  }
-
-  /** Les gardiens du Cœur, au centre de la carte (voir CoeurExecution.ts). */
-  gardiensDuCoeur(): SpawnExecution[] {
-    return gardiensDuCoeur(this.mg, this.gameID);
   }
 
   spawnPlayers(): SpawnExecution[] {

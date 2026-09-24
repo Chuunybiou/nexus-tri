@@ -1,4 +1,5 @@
 import { Colord, colord, LabaColor } from "colord";
+import { ID_DU_COEUR } from "../../core/execution/CoeurExecution";
 import { ColoredTeams, PlayerType, Team } from "../../core/game/Game";
 import { UserSettings } from "../../core/game/UserSettings";
 import { simpleHash } from "../../core/Util";
@@ -16,6 +17,9 @@ import { ColorAllocator } from "./ColorAllocator";
  * `ThemeSettings` (a theme JSON like default-theme.json, combined with
  * render-settings.json into the graphics-configuration pipeline).
  */
+/** Le gris du Cœur, au centre de chaque carte. */
+const COULEUR_DU_COEUR = colord({ r: 116, g: 116, b: 120 });
+
 export interface Theme {
   teamColor(team: Team): Colord;
   // Don't call directly, use PlayerView
@@ -151,6 +155,12 @@ export class SettingsTheme implements Theme {
    * allocated from the matching pool (human / nation).
    */
   territoryColor(player: PlayerView): Colord {
+    // Le Cœur n'est pas un adversaire mais un decor : un gris neutre, le meme
+    // sur toutes les cartes et dans tous les themes, pour qu'on le reconnaisse
+    // au premier coup d'oeil et qu'aucune faction ne porte cette couleur.
+    if (player.id() === ID_DU_COEUR) {
+      return COULEUR_DU_COEUR;
+    }
     const team = player.team();
     if (team !== null) {
       return this.teamColorForPlayer(team, player.id());

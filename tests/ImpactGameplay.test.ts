@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { ID_DU_COEUR } from "../src/core/execution/CoeurExecution";
 import { Faction } from "../src/core/game/Factions";
 import {
   Difficulty,
@@ -62,25 +63,26 @@ describe("impact reel des mecaniques", () => {
     for (let i = 0; i < TICKS; i++) runner.game.executeNextTick();
 
     const joueur = runner.game.players().find((p) => p.clientID() === "j1");
-    const gardiens = runner.game
-      .players()
-      .filter((p) => p.name().startsWith("Gardien"));
-    const tenuParGardiens = gardiens.reduce((n, g) => n + g.numTilesOwned(), 0);
+    const coeur = runner.game.hasPlayer(ID_DU_COEUR)
+      ? runner.game.player(ID_DU_COEUR)
+      : null;
+    const tenuParLeCoeur = coeur?.numTilesOwned() ?? 0;
 
     // Ce que ces chiffres disent, ecrit en clair dans la sortie du test :
     // si l'un d'eux est ridicule, la mecanique est invisible en jouant.
     console.log(
       `[impact] Swarm : ${joueur?.numTilesOwned() ?? 0} cases, ` +
         `biomasse ${joueur?.resource(Resource.Biomass) ?? 0} · ` +
-        `gardiens : ${gardiens.length} pour ${tenuParGardiens} cases`,
+        `Cœur : ${tenuParLeCoeur} cases`,
     );
 
-    expect(gardiens.length).toBeGreaterThanOrEqual(4);
-    // Le Cœur doit se voir sans ecraser la partie. En dessous, l'anneau
-    // passe inapercu ; au-dessus, les gardiens mangent la carte — les deux
-    // sont arrives pendant la mise au point.
-    expect(tenuParGardiens).toBeGreaterThan(3_000);
-    expect(tenuParGardiens).toBeLessThan(25_000);
+    // Le Cœur doit se voir sans ecraser la partie : un cercle fige sur un
+    // cinquieme de la carte. Les deux ecueils rencontres pendant la mise au
+    // point etaient un anneau invisible, puis des robots qui mangeaient toute
+    // la carte — et une zone si grande que les nations ne pouvaient plus
+    // apparaitre.
+    expect(coeur).not.toBeNull();
+    expect(tenuParLeCoeur).toBeGreaterThan(100_000);
 
     // La nuee doit avoir gagne du terrain toute seule : c'est la mecanique
     // qu'un joueur doit sentir des la premiere minute.

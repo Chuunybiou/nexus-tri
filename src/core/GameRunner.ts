@@ -159,9 +159,8 @@ export class GameRunner {
     // Ressources de faction : la production suit les villes, et le commerce
     // fait circuler les deux ressources qu'on ne sait pas produire.
     this.game.addExecution(new ResourceProductionExecution());
-    // Le Cœur : des gardiens au centre de la carte, et ce que rapporte le
-    // centre a qui le tient. Sur toutes les cartes (voir CoeurExecution.ts).
-    this.game.addExecution(...this.execManager.gardiensDuCoeur());
+    // Le Cœur : une zone grise et figee au centre de la carte, posee des le
+    // premier tick. Sur toutes les cartes (voir CoeurExecution.ts).
     this.game.addExecution(new CoeurExecution());
     if (this.game.config().doomsdayClockConfig().enabled) {
       this.game.addExecution(new DoomsdayClockExecution());

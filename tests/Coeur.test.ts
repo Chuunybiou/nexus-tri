@@ -1,96 +1,140 @@
-import {
-  CoeurExecution,
-  gardiensDuCoeur,
-  tileDuCoeur,
-} from "../src/core/execution/CoeurExecution";
+import path from "path";
+import { fileURLToPath } from "url";
+import { ID_DU_COEUR, tileDuCoeur } from "../src/core/execution/CoeurExecution";
 import { Faction } from "../src/core/game/Factions";
-import { Game, Player, PlayerInfo, PlayerType } from "../src/core/game/Game";
-import { Resource } from "../src/core/game/Resources";
+import {
+  Difficulty,
+  Game,
+  GameMapSize,
+  GameMapType,
+  GameMode,
+  GameType,
+  PlayerType,
+} from "../src/core/game/Game";
+import { createGameRunner } from "../src/core/GameRunner";
+import { GameStartInfo } from "../src/core/Schemas";
+import { NodeGameMapLoader } from "./perf/fullgame/NodeGameMapLoader";
 import { setup } from "./util/Setup";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const loader = new NodeGameMapLoader(path.join(__dirname, "../resources/maps"));
+
+function partie(carte: GameMapType): GameStartInfo {
+  return {
+    gameID: "coeur",
+    lobbyCreatedAt: Date.now(),
+    config: {
+      gameMap: carte,
+      gameMapSize: GameMapSize.Normal,
+      gameMode: GameMode.FFA,
+      gameType: GameType.Public,
+      difficulty: Difficulty.Medium,
+      nations: "default",
+      donateGold: true,
+      donateTroops: true,
+      bots: 5,
+      infiniteGold: false,
+      infiniteTroops: false,
+      instantBuild: false,
+      randomSpawn: true,
+    },
+    players: [
+      {
+        clientID: "j1",
+        username: "Joueur",
+        clanTag: null,
+        faction: Faction.Vanguard,
+      },
+    ],
+  } as GameStartInfo;
+}
+
 /**
- * Le Cœur doit exister sur TOUTES les cartes : c'est la promesse faite: une
- * position codee en dur ne marcherait que sur une carte ronde.
+ * Recalcule, a la main, la terre qui tombe dans le cercle du Cœur : un cercle
+ * dont l'aire vaut 20 % de la carte, centre sur la terre la plus centrale.
+ * Le test compare ce compte a ce que la partie a reellement donne au Cœur.
  */
-describe("le Cœur de la carte", () => {
-  let game: Game;
+function terreDansLeCercle(mg: Game): number {
+  const centre = tileDuCoeur(mg);
+  if (centre === null) return 0;
+  const cx = mg.x(centre);
+  const cy = mg.y(centre);
+  const rayon = Math.round(
+    Math.sqrt((mg.width() * mg.height() * 0.2) / Math.PI),
+  );
+  let n = 0;
+  for (
+    let y = Math.max(0, cy - rayon);
+    y <= Math.min(mg.height() - 1, cy + rayon);
+    y++
+  ) {
+    for (
+      let x = Math.max(0, cx - rayon);
+      x <= Math.min(mg.width() - 1, cx + rayon);
+      x++
+    ) {
+      const dx = x - cx;
+      const dy = y - cy;
+      if (dx * dx + dy * dy > rayon * rayon) continue;
+      const t = mg.ref(x, y);
+      if (mg.isLand(t) && !mg.isImpassable(t)) n++;
+    }
+  }
+  return n;
+}
 
-  beforeEach(async () => {
-    game = await setup("ocean_and_land");
-  });
-
-  test("le centre tombe sur de la terre praticable", () => {
+describe("le centre de la carte", () => {
+  test("il tombe sur de la terre praticable", async () => {
+    const game = await setup("ocean_and_land");
     const centre = tileDuCoeur(game);
     expect(centre).not.toBeNull();
     expect(game.isLand(centre!)).toBe(true);
     expect(game.isImpassable(centre!)).toBe(false);
   });
 
-  test("le meme centre est trouve a chaque fois (deux clients doivent s'accorder)", () => {
+  test("le meme centre a chaque fois (deux clients doivent s'accorder)", async () => {
+    const game = await setup("ocean_and_land");
     expect(tileDuCoeur(game)).toBe(tileDuCoeur(game));
   });
+});
 
-  test("des gardiens sont poses autour du centre", () => {
-    const spawns = gardiensDuCoeur(game, "partie-test");
-    expect(spawns.length).toBeGreaterThan(0);
-    // Chacun a sa tuile, et aucun ne se pose sur le centre lui-meme.
-    const centre = tileDuCoeur(game);
-    for (const s of spawns) {
-      expect(s.tile).toBeDefined();
-      expect(s.tile).not.toBe(centre);
-    }
-  });
-
-  test("tenir le centre rapporte les DEUX ressources qu'on ne produit pas", () => {
-    const info = new PlayerInfo(
-      "tenant",
-      PlayerType.Human,
-      null,
-      "tenant",
-      false,
-      null,
-      [],
-      null,
-      null,
-      Faction.Swarm,
+describe("la zone du Cœur, dans une vraie partie", () => {
+  test("elle existe des le depart et couvre 20 % de la carte", async () => {
+    const runner = await createGameRunner(
+      partie("Europe" as GameMapType),
+      "j1",
+      loader,
+      () => {},
     );
-    game.addPlayer(info);
-    const joueur: Player = game.player("tenant");
-    const centre = tileDuCoeur(game)!;
-    joueur.conquer(centre);
+    // Deux tours de boucle : le premier initialise l'execution, le second
+    // pose la zone — bien avant que quiconque ait joue.
+    runner.game.executeNextTick();
+    runner.game.executeNextTick();
 
-    const exec = new CoeurExecution();
-    exec.init(game, 10);
-    exec.tick(10);
+    expect(runner.game.hasPlayer(ID_DU_COEUR)).toBe(true);
+    const coeur = runner.game.player(ID_DU_COEUR);
+    expect(coeur.type()).toBe(PlayerType.Bot);
 
-    // Le Swarm produit la biomasse : le Cœur donne les deux autres.
-    expect(joueur.resource(Resource.Biomass)).toBe(0);
-    expect(joueur.resource(Resource.Uranium)).toBeGreaterThan(0);
-    expect(joueur.resource(Resource.Crystal)).toBeGreaterThan(0);
-  });
+    // Exactement la terre du cercle : pas une case de plus, pas une de
+    // moins. C'est la promesse faite, « 20 % de la carte ».
+    expect(coeur.numTilesOwned()).toBe(terreDansLeCercle(runner.game));
+    expect(coeur.numTilesOwned()).toBeGreaterThan(1000);
+  }, 300_000);
 
-  test("rien ne tombe entre deux secondes", () => {
-    const info = new PlayerInfo(
-      "tenant2",
-      PlayerType.Human,
-      null,
-      "tenant2",
-      false,
-      null,
-      [],
-      null,
-      null,
-      Faction.Vanguard,
+  test("elle ne bouge plus : ni plus grande, ni plus petite", async () => {
+    const runner = await createGameRunner(
+      partie("Europe" as GameMapType),
+      "j1",
+      loader,
+      () => {},
     );
-    game.addPlayer(info);
-    const joueur: Player = game.player("tenant2");
-    joueur.conquer(tileDuCoeur(game)!);
+    runner.game.executeNextTick();
+    runner.game.executeNextTick();
+    const depart = runner.game.player(ID_DU_COEUR).numTilesOwned();
 
-    const exec = new CoeurExecution();
-    exec.init(game, 10);
-    for (let t = 11; t < 20; t++) exec.tick(t);
-    expect(joueur.resource(Resource.Biomass)).toBe(0);
-    exec.tick(20);
-    expect(joueur.resource(Resource.Biomass)).toBeGreaterThan(0);
-  });
+    // Une minute de jeu, avec des robots qui cherchent a s'etendre partout.
+    for (let i = 0; i < 800; i++) runner.game.executeNextTick();
+
+    expect(runner.game.player(ID_DU_COEUR).numTilesOwned()).toBe(depart);
+  }, 600_000);
 });

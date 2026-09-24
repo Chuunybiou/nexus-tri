@@ -16,6 +16,7 @@ import {
 import { GameMap, TileRef } from "../game/GameMap";
 import { PseudoRandom } from "../PseudoRandom";
 import { assertNever } from "../Util";
+import { ID_DU_COEUR } from "./CoeurExecution";
 import { FlatBinaryHeap } from "./utils/FlatBinaryHeap"; // adjust path if needed
 
 const malusForRetreat = 25;
@@ -65,6 +66,14 @@ export class AttackExecution implements Execution {
 
     if (this._targetID !== null && !mg.hasPlayer(this._targetID)) {
       console.warn(`target ${this._targetID} not found`);
+      this.active = false;
+      return;
+    }
+
+    // Le Cœur ne se prend pas : c'est un decor fige au centre de la carte, pas
+    // un adversaire. On arrete l'attaque avant qu'elle ne coute des troupes,
+    // sinon chacun viderait son armee contre un mur qui se reforme.
+    if (this._targetID === ID_DU_COEUR) {
       this.active = false;
       return;
     }
