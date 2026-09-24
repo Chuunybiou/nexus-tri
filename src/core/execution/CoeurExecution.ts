@@ -42,13 +42,31 @@ const RAYON_PAR_MILLE = 90;
 const PRIME_PAR_SECONDE = 2;
 
 /**
- * Troupes donnees une fois a chaque gardien.
+ * Garnison permanente de chaque gardien.
  *
- * Sans ca, un gardien ressemble a n'importe quel robot et l'anneau ne se voit
- * pas : c'est pourtant tout l'interet du Cœur, qu'on le reconnaisse au premier
- * coup d'oeil et qu'il faille s'organiser pour le prendre.
+ * Elle est RETABLIE chaque seconde, et c'est indispensable : dans ce jeu, la
+ * taille d'une armee suit la taille du territoire. Un gardien tenu en laisse
+ * sur un petit anneau devient donc tres faible, et une mesure sur une vraie
+ * partie a montre les six se faire manger par les nations en moins d'une
+ * minute — le cercle disparaissait avant qu'un joueur l'atteigne.
+ *
+ * Avec la garnison, le Cœur se prend a plusieurs ou pas du tout.
  */
-const TROUPES_GARDIEN = 3000;
+const GARNISON_GARDIEN = 5000;
+
+/**
+ * Rayon du fief de chaque gardien, autour de son point de depart.
+ *
+ * C'est ce qui fait la difference entre « six robots de plus » et « un cercle
+ * garde au centre ». Sans cette laisse, l'intelligence des robots les fait
+ * s'etendre comme les autres : une mesure sur une vraie partie a montre six
+ * gardiens tenant 36 000 cases.
+ *
+ * Attachee au gardien et non au centre : une laisse autour du centre laissait
+ * un disque immense, et les six se rejoignaient en une tache au lieu de six
+ * postes en cercle.
+ */
+const RAYON_FIEF = 28;
 
 /** Le nom qui identifie un gardien, aussi bien a l'ecran que dans le code. */
 export const PREFIXE_GARDIEN = "Gardien";
@@ -169,7 +187,8 @@ export class CoeurExecution implements Execution {
   private centre: TileRef | null = null;
   private proprietaire: Player | null = null;
 
-  private renforcesFaits = false;
+  /** Point d'ancrage de chaque gardien : sa premiere case connue. */
+  private ancres = new Map<string, TileRef>();
 
   init(mg: Game, _ticks: number): void {
     this.mg = mg;
@@ -177,17 +196,51 @@ export class CoeurExecution implements Execution {
   }
 
   /**
-   * Un seul renfort, a la premiere seconde de jeu : les gardiens sont poses
-   * pendant la phase de depart, donc ils n'existent pas encore au moment ou
-   * cette execution est creee.
+   * Ramene chaque gardien dans son anneau.
+   *
+   * Les gardiens sont des robots : leur intelligence les pousse a conquerir
+   * toute la carte comme n'importe quel robot. On leur reprend donc ce qu'ils
+   * prennent trop loin du centre. Resultat : un cercle qui reste un cercle.
    */
-  private renforcer(mg: Game): void {
-    if (this.renforcesFaits) return;
-    this.renforcesFaits = true;
+  private tenirLAnneau(mg: Game): void {
+    const limite = RAYON_FIEF * RAYON_FIEF;
     for (const joueur of mg.players()) {
-      if (joueur.name().startsWith(PREFIXE_GARDIEN)) {
-        joueur.addTroops(TROUPES_GARDIEN);
+      if (!joueur.name().startsWith(PREFIXE_GARDIEN)) continue;
+
+      // L'ancre est la premiere case qu'on lui connait : elle ne bouge plus,
+      // sinon le fief deriverait avec les conquetes du robot.
+      const connue = this.ancres.get(joueur.id());
+      let ancre: TileRef;
+      if (connue !== undefined) {
+        ancre = connue;
+      } else {
+        const premiere: TileRef | undefined = joueur
+          .tiles()
+          .values()
+          .next().value;
+        if (premiere === undefined) continue;
+        ancre = premiere;
+        this.ancres.set(joueur.id(), ancre);
       }
+      const ax = mg.x(ancre);
+      const ay = mg.y(ancre);
+
+      const trop: TileRef[] = [];
+      joueur.tiles().forEach((tile) => {
+        const dx = mg.x(tile) - ax;
+        const dy = mg.y(tile) - ay;
+        if (dx * dx + dy * dy > limite) trop.push(tile);
+      });
+      for (const tile of trop) joueur.relinquish(tile);
+    }
+  }
+
+  /** Retablit la garnison de chaque gardien, chaque seconde. */
+  private renforcer(mg: Game): void {
+    for (const joueur of mg.players()) {
+      if (!joueur.name().startsWith(PREFIXE_GARDIEN)) continue;
+      const manque = GARNISON_GARDIEN - joueur.troops();
+      if (manque > 0) joueur.addTroops(manque);
     }
   }
 
@@ -197,6 +250,7 @@ export class CoeurExecution implements Execution {
     const centre = this.centre;
     if (mg === null || centre === null) return;
     this.renforcer(mg);
+    this.tenirLAnneau(mg);
 
     const owner = mg.owner(centre);
     if (!owner.isPlayer()) {
