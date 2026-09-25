@@ -199,6 +199,11 @@ export class MapRenderer {
       patternData,
     );
   }
+  /** Faction de chaque joueur, pour la forme et la couleur des batiments. */
+  uploadFactions(data: Uint8Array): void {
+    this.renderer?.uploadFactions(data);
+  }
+
   setPlayerSkin(smallID: number, url: string | null): void {
     this.renderer?.setPlayerSkin(smallID, url);
   }

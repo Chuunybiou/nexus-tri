@@ -4,6 +4,9 @@ precision highp float;
 uniform sampler2D uPalette;
 uniform sampler2D uAtlas;
 uniform sampler2D uAffiliation;   // 256×2 RGBA8 — row 1 = unit affiliation
+uniform highp usampler2D uFaction; // 256x1 R8UI — faction du proprietaire,
+                                  //   indexee par smallID : 0 Vanguard,
+                                  //   1 Swarm, 2 Ascendant
 uniform sampler2D uEffect;        // RGBA32F — shared effect palette, keyed by
                                   //   ownerID. The structures block starts at row
                                   //   STRUCT_EFFECT_ROW_BASE; same layout as
@@ -113,6 +116,43 @@ float sdPolygon(vec2 p, float R, float n, float rot) {
   return length(p) * cos(a) - R * cos(an);
 }
 
+/**
+ * Silhouette de faction.
+ *
+ * C'est elle qu'on voit de loin, quand l'icone du batiment n'est plus dessinee.
+ * Trois familles franchement differentes, dans l'esprit des trois races de
+ * StarCraft :
+ *
+ *   Vanguard  — plaque carree, angles vifs : de l'acier boulonne.
+ *   Swarm     — contour bossele, jamais deux fois le meme rayon : du vivant.
+ *   Ascendant — losange facette, tout en diagonale : du cristal taille.
+ *
+ * Le type du batiment reste lisible par son icone au centre et par sa taille ;
+ * la silhouette, elle, dit la race.
+ */
+float factionSDF(vec2 p, float R, int f) {
+  if (f == 1) {
+    // Swarm : le rayon ondule avec l'angle. Deux frequences superposees pour
+    // que le contour ne retombe pas sur une fleur reguliere.
+    float a = atan(p.y, p.x);
+    float r = R * (1.0 + 0.14 * sin(a * 7.0) + 0.07 * sin(a * 3.0 + 1.2));
+    return length(p) - r;
+  }
+  if (f == 2) {
+    // Ascendant : losange, pointe en haut.
+    return sdPolygon(p, R * 1.14, 4.0, PI * 0.25);
+  }
+  // Vanguard : carre, cotes plats.
+  return sdPolygon(p, R * 1.06, 4.0, 0.0);
+}
+
+/** Couleur propre a chaque race, melangee au remplissage et portee par le bord. */
+vec3 factionColor(int f) {
+  if (f == 1) return vec3(0.541, 0.259, 0.596);  // Swarm : violet carapace
+  if (f == 2) return vec3(0.882, 0.706, 0.208);  // Ascendant : or
+  return vec3(0.298, 0.529, 0.729);              // Vanguard : bleu acier
+}
+
 // Per-structure-type shape SDF.
 // Atlas indices: 0=City, 1=Port, 2=Factory, 3=DefensePost, 4=SAM, 5=Silo
 float shapeSDF(vec2 p, float R) {
@@ -134,7 +174,21 @@ void main() {
   float radius = 0.45;
   float borderWidth = 0.06 / vShapeScale;
 
-  float sdf = shapeSDF(vLocalPos, radius);
+  int fac = int(texelFetch(uFaction, ivec2(int(vOwnerID + 0.5), 0), 0).r);
+  vec3 facCol = factionColor(fac);
+
+  // La silhouette melange les deux informations au lieu d'en sacrifier une :
+  // la forme du TYPE (rond pour la ville, pentagone pour le port...) et celle
+  // de la RACE. Une ville Vanguard devient un carre aux angles adoucis, une
+  // ville Swarm une bosse irreguliere, une ville Ascendant un losange emousse
+  // — et un port reste plus pointu qu'une ville dans les trois cas.
+  // Le rayon de la forme de race est rentre un peu, pour que rien ne deborde
+  // du carre dessine par le sommet.
+  float sdf = mix(
+    shapeSDF(vLocalPos, radius),
+    factionSDF(vLocalPos, radius * 0.88, fac),
+    0.62
+  );
   float fw = fwidth(dist);
 
   // When highlight is active, expand the region to include the outer outline band.
@@ -167,6 +221,11 @@ void main() {
     // vScale < 1.0 = darker, > 1.0 = brighter
     fillColor.rgb = darken(fillColor.rgb, uFillDarken);
     borderColor.rgb = darken(borderColor.rgb, uBorderDarken);
+    // La race se lit dans la couleur sans effacer le proprietaire : le bord
+    // prend franchement la couleur de faction, le remplissage n'en recoit
+    // qu'un tiers et garde donc la teinte du joueur.
+    fillColor.rgb = mix(fillColor.rgb, facCol, 0.33);
+    borderColor.rgb = mix(borderColor.rgb, facCol, 0.85);
     fillColor.a = 1.0;
     borderColor.a = 1.0;
   }

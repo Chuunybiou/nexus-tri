@@ -15,6 +15,7 @@ import {
 } from "../core/CosmeticSchemas";
 import { ID_DU_COEUR } from "../core/execution/CoeurExecution";
 import { factionPattern } from "../core/game/FactionPatterns";
+import { Faction } from "../core/game/Factions";
 import { PlayerType } from "../core/game/Game";
 import { decodePatternData } from "../core/PatternDecoder";
 import { getCachedCosmetics } from "./Cosmetics";
@@ -189,6 +190,12 @@ export class WebGLFrameBuilder {
   private readonly effectEntryScratch = new Float32Array(EFFECT_ENTRY_FLOATS);
   private readonly patternMeta: Float32Array;
   private readonly patternData: Uint8Array;
+  /**
+   * Faction de chaque joueur, indexee par smallID. Les batiments y prennent
+   * leur forme et leur couleur : sans cela, un fort Swarm et un fort Ascendant
+   * sont le meme rond a l'ecran.
+   */
+  private readonly factionData: Uint8Array;
 
   private readonly knownSmallIDs = new Set<number>();
   /**
@@ -236,6 +243,7 @@ export class WebGLFrameBuilder {
     );
     this.patternMeta = new Float32Array(PALETTE_SIZE * 4);
     this.patternData = new Uint8Array(PALETTE_SIZE * 1024);
+    this.factionData = new Uint8Array(PALETTE_SIZE);
   }
 
   /** Drop internal caches to force a full re-upload of state on the next update(). */
@@ -555,6 +563,7 @@ export class WebGLFrameBuilder {
         this.patternMeta,
         this.patternData,
       );
+      this.view.uploadFactions(this.factionData);
     }
   }
 
@@ -576,6 +585,7 @@ export class WebGLFrameBuilder {
       this.patternMeta,
       this.patternData,
     );
+    this.view.uploadFactions(this.factionData);
     this.effectResolved.clear();
     // Ticks (and so update()) stop while the game is paused.
     this.syncPlayerEffects(gameView);
@@ -604,6 +614,8 @@ export class WebGLFrameBuilder {
       this.view.setPlayerSkin(smallID, skinUrl ? assetUrl(skinUrl) : null);
     }
 
+    this.factionData[smallID] = codeDeFaction(p.faction());
+
     const metaOff = smallID * 4;
     this.patternMeta.fill(0, metaOff, metaOff + 4);
     const pattern = p.cosmetics.pattern;
@@ -625,7 +637,7 @@ export class WebGLFrameBuilder {
         console.warn("Failed to decode territory pattern", e);
       }
     }
-    if (!painted && p.id() !== ID_DU_COEUR) {
+    if (!painted && p.static.id !== ID_DU_COEUR) {
       // No purchased pattern: paint the faction's own. Territory is the single
       // biggest surface in the game, so this is what actually makes a Swarm
       // border readable as Swarm from across the map. A bought cosmetic still
@@ -807,5 +819,21 @@ export class WebGLFrameBuilder {
     this.palette[borderOff + 1] = borderRgba.g / 255;
     this.palette[borderOff + 2] = borderRgba.b / 255;
     this.palette[borderOff + 3] = 1.0;
+  }
+}
+
+/**
+ * Le code que la carte graphique lit pour choisir la forme et la couleur d'un
+ * batiment. L'ordre est le meme des deux cotes : 0 Vanguard, 1 Swarm,
+ * 2 Ascendant (voir structure.frag.glsl).
+ */
+function codeDeFaction(faction: Faction): number {
+  switch (faction) {
+    case Faction.Swarm:
+      return 1;
+    case Faction.Ascendant:
+      return 2;
+    default:
+      return 0;
   }
 }

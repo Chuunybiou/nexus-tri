@@ -174,6 +174,12 @@ export class GPURenderer {
   private skinLayerTex: WebGLTexture;
   /** CPU-side mirror of skinLayerTex (0 = no skin, otherwise layer + 1). */
   private skinLayerCpu: Uint8Array;
+  /**
+   * Faction de chaque joueur, indexee par smallID : 0 Vanguard, 1 Swarm,
+   * 2 Ascendant. Les batiments y lisent leur forme et leur couleur.
+   */
+  private factionTex: WebGLTexture;
+  private factionCpu: Uint8Array;
   /** Per-player anchor (x,y) for skin sampling. (0,0) = world-origin anchor. */
   private skinAnchorTex: WebGLTexture;
   private skinAnchorCpu: Uint16Array;
@@ -354,6 +360,16 @@ export class GPURenderer {
       format: gl.RED_INTEGER,
       type: gl.UNSIGNED_BYTE,
       data: this.skinLayerCpu,
+      filter: gl.NEAREST,
+    });
+    this.factionCpu = new Uint8Array(palW);
+    this.factionTex = createTexture2D(gl, {
+      width: palW,
+      height: 1,
+      internalFormat: gl.R8UI,
+      format: gl.RED_INTEGER,
+      type: gl.UNSIGNED_BYTE,
+      data: this.factionCpu,
       filter: gl.NEAREST,
     });
     // Per-player skin anchor: RG16UI, 2× uint16 per player → 4 bytes each.
@@ -570,6 +586,9 @@ export class GPURenderer {
       this.effectTex,
       this.settings,
     );
+    // Les batiments prennent leur forme et leur couleur de la faction de leur
+    // proprietaire : c'est ce qui rend les trois races lisibles a l'ecran.
+    this.structurePass.setFactionTex(this.factionTex);
     this.structureLevelPass = new StructureLevelPass(gl, header, this.settings);
     this.unitPass = new UnitPass(
       gl,
@@ -882,6 +901,24 @@ export class GPURenderer {
     }
     this.skinLayerCpu[smallID] = layer + 1;
     this.uploadSkinLayerTex();
+  }
+
+  /** Envoie la faction de chaque joueur a la carte graphique. */
+  uploadFactions(data: Uint8Array): void {
+    const gl = this.gl;
+    this.factionCpu.set(data.subarray(0, this.factionCpu.length));
+    gl.bindTexture(gl.TEXTURE_2D, this.factionTex);
+    gl.texSubImage2D(
+      gl.TEXTURE_2D,
+      0,
+      0,
+      0,
+      getPaletteSize(),
+      1,
+      gl.RED_INTEGER,
+      gl.UNSIGNED_BYTE,
+      this.factionCpu,
+    );
   }
 
   private uploadSkinLayerTex(): void {
@@ -1518,6 +1555,7 @@ export class GPURenderer {
     this.gl.deleteTexture(this.patternMetaTex);
     this.gl.deleteTexture(this.patternDataTex);
     this.gl.deleteTexture(this.skinLayerTex);
+    this.gl.deleteTexture(this.factionTex);
     this.gl.deleteTexture(this.skinAnchorTex);
     this.skinAtlas.dispose();
     this.gl.deleteFramebuffer(this.sceneTarget.fbo);

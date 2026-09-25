@@ -15,10 +15,14 @@ const EQUIPPED = {
   crown: { name: "gold", url: "https://cdn.example.com/crowns/gold.png" },
 } as PlayerCosmetics;
 
-function setup(visibility: CosmeticVisibility = {}) {
+function setup(
+  visibility: CosmeticVisibility = {},
+  factionJouee: Faction = Faction.Vanguard,
+) {
   const skinCalls: Array<[number, string | null]> = [];
   const cosmeticUploads: PlayerStatic[][] = [];
   const effectUploads: Float32Array[] = [];
+  const factionUploads: Uint8Array[] = [];
   const view = {
     initSkinAtlas: () => {},
     addPlayers: () => {},
@@ -29,6 +33,9 @@ function setup(visibility: CosmeticVisibility = {}) {
     updatePlayerCosmetics: (players: PlayerStatic[]) =>
       cosmeticUploads.push(players),
     updateEffectPalette: (palette: Float32Array) => effectUploads.push(palette),
+    // Faction de chaque joueur : la forme et la couleur des batiments en
+    // dependent, donc le constructeur de trames l'envoie comme le reste.
+    uploadFactions: (data: Uint8Array) => factionUploads.push(data.slice()),
   };
   const builder = new WebGLFrameBuilder(view as never) as unknown as {
     localPlayerSmallID: number;
@@ -45,7 +52,7 @@ function setup(visibility: CosmeticVisibility = {}) {
     smallID: () => SID,
     // Every real PlayerView carries one, and syncPlayer reads it to pick the
     // territory pattern when the player has no purchased cosmetic.
-    faction: () => Faction.Vanguard,
+    faction: () => factionJouee,
     displayName: () => "p",
     territoryColor: () => colord("#112233"),
     borderColor: () => colord("#445566"),
@@ -61,7 +68,14 @@ function setup(visibility: CosmeticVisibility = {}) {
     setNukeTrailSpiral: () => {},
     clearNukeTrailSpiral: () => {},
   };
-  return { builder, gameView, skinCalls, cosmeticUploads, effectUploads };
+  return {
+    builder,
+    gameView,
+    skinCalls,
+    cosmeticUploads,
+    effectUploads,
+    factionUploads,
+  };
 }
 
 describe("WebGLFrameBuilder cosmetics refresh", () => {
@@ -126,5 +140,25 @@ describe("WebGLFrameBuilder cosmetics refresh", () => {
     builder.syncPlayers(gameView);
     builder.syncLocalPlayer(gameView);
     expect(cosmeticUploads).toHaveLength(0);
+  });
+});
+
+describe("la faction part vers la carte graphique", () => {
+  /**
+   * La forme et la couleur des batiments sont choisies par la carte graphique
+   * a partir d'un seul octet par joueur. Si cet octet n'arrive pas, les trois
+   * races redeviennent le meme rond : c'est ce que ce test surveille.
+   *
+   * Les codes doivent rester ceux que lit structure.frag.glsl.
+   */
+  test.each([
+    [Faction.Vanguard, 0],
+    [Faction.Swarm, 1],
+    [Faction.Ascendant, 2],
+  ])("%s est envoyee avec le code %i", (faction, code) => {
+    const { builder, gameView, factionUploads } = setup({}, faction);
+    builder.syncPlayers(gameView);
+    expect(factionUploads.length).toBeGreaterThan(0);
+    expect(factionUploads[factionUploads.length - 1][SID]).toBe(code);
   });
 });

@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { ID_DU_COEUR } from "../src/core/execution/CoeurExecution";
@@ -149,4 +150,49 @@ describe("dans une vraie partie", () => {
       expect(n / autres.length).toBeGreaterThan(0.15);
     }
   }, 300_000);
+});
+
+describe("le contrat avec la carte graphique", () => {
+  /**
+   * Les formes et les couleurs des batiments sont choisies dans un shader,
+   * c'est-a-dire dans du code que rien ici ne peut executer : ni test ni
+   * compilateur ne verront une faute. Ce qu'on peut verifier, c'est que les
+   * deux cotes parlent encore la meme langue — meme nom d'uniforme, memes
+   * codes 0/1/2. Renommer l'un sans l'autre est l'erreur la plus facile a
+   * commettre et la plus penible a diagnostiquer : a l'ecran, les batiments
+   * redeviennent silencieusement identiques.
+   */
+  const shader = fs.readFileSync(
+    path.join(
+      __dirname,
+      "../src/client/render/gl/shaders/structure/structure.frag.glsl",
+    ),
+    "utf8",
+  );
+
+  test("le shader recoit bien la faction du proprietaire", () => {
+    expect(shader).toMatch(/uniform\s+highp\s+usampler2D\s+uFaction\s*;/);
+    expect(shader).toMatch(/texelFetch\(\s*uFaction/);
+  });
+
+  test("les trois codes sont traites, pour la forme comme pour la couleur", () => {
+    const silhouette = shader.slice(
+      shader.indexOf("float factionSDF"),
+      shader.indexOf("vec3 factionColor"),
+    );
+    const couleur = shader.slice(
+      shader.indexOf("vec3 factionColor"),
+      shader.indexOf("float shapeSDF"),
+    );
+    for (const bloc of [silhouette, couleur]) {
+      expect(bloc).toContain("f == 1");
+      expect(bloc).toContain("f == 2");
+    }
+    // Le code 0 ne doit surtout PAS avoir sa propre condition : il est le cas
+    // par defaut, ce qui fait qu'un joueur dont la faction est inconnue (vieux
+    // replay, version plus recente) s'affiche en Vanguard au lieu de
+    // disparaitre de la carte.
+    expect(silhouette).not.toContain("f == 0");
+    expect(couleur).not.toContain("f == 0");
+  });
 });

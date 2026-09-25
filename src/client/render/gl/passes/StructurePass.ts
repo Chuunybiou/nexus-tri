@@ -111,6 +111,15 @@ export class StructurePass {
   private effectTex: WebGLTexture;
   private atlasTex: WebGLTexture;
   private affiliationTex: WebGLTexture | null = null;
+  /**
+   * Faction de chaque joueur, indexee par smallID (0/1/2).
+   *
+   * Jamais nul : un echantillonneur d'entiers laisse sans texture rend le
+   * dessin invalide. Une texture d'un pixel tient lieu de repli tant que la
+   * vraie n'est pas fournie — c'est le cas de l'apercu des cosmetiques, qui
+   * construit ce pass sans partie derriere.
+   */
+  private factionTex: WebGLTexture;
   private altView = false;
 
   private instanceCount = 0;
@@ -206,9 +215,30 @@ export class StructurePass {
     gl.uniform1i(gl.getUniformLocation(this.program, "uAtlas"), 1);
     gl.uniform1i(gl.getUniformLocation(this.program, "uAffiliation"), 2);
     gl.uniform1i(gl.getUniformLocation(this.program, "uEffect"), 3);
+    gl.uniform1i(gl.getUniformLocation(this.program, "uFaction"), 4);
     gl.uniform1f(this.uGhostAlpha, 1.0);
     gl.uniform3f(this.uOutlineColor, 0, 0, 0);
     gl.uniform1i(this.uHighlightMask, 0);
+
+    // Repli d'un pixel pour la faction : voir le champ factionTex.
+    this.factionTex = gl.createTexture()!;
+    gl.activeTexture(gl.TEXTURE4);
+    gl.bindTexture(gl.TEXTURE_2D, this.factionTex);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.R8UI,
+      1,
+      1,
+      0,
+      gl.RED_INTEGER,
+      gl.UNSIGNED_BYTE,
+      new Uint8Array([0]),
+    );
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
     // Create placeholder atlas texture (1×1 white pixel)
     // Replaced asynchronously once SVGs load
@@ -366,6 +396,10 @@ export class StructurePass {
     this.affiliationTex = tex;
   }
 
+  setFactionTex(tex: WebGLTexture): void {
+    this.factionTex = tex;
+  }
+
   draw(cameraMatrix: Float32Array, zoom: number): void {
     const hasGhost =
       this.ghost !== null && this.typeToAtlasCol.has(this.ghost.ghostType);
@@ -424,6 +458,9 @@ export class StructurePass {
 
     gl.activeTexture(gl.TEXTURE3);
     gl.bindTexture(gl.TEXTURE_2D, this.effectTex);
+
+    gl.activeTexture(gl.TEXTURE4);
+    gl.bindTexture(gl.TEXTURE_2D, this.factionTex);
 
     gl.bindVertexArray(this.vao);
 
