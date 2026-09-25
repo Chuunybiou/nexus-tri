@@ -13,6 +13,7 @@ import {
   type NukeExplosionType,
   TRAIL_EFFECT_TYPES,
 } from "../core/CosmeticSchemas";
+import { ID_DU_COEUR } from "../core/execution/CoeurExecution";
 import { factionPattern } from "../core/game/FactionPatterns";
 import { PlayerType } from "../core/game/Game";
 import { decodePatternData } from "../core/PatternDecoder";
@@ -624,11 +625,15 @@ export class WebGLFrameBuilder {
         console.warn("Failed to decode territory pattern", e);
       }
     }
-    if (!painted) {
+    if (!painted && p.id() !== ID_DU_COEUR) {
       // No purchased pattern: paint the faction's own. Territory is the single
       // biggest surface in the game, so this is what actually makes a Swarm
       // border readable as Swarm from across the map. A bought cosmetic still
       // wins — players who paid for a pattern keep it.
+      //
+      // Le Cœur est la seule exception : un gris plat, sans texture. Il n'est
+      // pas un joueur, et lui donner le motif d'une faction le ferait passer
+      // pour l'un d'eux.
       const fp = factionPattern(p.faction());
       this.patternMeta[metaOff] = 1.0;
       this.patternMeta[metaOff + 1] = fp.width;

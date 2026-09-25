@@ -12,46 +12,75 @@ import { Faction } from "./Factions";
  * `#` is the secondary colour, `.` the primary. Written as art rather than hex
  * because these are pictures, and a hex blob cannot be reviewed or adjusted.
  *
+ * The three are told apart by DENSITY first and by DIRECTION second, because
+ * those are the two cues that survive zooming out: Vanguard is heavy and
+ * orthogonal, Swarm is sparse and irregular, Ascendant is diagonal. Shape
+ * detail alone would blur into the same grey hatch at map scale — which is
+ * exactly what the first version did.
+ *
  * The scale is a bit-shift: SCALE 1 means one pattern pixel covers a 2x2 block
  * of map tiles, which is what gives the chunky, built look rather than a fine
  * dither that disappears when zoomed out.
  */
 const SCALE = 1;
 
-/** Riveted steel plating: a hard grid, nothing organic. */
+/**
+ * Vanguard — plaques d'acier rivetees. Bandes epaisses, angles droits, forte
+ * densite : de loin, un territoire Vanguard parait sombre et construit.
+ */
 const VANGUARD_ART = [
-  "########",
-  "#...#...",
-  "#...#...",
-  "#...#...",
-  "########",
-  "#...#...",
-  "#...#...",
-  "#...#...",
+  "############",
+  "############",
+  "##....##....",
+  "##....##....",
+  "##....##....",
+  "##....##....",
+  "############",
+  "############",
+  "##....##....",
+  "##....##....",
+  "##....##....",
+  "##....##....",
 ];
 
-/** Irregular clumps — a carpet of bodies rather than a built surface. */
+/**
+ * Swarm — une mouchetee irreguliere, des amas de corps plutot qu'une surface
+ * batie. Faible densite et aucun alignement : de loin, un territoire Swarm
+ * parait clair et grumeleux.
+ */
 const SWARM_ART = [
-  "..##...#",
-  ".####...",
-  "..##..##",
-  ".....###",
-  "##....##",
-  "###.....",
-  ".##.##..",
-  "....###.",
+  "..#.....#...",
+  ".###...##...",
+  "..#....###..",
+  ".....#..#...",
+  "..##....#...",
+  ".####.......",
+  "..#....##...",
+  "......####..",
+  "###....##...",
+  ".#.........#",
+  "....##...##.",
+  "...####..#..",
 ];
 
-/** A crossing diagonal lattice: faceted, regular, clearly manufactured. */
+/**
+ * Ascendant — un reseau de losanges, facette et regulier. Rien d'horizontal ni
+ * de vertical : c'est la diagonale qui le distingue des deux autres d'un coup
+ * d'oeil, meme quand la couleur du joueur est proche.
+ */
 const ASCENDANT_ART = [
-  "#...#...",
-  ".#.#.#.#",
-  "..#...#.",
-  ".#.#.#.#",
-  "#...#...",
-  ".#.#.#.#",
-  "..#...#.",
-  ".#.#.#.#",
+  "#..........#",
+  ".#........#.",
+  "..#......#..",
+  "...#....#...",
+  "....#..#....",
+  ".....##.....",
+  ".....##.....",
+  "....#..#....",
+  "...#....#...",
+  "..#......#..",
+  ".#........#.",
+  "#..........#",
 ];
 
 /**

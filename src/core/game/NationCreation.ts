@@ -1,5 +1,6 @@
 import { PseudoRandom } from "../PseudoRandom";
 import { GameStartInfo } from "../Schemas";
+import { factionDeRobot } from "./FactionAssignment";
 import {
   Cell,
   GameMapSize,
@@ -32,8 +33,9 @@ export function createNationsForGame(
   numHumans: number,
   random: PseudoRandom,
 ): Nation[] {
-  const toNation = (n: ManifestNation): Nation =>
-    new Nation(
+  const toNation = (n: ManifestNation): Nation => {
+    const id = random.nextID();
+    return new Nation(
       n.coordinates !== undefined
         ? new Cell(n.coordinates[0], n.coordinates[1])
         : undefined,
@@ -41,14 +43,18 @@ export function createNationsForGame(
         n.name,
         PlayerType.Nation,
         null,
-        random.nextID(),
+        id,
         false,
         null,
         [],
         null,
         n.flag ?? null,
+        // Une faction tiree de l'identifiant : sans elle, toutes les nations
+        // peignaient le meme motif (voir FactionAssignment.ts).
+        factionDeRobot(id),
       ),
     );
+  };
 
   const isCompactMap = gameStart.config.gameMapSize === GameMapSize.Compact;
 
@@ -128,6 +134,7 @@ function createRandomNations(
         extra.coordinates !== undefined
           ? new Cell(extra.coordinates[0], extra.coordinates[1])
           : undefined;
+      const extraId = random.nextID();
       nations.push(
         new Nation(
           spawnCell,
@@ -135,12 +142,13 @@ function createRandomNations(
             extra.name,
             PlayerType.Nation,
             null,
-            random.nextID(),
+            extraId,
             false,
             null,
             [],
             null,
             extra.flag ?? null,
+            factionDeRobot(extraId),
           ),
         ),
       );
@@ -152,10 +160,22 @@ function createRandomNations(
   for (let i = 0; i < remaining; i++) {
     const name = generateUniqueNationName(random, usedNames);
     usedNames.add(name);
+    const id = random.nextID();
     nations.push(
       new Nation(
         undefined,
-        new PlayerInfo(name, PlayerType.Nation, null, random.nextID()),
+        new PlayerInfo(
+          name,
+          PlayerType.Nation,
+          null,
+          id,
+          false,
+          null,
+          [],
+          null,
+          null,
+          factionDeRobot(id),
+        ),
       ),
     );
   }

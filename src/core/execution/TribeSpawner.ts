@@ -1,4 +1,5 @@
-﻿import { Cell, Game, GameMapSize, PlayerInfo, PlayerType } from "../game/Game";
+﻿import { factionDeRobot } from "../game/FactionAssignment";
+import { Cell, Game, GameMapSize, PlayerInfo, PlayerType } from "../game/Game";
 import { TileRef } from "../game/GameMap";
 import { type CustomTribe } from "../game/Maps.gen";
 import { PseudoRandom } from "../PseudoRandom";
@@ -80,9 +81,23 @@ export class TribeSpawner {
   }
 
   spawnTribe(tribeName: string): SpawnExecution {
+    const id = this.random.nextID();
     return new SpawnExecution(
       this.gameID,
-      new PlayerInfo(tribeName, PlayerType.Bot, null, this.random.nextID()),
+      new PlayerInfo(
+        tribeName,
+        PlayerType.Bot,
+        null,
+        id,
+        false,
+        null,
+        [],
+        null,
+        null,
+        // Une faction tiree de l'identifiant : c'est ce qui rend les trois
+        // races visibles sur la carte (voir FactionAssignment.ts).
+        factionDeRobot(id),
+      ),
     );
   }
 
@@ -115,9 +130,21 @@ export class TribeSpawner {
       );
       return undefined;
     }
+    const id = this.random.nextID();
     return new SpawnExecution(
       this.gameID,
-      new PlayerInfo(ct.name, PlayerType.Bot, null, this.random.nextID()),
+      new PlayerInfo(
+        ct.name,
+        PlayerType.Bot,
+        null,
+        id,
+        false,
+        null,
+        [],
+        null,
+        null,
+        factionDeRobot(id),
+      ),
       tile,
     );
   }
