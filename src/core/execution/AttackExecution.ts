@@ -16,7 +16,7 @@ import {
 import { GameMap, TileRef } from "../game/GameMap";
 import { PseudoRandom } from "../PseudoRandom";
 import { assertNever } from "../Util";
-import { ID_DU_COEUR } from "./CoeurExecution";
+import { coeurDeLaPartie, ID_DU_COEUR } from "./CoeurExecution";
 import { FlatBinaryHeap } from "./utils/FlatBinaryHeap"; // adjust path if needed
 
 const malusForRetreat = 25;
@@ -73,8 +73,12 @@ export class AttackExecution implements Execution {
     // Le Cœur ne se prend pas : c'est un decor fige au centre de la carte, pas
     // un adversaire. On arrete l'attaque avant qu'elle ne coute des troupes,
     // sinon chacun viderait son armee contre un mur qui se reforme.
+    //
+    // Gratuit ne veut pas dire sans consequence : au bout de trois tentatives,
+    // le Cœur tire une bombe sur le territoire de l'insistant.
     if (this._targetID === ID_DU_COEUR) {
       this.active = false;
+      coeurDeLaPartie(mg)?.subirUneAttaque(this._owner);
       return;
     }
 
