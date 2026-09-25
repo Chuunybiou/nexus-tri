@@ -64,7 +64,7 @@ describe("la zone du Cœur dans une vraie partie", () => {
   );
 
   for (const carte of ["World", "Europe", "Africa"] as GameMapType[]) {
-    test(`${carte} : un seul Cœur, un cinquieme de la carte, des le depart`, async () => {
+    test(`${carte} : un seul Cœur, un dixieme de la carte, des le depart`, async () => {
       const runner = await createGameRunner(
         startInfo(carte),
         "j1",
@@ -83,9 +83,10 @@ describe("la zone du Cœur dans une vraie partie", () => {
       expect(coeur.name()).toBe(NOM_DU_COEUR);
       expect(coeur.type()).toBe(PlayerType.Bot);
 
-      // Le cercle couvre 20 % de la carte ; ce qu'il en reste au Cœur, c'est
-      // la terre qui s'y trouve. Sur ces trois cartes, c'est une part large
-      // et bien visible du continent.
+      // Le cercle couvre un dixieme de la carte ; ce qu'il en reste au Cœur,
+      // c'est la terre qui s'y trouve. Le milieu de ces trois cartes est plus
+      // terreux que les bords, donc la part des terres passe un peu au-dessus
+      // du dixieme — mesure : 14 a 15 % selon la carte.
       let terres = 0;
       for (let y = 0; y < mg.height(); y++) {
         for (let x = 0; x < mg.width(); x++) {
@@ -94,8 +95,8 @@ describe("la zone du Cœur dans une vraie partie", () => {
         }
       }
       const part = coeur.numTilesOwned() / terres;
-      expect(part).toBeGreaterThan(0.15);
-      expect(part).toBeLessThan(0.35);
+      expect(part).toBeGreaterThan(0.07);
+      expect(part).toBeLessThan(0.2);
 
       // Et il ne bouge pas : ni conquete, ni recul.
       const depart = coeur.numTilesOwned();

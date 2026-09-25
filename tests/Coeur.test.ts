@@ -1,6 +1,10 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { ID_DU_COEUR, tileDuCoeur } from "../src/core/execution/CoeurExecution";
+import {
+  ID_DU_COEUR,
+  PART_DE_LA_CARTE_POUR_MILLE,
+  tileDuCoeur,
+} from "../src/core/execution/CoeurExecution";
 import { Faction } from "../src/core/game/Factions";
 import {
   Difficulty,
@@ -51,7 +55,8 @@ function partie(carte: GameMapType): GameStartInfo {
 
 /**
  * Recalcule, a la main, la terre qui tombe dans le cercle du Cœur : un cercle
- * dont l'aire vaut 20 % de la carte, centre sur la terre la plus centrale.
+ * dont l'aire vaut la part annoncee de la carte, centre sur la terre la plus
+ * centrale.
  * Le test compare ce compte a ce que la partie a reellement donne au Cœur.
  */
 function terreDansLeCercle(mg: Game): number {
@@ -60,7 +65,10 @@ function terreDansLeCercle(mg: Game): number {
   const cx = mg.x(centre);
   const cy = mg.y(centre);
   const rayon = Math.round(
-    Math.sqrt((mg.width() * mg.height() * 0.2) / Math.PI),
+    Math.sqrt(
+      (mg.width() * mg.height() * PART_DE_LA_CARTE_POUR_MILLE) /
+        (1000 * Math.PI),
+    ),
   );
   let n = 0;
   for (
@@ -99,7 +107,7 @@ describe("le centre de la carte", () => {
 });
 
 describe("la zone du Cœur, dans une vraie partie", () => {
-  test("elle existe des le depart et couvre 20 % de la carte", async () => {
+  test("elle existe des le depart et couvre la part annoncee de la carte", async () => {
     const runner = await createGameRunner(
       partie("Europe" as GameMapType),
       "j1",
@@ -116,7 +124,7 @@ describe("la zone du Cœur, dans une vraie partie", () => {
     expect(coeur.type()).toBe(PlayerType.Bot);
 
     // Exactement la terre du cercle : pas une case de plus, pas une de
-    // moins. C'est la promesse faite, « 20 % de la carte ».
+    // moins.
     expect(coeur.numTilesOwned()).toBe(terreDansLeCercle(runner.game));
     expect(coeur.numTilesOwned()).toBeGreaterThan(1000);
 

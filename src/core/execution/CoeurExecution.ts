@@ -9,9 +9,9 @@ import { TileRef } from "../game/GameMap";
  * pas la pour etre pris — il est la pour exister : il coupe la carte en deux,
  * oblige a contourner, et donne a tout le monde le meme repere.
  *
- * Le cercle couvre 20 % de la carte, sur TOUTES les cartes : son rayon est
- * calcule au demarrage a partir des dimensions reelles, donc une carte large
- * et une carte etroite ont chacune leur Cœur a la bonne echelle.
+ * Le cercle couvre un dixieme de la carte, sur TOUTES les cartes : son rayon
+ * est calcule au demarrage a partir des dimensions reelles, donc une carte
+ * large et une carte etroite ont chacune leur Cœur a la bonne echelle.
  *
  * Trois regles, et chacune repare un probleme constate en mesurant une vraie
  * partie :
@@ -27,8 +27,15 @@ import { TileRef } from "../game/GameMap";
  *    plus.
  */
 
-/** Part de la carte couverte par le cercle du Cœur, en pour mille. */
-const PART_DE_LA_CARTE_POUR_MILLE = 200;
+/**
+ * Part de la carte couverte par le cercle du Cœur, en pour mille.
+ *
+ * Une seule valeur commande toute la taille de la zone, et les tests la lisent
+ * ici plutot que de recopier le chiffre : la changer suffit, rien d'autre a
+ * retoucher. A 200 (un cinquieme), le cercle avalait le centre de l'Europe ;
+ * a 100, il reste un obstacle franc sans manger la partie.
+ */
+export const PART_DE_LA_CARTE_POUR_MILLE = 100;
 
 /**
  * Garnison du Cœur. Elle ne sert pas a se battre — les attaques qui le visent
